@@ -1,0 +1,34 @@
+PS1='${PWD##*/}$(tput bold)[32m>[00m $(tput sgr0)'
+alias data='date "+%d_%m_%Y_"'
+alias no_blank='xset -dpms && xset s off'
+alias ls='ls -b --color=auto'
+alias grep='grep --color=auto'
+alias ll='ls -lhrat'
+alias l='ls -d .* --color=auto'
+alias egrep='egrep --color=auto'
+alias vi=vim
+alias svi='sudo vim'
+alias mc='. /usr/libexec/mc/mc-wrapper.sh'
+export HISTFILE=~/.mksh-history
+export HISTSIZE=100
+export LANG='en_US.utf8'
+export LC_ALL=en_US.UTF-8
+export EDITOR=vim
+export BROWSER=qutebrowser
+export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/lib/plan9/bin:$HOME/bin:/usr/games:/opt/diet/bin:/usr/lib64/kde4/libexec:/usr/lib64/qt/bin:/usr/lib64/qt5/bin:/usr/share/texmf/bin:/sbin:/usr/sbin
+if [ "$(pgrep Xorg)" ]
+    then
+    alias no_touch="xinput set-prop `xinput | awk '/TouchPad/{print $6}' | sed -e 's/id=//'` \"Device Enabled\" 0"
+    alias yes_touch="xinput set-prop `xinput | awk '/TouchPad/{print $6}' | sed -e 's/id=//'` \"Device Enabled\" 1"
+fi
+alias xready='no_touch && wmname LG3d'
+alias mkopus='SAVEIFS=$IFS;IFS=$'\n';for i in *flac; do ffmpeg -i $i opus/${i%flac}opus;done;IFS=$SAVEIFS'
+mkwebm()ffmpeg -i "$1" -c:v libvpx -b:v "$3" -c:a libvorbis "$2"
+record()ffmpeg -video_size 1366x768 -framerate 30 -f x11grab -i :0.0+0,0 "$1"
+case "$TERM" in
+           xterm*) TERM=xterm-256color;
+       esac 
+calen
+echo "==="
+if (( $RANDOM % 2 )); then fortune; else 9 fortune; fi
+[[ $(tty) = "/dev/tty1" ]] && exec startx

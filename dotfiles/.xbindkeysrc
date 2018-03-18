@@ -1,0 +1,49 @@
+# Increase volume
+"amixer set Master 5%+"
+   XF86AudioRaiseVolume
+
+# Decrease volume
+"amixer set Master 5%-"
+   XF86AudioLowerVolume
+
+#MUTE THIS SHIT PLEASE
+"amixer set Master toggle"
+   XF86AudioMute
+
+#IMPORTANT DO NOT CHANGE
+"qutebrowser"
+   XF86Launch1
+
+# Change track
+"mpc next"
+   XF86AudioNext
+
+# Lock screen
+"slock"
+   XF86ScreenSaver
+
+#Set up other displays without looking autistic
+"lxrandr"
+   XF86Display
+
+# Previous track
+"mpc prev"
+   XF86AudioPrev
+
+# Toggle playing
+"mpc toggle"
+   XF86AudioPlay
+
+# Brightness up
+"xbacklight +5%"
+   XF86MonBrightnessUp
+
+# Brightness down
+"xbacklight -5%"
+   XF86MonBrightnessDown
+
+# Screenshot
+"screenshot"
+   Print
+"screenshot -s"
+   Shift + Print

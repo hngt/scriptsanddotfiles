@@ -1,0 +1,13 @@
+#!/bin/dash
+filename=/home/lich/Pictures/Screenshots/$(date +%s_%N).png
+if [ "$1" = "-s" ]; then
+        G=$(slop -f "%g")
+        import -window root -crop $G $filename
+    else
+        import -window root $filename
+fi
+#url=$(curl 0x0.st -F file=@$filename)
+url=$(curl -F files[]=@$filename https://file0.s3kr.it/upload | grep s3kr.it | sed 's/.*http/http/' | sed 's/<\/a>.*//' | head -n1)
+echo $url|xsel -bpsi
+exiftool -overwrite_original -url=$url $filename 
+

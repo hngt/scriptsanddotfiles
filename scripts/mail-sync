@@ -1,0 +1,6 @@
+while pkill --signal 0 offlineimap
+do
+    sleep 2
+done
+echo 'resync'
+offlineimap > ~/mail-log 2>&1 &

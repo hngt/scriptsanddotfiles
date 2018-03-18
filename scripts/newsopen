@@ -1,0 +1,22 @@
+#!/bin/dash
+url=$1
+ext=`echo $1 | sed 's/^\(.*\)\.\([^.]*\)/\2/'`
+mpvfiles="mkv mp4 gif webm"
+fehfiles="png jpg jpeg jpe"
+wgetfiles="mp3 flac opus mp3?source=feed pdf"
+if echo $fehfiles | egrep -w $ext > /dev/null; then
+    nohup curl -o /tmp/sxivimage -s $url &&
+    sxiv /tmp/sxivimage >/dev/null &&
+    rm /tmp/sxivimage
+elif echo $mpvfiles | egrep -w $ext > /dev/null; then
+    nohup mpv --loop --quiet "$1" > /dev/null &
+elif echo $wgetfiles | egrep -w $ext > /dev/null; then
+ nohup wget "$1" >/dev/null &
+else
+    if echo $url | egrep -q "https://www.youtube.com"* ; then
+        nohup mpv --quiet $url &
+        youtube-dl --get-description $url | less
+    else
+        nohup $BROWSER $url
+    fi
+fi
