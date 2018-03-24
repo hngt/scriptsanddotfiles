@@ -4,6 +4,8 @@ LOAD=`uptime|grep -o '[0-9]\+\.[0-9][0-9]'|awk  -vRS= -vFS="\n" '{print  $1" "$2
 ACPI=`acpi|grep -o '[0-9]\+%'`
 RAM_USAGE=`free | grep Mem | awk '{printf("%.2f%", $3/$2 * 100.0)}'`
 DATE=`date +'%a %d %b %H:%M'`
-MPD=`mpc current|head -c40`
+#MPD=`mpc current|head -c40`
+MOC=`mocp -Q "%artist - %song"|head -c40`
+echo ${ACPI}
 #xsetroot -name "${MPD} | ${LOAD} | ${RAM_USAGE} | ${SOUND}% | VPN:${VPN} | ${ACPI} | ${DATE}"
-xsetroot -name "${MPD} | ${LOAD} | ${RAM_USAGE} | ${SOUND} | ${ACPI} | ${DATE}"
+xsetroot -name "${MOC} | ${LOAD} | R:${RAM_USAGE} | V:${SOUND} | B:${ACPI} | ${DATE}"

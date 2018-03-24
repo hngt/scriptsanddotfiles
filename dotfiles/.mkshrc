@@ -17,7 +17,7 @@ export EDITOR=vim
 export NQDIR=/tmp/nq
 mkdir -p /tmp/nq
 export BROWSER=qutebrowser
-export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/lib/plan9/bin:$HOME/bin:/usr/games:/opt/diet/bin:/usr/lib64/kde4/libexec:/usr/lib64/qt/bin:/usr/lib64/qt5/bin:/usr/share/texmf/bin:/sbin:/usr/sbin
+export PATH=$PATH:$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/lib/plan9/bin:$HOME/bin:/usr/games:/opt/diet/bin:/usr/lib64/kde4/libexec:/usr/lib64/qt/bin:/usr/lib64/qt5/bin:/usr/share/texmf/bin:/sbin:/usr/sbin
 if [ "$(pgrep Xorg)" ]
     then
     alias no_touch="xinput set-prop `xinput | awk '/TouchPad/{print $6}' | sed -e 's/id=//'` \"Device Enabled\" 0"

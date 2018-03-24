@@ -19,6 +19,6 @@ else
         nq mpv --quiet $url &
         youtube-dl --get-description $url | less
     else
-        nq $BROWSER $url
+        nq $BROWSER $url &
     fi
 fi
