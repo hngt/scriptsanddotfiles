@@ -1,2 +1,2 @@
 #!/bin/bash
-mpc -h /home/lich/.config/mpd/mpd.socket add "$@"
+mocp -a "$@"

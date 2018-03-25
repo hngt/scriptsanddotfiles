@@ -1,0 +1,6 @@
+MusicDir = /home/lich/Music
+Softmixer_SaveState = yes
+Theme = /usr/share/moc/themes/black_theme
+OnSongChange = "/home/lich/.Xsetroot.sh"
+OnStop = "/home/lich/.Xsetroot.sh"
+Fastdir5 = /media/sdb1/Music

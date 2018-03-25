@@ -1,3 +1,4 @@
+DISPLAY=:0
 #SOUND=`XDG_RUNTIME_DIR=/tmp/xdg-runtime-lich DISPLAY=:0 pamixer --get-volume`
 SOUND=`amixer get Master | awk '$0~/%/{print $4}' | tr -d '[]'`
 LOAD=`uptime|grep -o '[0-9]\+\.[0-9][0-9]'|awk  -vRS= -vFS="\n" '{print  $1" "$2" "$3}'`

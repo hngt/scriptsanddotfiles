@@ -17,7 +17,7 @@ elif echo $wgetfiles | egrep -w $ext > /dev/null; then
 else
     if echo $url | egrep -q "https://www.youtube.com"* ; then
         nq mpv --quiet $url &
-        youtube-dl --get-description $url | less
+        youtube-dl --get-description $url | $PAGER
     else
         nq $BROWSER $url &
     fi
