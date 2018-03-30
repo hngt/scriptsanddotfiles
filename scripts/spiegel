@@ -1,3 +1,3 @@
 #!/bin/sh
-ssh $SSHLOGIN "curl 0x0.st -s -F url=$1"|xsel -bpsi
+ssh $SSHLOGIN "curl 0x0.st -s -F url=$1"
 
