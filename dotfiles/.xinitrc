@@ -1,5 +1,5 @@
 compton -b &
-xbindkeys &
+sxhkd -r /dev/null &
 while true; do
 hsetroot -cover `find /home/lich/Pictures/Wallpapers/ -type f|shuf -n1`
 sleep 600

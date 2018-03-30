@@ -17,3 +17,5 @@ for scr in $(find $dir/scripts -type f); do
     echo "Creating link $scr -> $HOME/bin/$(basename $scr)"
     ln -s $scr $HOME/bin/$(basename $scr)
 done
+#TODO
+#do not create links for mid directories

@@ -1,0 +1,28 @@
+XF86AudioRaiseVolume
+	amixer set Master 5%+
+XF86AudioLowerVolume
+	amixer set Master 5%-
+XF86AudioMute
+	amixer set Master toggle
+XF86Launch1
+	qutebrowser
+XF86ScreenSaver
+	slock
+ XF86Sleep
+	sudo ZZZ
+XF86Display
+	lxrandr
+XF86AudioNext
+	mocp --next
+XF86AudioPrev
+	mocp --previous
+XF86AudioPlay
+	mocp --toggle-pause
+XF86MonBrightnessUp
+	xbacklight +5%
+XF86MonBrightnessDown
+	xbacklight -5%
+Print
+	screenshot
+shift + Print
+	screenshot -s

@@ -5,6 +5,7 @@ set shiftwidth=4     " ditto
 set number           " show numbers
 set laststatus=2     " show status line 
 set swapfile " have your stuff backuped
+set backup
 set backupdir=~/.backup " have backuped files in one dir
 set dir=~/.backup
 set undodir=~/.backup
