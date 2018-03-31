@@ -6,8 +6,8 @@ if [ "$1" = "-s" ]; then
     else
         import -window root $filename
 fi
-#url=$(curl 0x0.st -F file=@$filename)
-url=$(curl -F files[]=@$filename https://file0.s3kr.it/upload | grep s3kr.it | sed 's/.*http/http/' | sed 's/<\/a>.*//' | head -n1)
+url=$(curl 0x0.st -F file=@$filename)
+#url=$(curl -F files[]=@$filename https://file0.s3kr.it/upload | grep s3kr.it | sed 's/.*http/http/' | sed 's/<\/a>.*//' | head -n1)
 echo $url|xsel -bpsi
 exiftool -overwrite_original -url=$url $filename 
 
