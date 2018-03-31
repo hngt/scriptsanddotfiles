@@ -4,7 +4,7 @@ for dotfile in $(find $dir/dotfiles -maxdepth 1 -type f); do
     echo "Creating link $dotfile -> $HOME/$(basename $dotfile)"
     ln -s $dotfile $HOME/$(basename $dotfile)
 done
-for configdir in $(find $dir/dotfiles -mindepth 1 -type d); do
+for configdir in $(find $dir/dotfiles -mindepth 2 -type f -print0 | xargs -0 -n1 dirname | sort -u); do
     echo "Creating directory $HOME/$(realpath --relative-to=$dir/dotfiles $configdir)"
     mkdir -p $HOME/$(realpath --relative-to=$dir/dotfiles $configdir)
     for config in $(find $configdir -type f); do
@@ -17,5 +17,3 @@ for scr in $(find $dir/scripts -type f); do
     echo "Creating link $scr -> $HOME/bin/$(basename $scr)"
     ln -s $scr $HOME/bin/$(basename $scr)
 done
-#TODO
-#do not create links for mid directories
