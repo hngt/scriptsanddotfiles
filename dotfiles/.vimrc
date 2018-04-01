@@ -27,3 +27,6 @@ nmap <F2> <C-[>:set rl allowrevins keymap=hebrew <CR>
 nmap <F3> <C-[>:set norl noallowrevins keymap="" <CR>
 " latex stuff
 nmap ;tex <C-[>:w \| silent exec "!pdflatex %" \| redraw! <CR>
+"colors
+hi clear SpellBad
+hi SpellBad cterm=undercurl,bold ctermfg=red
