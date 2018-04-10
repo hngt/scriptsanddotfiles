@@ -1,0 +1,30 @@
+#!/bin/dash
+
+PATH=/usr/lib/surfraw:${PATH}
+
+BROWSER=qutebrowser
+BOOKMARKS=~/.config/qutebrowser/quickmarks
+#HISTORY=~/.local/share/qutebrowser/history.sqlite (TODO: read history sqlite file)
+
+
+sed 's/.*http/http/g' $BOOKMARKS > /tmp/bookmarks
+#cat $HISTORY >> /tmp/bookmarks
+BOOKMARKS=/tmp/bookmarks
+url=$(/usr/bin/dmenu -l 10 -fn "Terminus:size=8" -p $BROWSER: < "$BOOKMARKS")
+
+[ ! "$url" ] && exit
+args=$(echo "$url" | sed -e 's/^\w* //')
+
+case $(echo $url| cut -d " " -f1) in
+    *.*|*:*|*/*)             $BROWSER "$url" ;;
+    aw|awiki)   archwiki    -browser=$BROWSER $args;;
+    wi|wiki)    wikipedia   -browser=$BROWSER $args ;;
+    imdb)   imdb        -browser=$BROWSER $args ;;
+    ddg|S|DDG)  duckduckgo               $args ;;
+    go|google)  google      -browser=$BROWSER $args ;;
+    map)    google -m   -browser=$BROWSER $args ;;
+    yt|youtube) youtube     -browser=$BROWSER $args ;;
+    ebay)   ebay        -browser=$BROWSER $args ;;
+    git|github) github      -browser=$BROWSER $args ;;
+    *)   duckduckgo -browser=$BROWSER $url;;
+esac
