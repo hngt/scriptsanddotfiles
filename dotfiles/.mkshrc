@@ -9,6 +9,7 @@ alias egrep='egrep --color=auto'
 alias vi=vim
 alias svi='sudo vim'
 alias mc='. /usr/libexec/mc/mc-wrapper.sh'
+export SUDO_ASKPASS=$HOME/bin/dpass
 export HISTFILE=~/.mksh-history
 export HISTSIZE=100
 export LANG='en_US.utf8'
@@ -19,7 +20,7 @@ mkdir -p /tmp/nq
 export PAGER=most
 export BROWSER=qutebrowser
 export PATH=$PATH:$HOME/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/lib/plan9/bin:$HOME/bin:/usr/games:/opt/diet/bin:/usr/lib64/kde4/libexec:/usr/lib64/qt/bin:/usr/lib64/qt5/bin:/usr/share/texmf/bin:/sbin:/usr/sbin
-if [ "$(pgrep Xorg)" ]
+if [ "$(pgrep xinit)" ]
     then
     alias no_touch="xinput set-prop `xinput | awk '/TouchPad/{print $6}' | sed -e 's/id=//'` \"Device Enabled\" 0"
     alias yes_touch="xinput set-prop `xinput | awk '/TouchPad/{print $6}' | sed -e 's/id=//'` \"Device Enabled\" 1"

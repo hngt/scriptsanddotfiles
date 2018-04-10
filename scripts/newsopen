@@ -13,13 +13,13 @@ if echo $fehfiles | egrep -w $ext > /dev/null; then
 elif echo $mpvfiles | egrep -w $ext > /dev/null; then
     nq mpv --loop --quiet "$1" > /dev/null &
 elif echo $wgetfiles | egrep -w $ext > /dev/null; then
- nq wget "$1" >/dev/null &
+    nq wget "$1" >/dev/null &
 else
     if echo $url | egrep -q "https://www.youtube.com"* ; then
-        nq mpv $url &
+        mpv --quiet "$1" >/dev/null &
         youtube-dl --get-description $url > /tmp/desc.txt &&
         most /tmp/desc.txt
     else
-        nq $BROWSER $url &
+        $BROWSER $url 2>/dev/null &
     fi
 fi
