@@ -1,11 +1,7 @@
 PS1='${PWD##*/}$(tput bold)[32m>[00m $(tput sgr0)'
 alias data='date "+%d_%m_%Y_"'
 alias no_blank='xset -dpms && xset s off'
-alias ls='ls -b --color=auto'
-alias grep='grep --color=auto'
 alias ll='ls -lhrat'
-alias l='ls -d .* --color=auto'
-alias egrep='egrep --color=auto'
 alias vi=vim
 alias svi='sudo vim'
 alias mc='. /usr/libexec/mc/mc-wrapper.sh'

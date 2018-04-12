@@ -6,4 +6,5 @@ sleep 600
 done  &
 xset s off &
 xset -dpms &
+workrave &
 exec ck-launch-session dbus-launch --sh-syntax --exit-with-session dwm

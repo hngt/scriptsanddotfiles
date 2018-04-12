@@ -16,3 +16,5 @@ XF86MonBrightness{Up,Down}
 	xbacklight {+,-}5%
 {_,shift +} Print
 	screenshot { ,-s}
+super + s
+    dsurfraw
