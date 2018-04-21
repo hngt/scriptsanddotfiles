@@ -23,7 +23,7 @@ case $(echo $url| cut -d " " -f1) in
     ddg|S|DDG)  duckduckgo               $args ;;
     go|google)  google      -browser=$BROWSER $args ;;
     map)    google -m   -browser=$BROWSER $args ;;
-    yt|youtube) youtube     -browser=$BROWSER $args ;;
+    yt|youtube) sputube     -browser=$BROWSER $args ;;
     ebay)   ebay        -browser=$BROWSER $args ;;
     git|github) github      -browser=$BROWSER $args ;;
     *)   duckduckgo -browser=$BROWSER $url;;

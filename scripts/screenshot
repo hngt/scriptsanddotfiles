@@ -1,13 +1,20 @@
 #!/bin/dash
-filename=/home/lich/Pictures/Screenshots/$(date +%s_%N).png
-if [ "$1" = "-s" ]; then
+directory=$HOME/Pictures/Screenshots/$(date +%Y)/$(date +%m)/$(date +%d)/
+filename=$directory/$(date +%H:%M:%S.%s).png
+if  echo "$@" | egrep -w "\-s" ; then
         G=$(slop -f "%g")
-        import -window root -crop $G $filename
-    else
-        import -window root $filename
+        command="import -window root -crop $G $filename"
+elif echo "$@" | egrep -w "\-w"; then
+        window_id=$(xdotool getmouselocation --shell | grep WINDOW | sed 's/WINDOW=//g')
+        command="import -window $window_id $filename"
+else
+        command="import -window root $filename"
 fi
-#url=$(curl 0x0.st -F file=@$filename)
-url=$(curl -F files[]=@$filename https://file0.s3kr.it/upload | grep s3kr.it | sed 's/.*http/http/' | sed 's/<\/a>.*//' | head -n1)
-echo $url|xsel -bpsi
-exiftool -overwrite_original -url=$url $filename 
-
+mkdir -p $directory
+eval $command
+if echo "$@" | egrep -w "\-u"; then
+    #url=$(curl 0x0.st -F file=@$filename)
+    url=$(curl -F files[]=@$filename https://file0.s3kr.it/upload | grep s3kr.it | sed 's/.*http/http/' | sed 's/<\/a>.*//' | head -n1)
+    echo $url|xsel -bpsi
+    exiftool -overwrite_original -url=$url $filename 
+fi
