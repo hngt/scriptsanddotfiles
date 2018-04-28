@@ -1,0 +1,16 @@
+#!/bin/sh
+if [ ! $(pgrep -x miniwebproxy) ]; then
+cd /home/lich/bin/git/miniwebproxy 
+nq ./miniwebproxy 2> /dev/null &
+echo 'turning on web proxy'
+fi
+wm_class="Links"
+xidfile="/run/user/"$(id -u)"/glinks-tabbed.xid"
+if [ -r "$xidfile" ] && xid=$(cat "$xidfile") && xprop -id "$xid" WM_CLASS 2> /dev/null | grep -q "$wm_class";
+then
+    xid=`cat "$xidfile"`
+    links -g -w "$xid" -http-proxy localhost:8090 "$@"
+else
+    xid=`tabbed -cdn "Links" links -g -http-proxy localhost:8090 "$@" -w`
+    echo $xid > "$xidfile"
+fi

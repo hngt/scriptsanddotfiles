@@ -1,6 +1,7 @@
 PS1='${PWD##*/}$(tput bold)[32m>[00m $(tput sgr0)'
 alias data='date "+%d_%m_%Y_"'
 alias no_blank='xset -dpms && xset s off'
+alias ls='ls -b'
 alias ll='ls -lhrat'
 alias vi=vim
 alias svi='sudo vim'

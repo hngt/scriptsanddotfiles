@@ -6,7 +6,7 @@ do
     sleep 120   # sleep 2 minutes
 done &          # run loop in background
 LOOP_PID=$!     # copy PID of loop
-st -e neomutt            # run mutt in foreground (and waits for mutt to exit)
+neomutt            # run mutt in foreground (and waits for mutt to exit)
 
 kill $LOOP_PID              # these two lines are a cool trick to kill the
 wait $LOOP_PID 2>/dev/null  # infinite loop and hide the error that it generates

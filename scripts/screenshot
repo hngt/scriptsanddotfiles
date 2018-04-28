@@ -13,8 +13,15 @@ fi
 mkdir -p $directory
 eval $command
 if echo "$@" | egrep -w "\-u"; then
-    #url=$(curl 0x0.st -F file=@$filename)
-    url=$(curl -F files[]=@$filename https://file0.s3kr.it/upload | grep s3kr.it | sed 's/.*http/http/' | sed 's/<\/a>.*//' | head -n1)
+    #url=$(curl ix.io -F 'f:1'=@$filename)
+    url=$(curl 0x0.st -F file=@$filename)
+    #url=$(curl -F files[]=@$filename https://file0.s3kr.it/upload | grep s3kr.it | sed 's/.*http/http/' | sed 's/<\/a>.*//' | head -n1)
     echo $url|xsel -bpsi
-    exiftool -overwrite_original -url=$url $filename 
+    exiftool -overwrite_original -url=$url $filename
+# use this part if you are using dwm and do not want libnotify
+    xsetroot -name "File $filename uploaded to $url."
+    sleep 2s
+    $HOME/.Xsetroot.sh 
+# libnotify notification
+#   notify-send "File $filename uploaded to $url."
 fi

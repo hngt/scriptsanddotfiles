@@ -2,7 +2,7 @@
 
 PATH=/usr/lib/surfraw:${PATH}
 
-BROWSER=qutebrowser
+BROWSER=glinks
 BOOKMARKS=~/.config/qutebrowser/quickmarks
 #HISTORY=~/.local/share/qutebrowser/history.sqlite (TODO: read history sqlite file)
 
