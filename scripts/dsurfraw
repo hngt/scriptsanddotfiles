@@ -26,5 +26,5 @@ case $(echo $url| cut -d " " -f1) in
     yt|youtube) sputube     -browser=$BROWSER $args ;;
     ebay)   ebay        -browser=$BROWSER $args ;;
     git|github) github      -browser=$BROWSER $args ;;
-    *)   duckduckgo -browser=$BROWSER $url;;
+    *)   searx -browser=$BROWSER $url;;
 esac
