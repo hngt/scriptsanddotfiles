@@ -1,5 +1,5 @@
 #!/bin/dash
-directory=$HOME/Pictures/Screenshots/$(date +%Y)/$(date +%m)/$(date +%d)/
+directory=$HOME/pictures/screenshots/$(date +%Y)/$(date +%m)/$(date +%d)/
 filename=$directory/$(date +%H:%M:%S.%s).png
 if  echo "$@" | egrep -w "\-s" ; then
         G=$(slop -f "%g")

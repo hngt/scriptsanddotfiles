@@ -3,7 +3,7 @@ XF86Audio{Raise,Lower}Volume
 XF86AudioMute
 	amixer set Master toggle
 XF86Launch1
-	qutebrowser
+	danewz
 XF86ScreenSaver
 	slock
 XF86Sleep
@@ -18,3 +18,7 @@ XF86MonBrightness{Up,Down}
 	screenshot { ,-s -u,-s,-u,-w,-w -u}
 super + s
     dsurfraw
+F13
+    plumb.sh
+super + a
+    mpv `xsel -p`

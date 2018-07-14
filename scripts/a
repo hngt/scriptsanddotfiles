@@ -1,7 +1,6 @@
 #!/bin/dash
-export SHELL="/bin/rc"
-export acmeshell="/bin/rc"
-export BROWSER=firefox
+export SHELL="/bin/mksh"
+export acmeshell="/bin/mksh"
 export TERM=st
 if [ "$(pgrep plumber)" ]; then
     echo plumber is running
@@ -11,4 +10,3 @@ else
 fi
 acme_bin_dir=$( cd $(dirname $0) && pwd )
 acme -a -f /mnt/font/Monaco/10a/font $1
-

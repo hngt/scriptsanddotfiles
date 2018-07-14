@@ -1,19 +1,21 @@
-#!/bin/dash
+#!/bin/mksh
 export NQDIR=/tmp/nq
 mkdir -p /tmp/nq
+BROWSER=glinks
 url=$1
 ext=`echo $1 | sed 's/^\(.*\)\.\([^.]*\)/\2/'`
 mpvfiles="mkv mp4 gif webm"
 fehfiles="png jpg jpeg jpe"
 wgetfiles="mp3 flac opus mp3?source=feed pdf"
 if echo $fehfiles | egrep -w $ext > /dev/null; then
-    nq curl -o /tmp/sxivimage -s $url &&
-    sxiv /tmp/sxivimage >/dev/null &&
-    rm /tmp/sxivimage
+        tmp=$(mktemp)
+        curl -H 'User-Agent:' "$url" > "$tmp"
+        test -f "$tmp" && sxiv "$tmp"
+        rm -f "$tmp"
 elif echo $mpvfiles | egrep -w $ext > /dev/null; then
-    nq mpv --loop --quiet "$1" > /dev/null &
+    mpv --loop --quiet "$1" > /dev/null &
 elif echo $wgetfiles | egrep -w $ext > /dev/null; then
-    nq wget "$1" >/dev/null &
+    wget "$1" >/dev/null &
 else
     if echo $url | egrep -q "https://www.youtube.com"* ; then
         mpv --quiet "$1" >/dev/null &

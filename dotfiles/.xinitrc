@@ -1,10 +1,16 @@
-compton -b &
-sxhkd -r /dev/null &
-while true; do
-hsetroot -cover `find /home/lich/Pictures/Wallpapers/ -type f|shuf -n1`
-sleep 1800
-done  &
+#compton -b &
+#while true; do
+#hsetroot  `find $HOME/pictures/Wallpapers/ -type f|shuf -n1`
+#sleep 3600
+#done  &
 xset s off &
 xset -dpms &
-workrave &
-exec ck-launch-session dbus-launch --sh-syntax --exit-with-session dwm
+xmodmap -e 'keycode 66 = F13' &
+xmodmap -e 'clear Lock' & 
+sxhkd -r /dev/null &
+xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation" 1 
+xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Button" 2 
+xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Timeout" 200 
+xinput set-prop "TPPS/2 IBM TrackPoint" "Evdev Wheel Emulation Axes" 6 7 4 5 
+xinput set-prop "TPPS/2 IBM TrackPoint" "Device Accel Constant Deceleration" 0.95
+dwm

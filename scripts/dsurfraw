@@ -1,6 +1,6 @@
-#!/bin/dash
+#!/bin/mksh
 
-PATH=/usr/lib/surfraw:${PATH}
+PATH=/usr/share/surfraw:${PATH}
 
 BROWSER=glinks
 BOOKMARKS=~/.config/qutebrowser/quickmarks
@@ -9,9 +9,8 @@ BOOKMARKS=~/.config/qutebrowser/quickmarks
 
 sed 's/.*http/http/g' $BOOKMARKS > /tmp/bookmarks
 #cat $HISTORY >> /tmp/bookmarks
-BOOKMARKS=/tmp/bookmarks
-url=$(/usr/bin/dmenu -l 10 -fn "Terminus:size=8" -p $BROWSER: < "$BOOKMARKS")
-
+#url=$(/usr/bin/dmenu -l 10 -fn "Terminus:size=8" -p $BROWSER: < $BOOKMARKS | sed 's/.*http/http/g')
+/usr/bin/dmenu -l 10 -fn "Terminus:size=8" -p $BROWSER: < $BOOKMARKS | sed 's/.*http/http/g' | while read url; do
 [ ! "$url" ] && exit
 args=$(echo "$url" | sed -e 's/^\w* //')
 
@@ -27,4 +26,6 @@ case $(echo $url| cut -d " " -f1) in
     ebay)   ebay        -browser=$BROWSER $args ;;
     git|github) github      -browser=$BROWSER $args ;;
     *)   searx -browser=$BROWSER $url;;
-esac
+esac &
+sleep 0.1
+done
