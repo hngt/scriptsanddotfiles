@@ -3,9 +3,9 @@ SOUND=`amixer get Master | awk '$0~/%/{print $4}' | tr -d '[]'`
 LOAD=`uptime|grep -o '[0-9]\+\.[0-9][0-9]'|awk  -vRS= -vFS="\n" '{print  $1" "$2" "$3}'`
 ACPI=`acpi|grep -o '[0-9]\+%'`
 RAM_USAGE=`free | grep Mem | awk '{printf("%.2f%", $3/$2 * 100.0)}'`
-DATE=`date +'%a %d %b %H:%M'`
+DATE=`date +'%a %y/%m/%d %H:%M'`
 #MPD=`mpc current|head -c40`
-MOC=`mocp -Q "%artist - %song"|head -c40`
+MOC=`mocp -Q "%artist - %song" 2>/dev/null|head -c40`
 UMSG=$(find $HOME/.mutt/mailbox/uni/inbox/new -type f | wc -l);
 [ "$UMSG" != "0" ] && EMAILS_UNI="U: $UMSG | "
 PMSG=$(find $HOME/.mutt/mailbox/personal/inbox/new -type f | wc -l);

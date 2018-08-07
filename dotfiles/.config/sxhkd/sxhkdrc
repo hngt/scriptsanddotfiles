@@ -13,7 +13,7 @@ XF86Display
 XF86Audio{Next,Prev,Play}
 	mocp {--next,--previous,--toggle-pause}
 XF86MonBrightness{Up,Down}
-	xbacklight {+,-}5%
+	xbacklight {-inc,-dec} 5
 {_,shift + ctrl +,shift +,ctrl +,super +,super + shift +} Print
 	screenshot { ,-s -u,-s,-u,-w,-w -u}
 super + s

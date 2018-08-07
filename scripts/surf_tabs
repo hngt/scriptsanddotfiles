@@ -1,0 +1,17 @@
+#!/bin/sh
+wm_class="Links"
+uri=""
+if [ "$#" -gt 0 ];
+then
+	uri="$1"
+fi
+mkdir -p "/run/user/"$(id -u)""
+xidfile="/run/user/"$(id -u)"/glinks-tabbed.xid"
+if [ -r "$xidfile" ] && xid=$(cat "$xidfile") && xprop -id "$xid" WM_CLASS 2> /dev/null | grep -q "$wm_class";
+then
+    xid=`cat "$xidfile"`
+    surf -e "$xid" "$uri"
+else
+    tabbed -cdn "Links" > $xidfile
+    surf -e "$xid" "$uri"
+fi

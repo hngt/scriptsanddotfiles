@@ -4,27 +4,28 @@ PATH=/usr/share/surfraw:${PATH}
 
 BROWSER=glinks
 BOOKMARKS=~/.config/qutebrowser/quickmarks
-#HISTORY=~/.local/share/qutebrowser/history.sqlite (TODO: read history sqlite file)
 
 
-sed 's/.*http/http/g' $BOOKMARKS > /tmp/bookmarks
-#cat $HISTORY >> /tmp/bookmarks
 #url=$(/usr/bin/dmenu -l 10 -fn "Terminus:size=8" -p $BROWSER: < $BOOKMARKS | sed 's/.*http/http/g')
-/usr/bin/dmenu -l 10 -fn "Terminus:size=8" -p $BROWSER: < $BOOKMARKS | sed 's/.*http/http/g' | while read url; do
+/usr/bin/dmenu -nb black -nf '#f0f0f0' -ob '#d0d0d0' -of '#0d0d0d' -sb '#e0e0e0' -sf '#0e0e0e' -l 10 -fn "Terminus:size=8" -p link: < $BOOKMARKS | sed 's/.*http/http/g' | while read url; do
 [ ! "$url" ] && exit
 args=$(echo "$url" | sed -e 's/^\w* //')
 
 case $(echo $url| cut -d " " -f1) in
     *.*|*:*|*/*)             $BROWSER "$url" ;;
+    ddg|S)  duckduckgo  -browser=$BROWSER $args ;;
     aw|awiki)   archwiki    -browser=$BROWSER $args;;
     wi|wiki)    wikipedia   -browser=$BROWSER $args ;;
     imdb)   imdb        -browser=$BROWSER $args ;;
-    ddg|S|DDG)  duckduckgo               $args ;;
     go|google)  google      -browser=$BROWSER $args ;;
-    map)    google -m   -browser=$BROWSER $args ;;
+    map)    google -m   -browser=surf_tabs $args ;;
     yt|youtube) sputube     -browser=$BROWSER $args ;;
     ebay)   ebay        -browser=$BROWSER $args ;;
     git|github) github      -browser=$BROWSER $args ;;
+    ru) rutracker      -browser=surf_tabs $args ;;
+    aarg) aaaaarg	-browser=surf_tabs $args ;;
+    gnsis) libgen	-browser=surf_tabs $args ;;
+    sr) surf_tabs "$args" ;;
     *)   searx -browser=$BROWSER $url;;
 esac &
 sleep 0.1
