@@ -1,16 +1,25 @@
-#!/bin/mksh
+#!/bin/dash
 
 PATH=/usr/share/surfraw:${PATH}
 
-BROWSER=glinks
-BOOKMARKS=~/.config/qutebrowser/quickmarks
+BROWSER=glinks     
+BOOKMARKS=$(cat ~/.config/qutebrowser/quickmarks)
 
-
-#url=$(/usr/bin/dmenu -l 10 -fn "Terminus:size=8" -p $BROWSER: < $BOOKMARKS | sed 's/.*http/http/g')
-/usr/bin/dmenu -nb black -nf '#f0f0f0' -ob '#d0d0d0' -of '#0d0d0d' -sb '#e0e0e0' -sf '#0e0e0e' -l 10 -fn "Terminus:size=8" -p link: < $BOOKMARKS | sed 's/.*http/http/g' | while read url; do
+echo "$BOOKMARKS" | /usr/bin/dmenu -nb black -nf '#f0f0f0' -ob '#d0d0d0' -of '#0d0d0d' -sb '#e0e0e0' -sf '#0e0e0e' -l 10 -fn "Terminus:size=8" -p link: | while read url; do
 [ ! "$url" ] && exit
-args=$(echo "$url" | sed -e 's/^\w* //')
 
+if [ "$(echo $url|cut -d " " -f1)" = "sr" ]
+then
+BROWSER=surf_tabs
+url=$(echo "$url" | cut -c 4-)
+fi
+
+if [ -n "$(echo "$BOOKMARKS" | grep "$url")" ]
+then
+url=$(echo $url | sed 's/.*http/http/g' ) 
+fi
+
+args=$(echo "$url" | sed -e 's/^\w* //')
 case $(echo $url| cut -d " " -f1) in
     *.*|*:*|*/*)             $BROWSER "$url" ;;
     ddg|S)  duckduckgo  -browser=$BROWSER $args ;;
@@ -25,7 +34,6 @@ case $(echo $url| cut -d " " -f1) in
     ru) rutracker      -browser=surf_tabs $args ;;
     aarg) aaaaarg	-browser=surf_tabs $args ;;
     gnsis) libgen	-browser=surf_tabs $args ;;
-    sr) surf_tabs "$args" ;;
     *)   searx -browser=$BROWSER $url;;
 esac &
 sleep 0.1

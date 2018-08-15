@@ -1,4 +1,4 @@
-#!/bin/mksh
+#!/bin/dash
 BROWSER=plumb.sh
 regexmatch(){
 	printf '%s' "$1" | grep -E -q "$2"

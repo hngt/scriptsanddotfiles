@@ -10,8 +10,8 @@ xidfile="/run/user/"$(id -u)"/glinks-tabbed.xid"
 if [ -r "$xidfile" ] && xid=$(cat "$xidfile") && xprop -id "$xid" WM_CLASS 2> /dev/null | grep -q "$wm_class";
 then
     xid=`cat "$xidfile"`
-    surf -e "$xid" "$uri"
+    surf -N -e "$xid" "$uri"
 else
     tabbed -cdn "Links" > $xidfile
-    surf -e "$xid" "$uri"
+    surf -N -e "$xid" "$uri"
 fi
