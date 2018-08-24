@@ -8,7 +8,7 @@ alias vim=vis
 alias svi='sudo vis'
 alias mc='. /usr/libexec/mc/mc-wrapper.sh'
 export SUDO_ASKPASS=$HOME/bin/dpass
-export HISTFILE=~/.mksh-history
+export HISTFILE=~/.ksh-history
 export HISTSIZE=100
 export LANG='en_US.utf8'
 export LC_ALL=en_US.UTF-8
@@ -31,3 +31,4 @@ case "$TERM" in
            xterm*) TERM=xterm-256color;
        esac 
 [[ $(tty) = "/dev/tty1" ]] && exec startx
+set -o emacs

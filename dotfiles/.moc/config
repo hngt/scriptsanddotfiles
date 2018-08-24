@@ -5,3 +5,7 @@ OnSongChange = "/home/lich/.Xsetroot.sh"
 OnStop = "/home/lich/.Xsetroot.sh"
 Fastdir5 = /media/sdb1/Music
 Fastdir3 = /tmp
+ShowTime = yes
+Layout1 = directory(0,0,100%,30%):playlist(0,30%,100%,FILL)
+
+Layout2 = directory(0,0,50%,100%):playlist(50%,0,FILL,100%)
