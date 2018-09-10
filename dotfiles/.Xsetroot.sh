@@ -1,4 +1,5 @@
 #!/bin/dash
+
 SOUND=`amixer get Master | awk '$0~/%/{print $4}' | tr -d '[]'`
 LOAD=`uptime|grep -o '[0-9]\+\.[0-9][0-9]'|awk  -vRS= -vFS="\n" '{print  $1" "$2" "$3}'`
 ACPI=`acpi|grep -o '[0-9]\+%'`
@@ -13,6 +14,7 @@ PMSG=$(find $HOME/.mutt/mailbox/personal/inbox/new -type f | wc -l);
 [ "$PMSG" != "0" ] && EMAILS_PERSONAL="P: $PMSG | "
 CMSG=$(find $HOME/.mutt/mailbox/cock/inbox/new -type f | wc -l);
 [ "$CMSG" != "0" ] && EMAILS_COCK="C: $CMSG | "
+
 # battery check
 if [ "$ACPI" = '-15%' ]; then
     sct 3500
@@ -24,5 +26,4 @@ elif [ "$ACPI" = '-5%' ]; then
     doas pm-hibernate
 fi
 
-#xsetroot -name "${MPD} | ${LOAD} | ${RAM_USAGE} | ${SOUND}% | VPN:${VPN} | ${ACPI} | ${DATE}"
 xsetroot -name "${MOC} | ${EMAILS_UNI}${EMAILS_PERSONAL}${EMAILS_COCK}${LOAD} | R:${RAM_USAGE} | V:${SOUND} | B:${ACPI} | ${DATE}"

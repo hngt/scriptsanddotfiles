@@ -46,7 +46,7 @@ if regexmatch "$text" '^gopher://'; then
 		echo "$out" 
 	elif test "$gophertype" = "I"; then
 		sxiv "$out"
-	elif regexmatch "$text" '\.(mkv|mp4|avi|webm|ogg|ogv|gifv)$'; then
+	elif regexmatch "$text" '\.(mkv|mp4|mp3|opus|flac|ape|avi|webm|ogg|ogv|gifv)$'; then
 		mpv "$out"
 	elif regexmatch "$text" '\.(png|jpg|jpeg|gif)$'; then
 		sxiv "$out"
@@ -59,10 +59,12 @@ fi
 
 # movie (can also be an url).
 # movie url.
-if regexmatch "$file" '\.(mkv|mp4|avi|webm|ogg|ogv|gifv|gif)$'; then
+if regexmatch "$file" '\.(mkv|mp4|mp3|opus|flac|ape|avi|webm|ogg|ogv|gifv)$'; then
 	mpv --quiet "$file"
 elif regexmatch "$file" '\.(pdf|mobi|epub|djvu|ps)$'; then
 	zathura "$file"
+elif regexmatch "$file" '\.(png|jpg|jpeg|gif)$'; then
+	sxiv "$file"
 elif regexmatch "$text" '\.(mkv|mp4|avi|webm|ogg|ogv|gifv|gif)$'; then
 	mpv "$text"
 elif regexmatch "$text" ':\/\/i\.imgur\.com\/'; then
@@ -93,7 +95,7 @@ elif [ x"$file" != x"" ]; then
 		sh "$file"
 	elif regexmatch "$file" '\.(png|jpg|jpeg|gif)$'; then
 		# image files.
-        tmp=$(mktemp)
+        	tmp=$(mktemp)
 	    curl -H 'User-Agent:' "$text" > "$tmp"
 	    test -f "$tmp" && sxiv "$tmp"
 	    rm -f "$tmp"

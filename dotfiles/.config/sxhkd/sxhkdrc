@@ -7,7 +7,7 @@ XF86Launch1
 XF86ScreenSaver
 	slock
 XF86Sleep
-	sudo ZZZ
+	doas pm-hibernate
 XF86Display
 	lxrandr
 XF86Audio{Next,Prev,Play}
