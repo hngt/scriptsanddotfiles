@@ -95,7 +95,7 @@ elif [ x"$file" != x"" ]; then
 		sh "$file"
 	elif regexmatch "$file" '\.(png|jpg|jpeg|gif)$'; then
 		# image files.
-        	tmp=$(mktemp)
+	    tmp=$(mktemp)
 	    curl -H 'User-Agent:' "$text" > "$tmp"
 	    test -f "$tmp" && sxiv "$tmp"
 	    rm -f "$tmp"
