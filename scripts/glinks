@@ -1,21 +1,35 @@
 #!/bin/sh
+
+mkdir -p "/run/user/"$(id -u)""
+xidfile="/run/user/"$(id -u)"/glinks-tabbed.xid"
+
 if [ ! $(pgrep -x miniwebproxy) ]; then
 cd ~/git/miniwebproxy/
 ./miniwebproxy &
 echo 'turning on web proxy'
 fi
-wm_class="Links"
-uri=""
+
 if [ "$#" -gt 0 ];
 then
 	uri="$1"
 fi
-mkdir -p "/run/user/"$(id -u)""
-xidfile="/run/user/"$(id -u)"/glinks-tabbed.xid"
-if [ -r "$xidfile" ] && xid=$(cat "$xidfile") && xprop -id "$xid" WM_CLASS 2> /dev/null | grep -q "$wm_class";
+
+runtabbed() {
+	echo spawning
+	tabbed -cdn "Links" -r 3 links -g -w '' \
+	-https-proxy localhost:8090 -http-proxy localhost:8090 "$uri" > $xidfile 2>/dev/null &
+}
+
+if [ ! -r "$xidfile" ];
 then
-    xid=`cat "$xidfile"`
-    links -g -w "$xid" -https-proxy localhost:8090 -http-proxy localhost:8090 "$1"
+	runtabbed
 else
-    tabbed -cdn "Links" -r 3 links -g -w '' -https-proxy localhost:8090 -http-proxy localhost:8090 $uri > $xidfile
+	xid=$(cat "$xidfile")
+	xprop -id "$xid" >/dev/null 2>&1
+	if [ $? -gt 0 ];
+	then
+		runtabbed
+	else
+		links -g -w "$xid" -https-proxy localhost:8090 -http-proxy localhost:8090 "$uri" &
+	fi
 fi

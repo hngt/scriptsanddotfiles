@@ -1,3 +1,5 @@
 FILES=$(notes _files)
+PASS=$(cd $HOME/.password-store && find . -name '.git' -prune -o -type f -print | sed 's,\.gpg$,,' | sed 's,^\./,,')
 set -A complete_notes_1 -- print edit ls history help init cat rm last $FILES
 set -A complete_notes_2 -- $FILES
+set -A complete_pass_1 -- $PASS

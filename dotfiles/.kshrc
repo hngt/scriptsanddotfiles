@@ -12,6 +12,7 @@ alias e='doas emerge'
 alias mkd='mkdir -pv'
 alias yt='youtube-dl --add-metadata -ic'
 alias yta='yt -x -f bestaudio/best'
+alias rcs='doas /sbin/rc-service'
 
 . $HOME/.ksh_completion
 . $HOME/.private-commands 

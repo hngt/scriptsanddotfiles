@@ -9,8 +9,14 @@ url="`echo $line | sed 's@^.* \([a-zA-Z]*://\)\(.*\)$@\1\2@'`"
 if regexmatch "$url" 'aaaaarg\.fail'; then BROWSER="surf_tabs"; fi 
 if regexmatch "$url" 'twitter\.com'; then
 	full_article=`grep -R "$url" $HOME/.sfeed/feeds`
-	url="`echo "$full_article" | grep -oE "https?://\S+?"| sed 's/ .*$//'`"
+	url="`echo "$full_article" | grep -oE "https?://\S+?"| sed 's/ .*$//' | head -1`" 
+	
+	url=$(bloomberg "$url")
+	echo "$url"
+	BROWSER=glinks
 fi
 	$BROWSER "$url" &
-sleep 0.1
+	
+	BROWSER=plumb.sh
+	sleep 0.1
 done
