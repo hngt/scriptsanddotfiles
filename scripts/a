@@ -1,6 +1,6 @@
 #!/bin/dash
-export SHELL="/bin/mksh"
-export acmeshell="/bin/mksh"
+export SHELL="/bin/ksh"
+export acmeshell="/bin/ksh"
 export TERM=st
 if [ "$(pgrep plumber)" ]; then
     echo plumber is running

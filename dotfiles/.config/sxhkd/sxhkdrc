@@ -19,6 +19,6 @@ XF86MonBrightness{Up,Down}
 super + s
     dsurfraw
 F13
-    plumb.sh
+    plumb `xsel -p`
 super + a
     mpv `xsel -p`

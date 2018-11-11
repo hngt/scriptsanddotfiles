@@ -1,0 +1,29 @@
+#!/bin/sh
+export http_proxy="socks://localhost:9050"
+mkdir -p "/run/user/"$(id -u)""
+xidfile="/run/user/"$(id -u)"/glinks-tabbed.xid"
+
+if [ "$#" -gt 0 ];
+then
+	uri="$1"
+fi
+
+runtabbed() {
+	tabbed -cdn Links -r 3 surf -N -e '' -d -c /tmp/shitcookies "$uri" >"$xidfile" \
+		2>/dev/null &
+}
+
+if [ ! -r "$xidfile" ];
+then
+	runtabbed
+else
+	xid=$(cat "$xidfile")
+	xprop -id "$xid" >/dev/null 2>&1
+	if [ $? -gt 0 ];
+	then
+		runtabbed
+	else
+		surf -d -N -c /tmp/shitcookies -e "$xid" "$uri" >/dev/null 2>&1 &
+	fi
+fi
+

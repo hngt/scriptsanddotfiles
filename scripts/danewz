@@ -3,7 +3,7 @@ BROWSER=plumb.sh
 regexmatch(){
 	printf '%s' "$1" | grep -E -q "$2"
 }
-sfeed_plain $HOME/.sfeed/feeds/* | /usr/bin/dmenu -nb black -nf '#f0f0f0' -ob '#d0d0d0' -of '#0d0d0d' -sb '#e0e0e0' -sf '#0e0e0e' -i -l 53 -fn "Terminus:size=9" -p 'news:' | while read line; do
+sfeed_plain $HOME/.sfeed/feeds/* | /usr/bin/dmenu -nb black -nf '#f0f0f0' -ob '#d0d0d0' -of '#0d0d0d' -sb '#e0e0e0' -sf '#0e0e0e' -i -l 53 -fn "monospace:size=9" -p 'news:' | while read line; do
 [ ! "$line" ] && exit
 url="`echo $line | sed 's@^.* \([a-zA-Z]*://\)\(.*\)$@\1\2@'`"
 if regexmatch "$url" 'aaaaarg\.fail'; then BROWSER="surf_tabs"; fi 
@@ -17,6 +17,6 @@ if regexmatch "$url" 'twitter\.com'; then
 fi
 	$BROWSER "$url" &
 	
-	BROWSER=plumb.sh
+	BROWSER=plumb
 	sleep 0.1
 done

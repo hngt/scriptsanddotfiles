@@ -15,15 +15,16 @@ alias yta='yt -x -f bestaudio/best'
 alias rcs='doas /sbin/rc-service'
 
 . $HOME/.ksh_completion
-. $HOME/.private-commands 
+. $HOME/.private-commands
+ 
 if [ "$(pgrep xinit)" ]
-
     then
     alias no_touch="xinput set-prop `xinput | awk '/TouchPad/{print $6}' | sed -e 's/id=//'` \"Device Enabled\" 0"
     alias yes_touch="xinput set-prop `xinput | awk '/TouchPad/{print $6}' | sed -e 's/id=//'` \"Device Enabled\" 1"
 fi
 
 set -o emacs
+bind -m '^L'='^U'clear'^J''^Y'
 
 mkwebm()ffmpeg -i "$1" -c:v libvpx -b:v "$3" -c:a libvorbis "$2";
 record()ffmpeg -video_size 1366x768 -framerate 60 -f x11grab -i :0.0+0,0 -f alsa -ac 2 -ar 44100 -i hw:Loopback,1,0 "$1";
