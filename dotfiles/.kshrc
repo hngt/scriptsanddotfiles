@@ -1,4 +1,4 @@
-export PS1='${PWD##*/}$(tput bold)[32m>[00m $(tput sgr0)'
+export PS1='${PWD##*/}> '
 alias no_blank='xset -dpms && xset s off'
 alias ls='ls -b'
 alias ll='ls -blhrat'

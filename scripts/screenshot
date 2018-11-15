@@ -2,26 +2,21 @@
 directory=$HOME/pictures/screenshots/$(date +%Y)/$(date +%m)/$(date +%d)/
 filename=$directory/$(date +%H:%M:%S.%s).png
 if  echo "$@" | egrep -w "\-s" ; then
-        G=$(slop -f "%g")
-        command="import -window root -crop $G $filename"
+        command="xscreenshot | ff-crop $(slop -f '%x %y %w %h')"
 elif echo "$@" | egrep -w "\-w"; then
         window_id=$(xdotool getmouselocation --shell | grep WINDOW | sed 's/WINDOW=//g')
-        command="import -window $window_id $filename"
+        command="xscreenshot $window_id"
 else
-        command="import -window root $filename"
+        command="xscreenshot"
 fi
 mkdir -p $directory
-eval $command
+eval "$command | ff2png > $filename"
 if echo "$@" | egrep -w "\-u"; then
-    #url=$(curl ix.io -F 'f:1'=@$filename)
-    url=$(curl 0x0.st -F file=@$filename)
-    #url=$(curl -F files[]=@$filename https://file0.s3kr.it/upload | grep s3kr.it | sed 's/.*http/http/' | sed 's/<\/a>.*//' | head -n1)
+    name=$(date +%s.png)
+    url=$(cat $filename | ssh paste "cat > /var/www/website/paste/screenshots/$name"; echo https://desolate.k.vu/paste/screenshots/$name)
     echo $url|xsel -bpsi
     exiftool -overwrite_original -url=$url $filename
-# use this part if you are using dwm and do not want libnotify
     xsetroot -name "File $filename uploaded to $url."
     sleep 2s
     $HOME/.Xsetroot.sh 
-# libnotify notification
-#   notify-send "File $filename uploaded to $url."
 fi

@@ -3,9 +3,9 @@
 PATH=/usr/share/surfraw:${PATH}
 
 BROWSER=glinks     
-BOOKMARKS=$(cat ~/.config/qutebrowser/quickmarks)
+BOOKMARKS=$(cat $HOME/.config/qutebrowser/quickmarks)
 
-echo "$BOOKMARKS" | /usr/bin/dmenu -nb black -nf '#f0f0f0' -ob '#d0d0d0' -of '#0d0d0d' -sb '#e0e0e0' -sf '#0e0e0e' -l 10 -fn "Terminus:size=8" -p link: | while read url; do
+echo "$BOOKMARKS" | $HOME/bin/dmenu.sh -l 10 -p link: | while read url; do
 [ ! "$url" ] && exit
 
 if [ "$(echo $url|cut -d " " -f1)" = "sr" ]
