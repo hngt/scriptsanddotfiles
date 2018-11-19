@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-exec notify-send \
-  --hint="int:transient:1" \
-  --icon="rss" \
-  --app-name="newsboat" \
-"newsboat" "$@"

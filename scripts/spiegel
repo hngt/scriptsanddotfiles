@@ -1,3 +1,0 @@
-#!/bin/sh
-ssh $SSHLOGIN "curl 0x0.st -s -F url=$1"
-
