@@ -1,13 +1,11 @@
 #!/bin/dash
 
-SOUND=`amixer get Master | awk '$0~/%/{print $4}' | tr -d '[]'`
-LOAD=`uptime|grep -o '[0-9]\+\.[0-9][0-9]'|awk  -vRS= -vFS="\n" '{print  $1" "$2" "$3}'`
-ACPI=`acpi|grep -o '[0-9]\+%'`
-if [ "$(acpi | grep Discharging)" ]; then ACPI="-$ACPI";fi
-if [ "$(acpi | grep Charging)" ]; then ACPI="+$ACPI";fi
+SOUND=`amixer get Master | grep -Eo '[0-9]{1,3}%'`
+LOAD=`awk '{print $1" "$2" "$3}' /proc/loadavg`
+ACPI=$(acpi | awk -vFS=', ' '/Discharging/{stat="-"} /Charging/{stat="+"} {print stat$2}' )
 RAM_USAGE=`free | grep Mem | awk '{printf("%.2f%", $3/$2 * 100.0)}'`
 DATE=`date +'%a %y/%m/%d %H:%M'`
-MOC=`mocp -Q "%artist - %song" 2>/dev/null | sed -E 's,^(.{40}).*,\1,'`
+MOC=`mocp -Q '%artist - %song'| awk '{print substr($0,1,50)}'`
 
 # check if there are unread emails
 UMSG=$(find $HOME/.mutt/mailbox/uni/inbox/new -type f | wc -l);
@@ -23,9 +21,9 @@ OLD_DOWN=$(find $HOME/downloads -type f -mmin +60 | wc -l);
 
 # battery check
 if [ "$ACPI" = '-15%' ]; then
-    sct 3500
-elif [ "$ACPI" = '-10%' ]; then
     sct 2000
+elif [ "$ACPI" = '-10%' ]; then
+    sct 1500
 elif [ "$ACPI" = '-7%' ]; then
     sct 1000
 elif [ "$ACPI" = '-5%' ]; then

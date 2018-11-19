@@ -3,19 +3,20 @@ BROWSER=plumb
 regexmatch(){
 	printf '%s' "$1" | grep -E -q "$2"
 }
-sfeed_plain $HOME/.sfeed/feeds/* | $HOME/bin/dmenu.sh -i -l 53 -p 'news:' | while read line; do
+sfeed_plain $HOME/.sfeed/feeds/* | dmenu.sh -i -l 53 -p 'news:' | while read line; do
 [ ! "$line" ] && exit
 url="`echo $line | sed 's@^.* \([a-zA-Z]*://\)\(.*\)$@\1\2@'`"
 if regexmatch "$url" 'aaaaarg\.fail'; then BROWSER="surf_tabs"; fi 
 if regexmatch "$url" 'twitter\.com'; then
 	full_article=`grep -R "$url" $HOME/.sfeed/feeds`
-	url="`echo "$full_article" | grep -oE "https?://\S+?"| sed 's/ .*$//' | head -1`" 
-	url=$(bloomberg "$url")
+	url="`echo "$full_article" | grep -Eo 'https?://bloom.bg/[a-zA-Z0-9]+' | sed 1q `" 
 	echo "$url"
-	BROWSER=glinks
+	url=$(bloomberg "$url")
+#	echo "$url"
+#	BROWSER=glinks
 fi
+	echo "$url"
 	$BROWSER "$url" &
-	
-	BROWSER=plumb
 	sleep 0.1
+	BROWSER=plumb
 done

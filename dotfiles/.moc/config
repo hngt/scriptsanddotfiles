@@ -1,6 +1,6 @@
 MusicDir = /home/lich/music
 Softmixer_SaveState = yes
-Theme = /usr/share/moc/themes/transparent-background
+Theme = alldefault
 OnSongChange = "/home/lich/.Xsetroot.sh"
 OnStop = "/home/lich/.Xsetroot.sh"
 Fastdir1 = /home/lich/audio/books/

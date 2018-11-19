@@ -7,7 +7,8 @@
 if ! pgrep -x "plumber" > /dev/null
 then
     plumber
-    9pfuse `namespace`/plumb /mnt/plumb
+    sleep 0.5
+    9pfuse `namespace`/plumb /tmp/mnt/plumb
 fi
 
 cat $HOME/lib/plumbing $PLAN9/plumb/initial.plumbing | 9p write plumb/rules > /dev/null

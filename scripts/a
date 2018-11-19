@@ -2,6 +2,8 @@
 export SHELL="/bin/ksh"
 export acmeshell="/bin/ksh"
 export TERM=st
+export PAGER='nobs'
+mkdir -p /tmp/mnt/acme
 if [ "$(pgrep plumber)" ]; then
     echo plumber is running
 else
@@ -9,4 +11,6 @@ else
     plumber
 fi
 acme_bin_dir=$( cd $(dirname $0) && pwd )
-acme -a -f /mnt/font/Monaco/10a/font $1
+acme -a -f /mnt/font/Monaco/10a/font $1 &
+sleep 1
+9pfuse `namespace`/acme /tmp/mnt/acme

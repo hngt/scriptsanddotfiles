@@ -7,18 +7,6 @@ include fileaddr
 plumb to seemail
 plumb to showmail
 
-# relative files as file: urls get made into absolute paths
-type is text
-data matches 'file:([.a-zA-Z¡-￿0-9_\-]([.a-zA-Z¡-￿0-9_/\-]*[a-zA-Z¡-￿0-9_/\-]))?'
-arg isfile	$1
-data set	file://$file
-plumb start plumb $data
-
-type is text
-data matches 'file://(.*)'
-arg isfile	$1
-plumb start plumb $1
-
 # should deal with all videos etc
 type is text
 data matches '.*\.(mkv|mp4|avi|webm|ogg|ogv|gifv|gif|mp3|mp4|opus|flac|ape)'
@@ -26,7 +14,7 @@ plumb start mpv $0
 
 # youtube and similar services
 type is text
-data matches 'https?://(www\.)?(youtube\.|youtu\.be|vimeo\.com|bandcamp\.com)[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*'
+data matches 'https?://(www\.)?(youtube\.|youtu\.be|vimeo\.com|bandcamp\.com)[a-zA-Z0-9_@\-]*([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*'
 plumb to web
 plumb start mpv $0
 
@@ -40,16 +28,16 @@ data matches 'magnet:\?xt=.*'
 plumb to web
 plumb start transmission-remote -a $0
 
+type is text
+data matches '(gopher)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*'
+plumb to web
+plumb start st sacc $0
+
 # urls go to web browser
 type is text
 data matches '(https?|ftp|file|news|nntp|telnet|wais|prospero)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*'
 plumb to web
 plumb start glinks $0
-
-type is text
-data matches '(gopher)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*'
-plumb to web
-plumb start st sacc $0
 
 # doc and rtf files go to wdoc2txt
 type is text
@@ -160,15 +148,19 @@ plumb	start	window -r 4 120 750 600 upas/nedmail -s $0
 
 # email addresses get a new mail window
 type is text
-data matches '[a-zA-Z0-9_+.\-]+@[a-zA-Z0-9_+.\-]*'
+data matches '(mailto:)?([a-zA-Z0-9_+.\-]+@[a-zA-Z0-9_+.\-]*)'
 plumb to sendmail
 plumb start st mutt $0
 # plumb start window rc -c '''echo % mail '''$0'; mail '$0
 
 # man index entries are synthesized
 type is text
+data matches '9([a-zA-Z¡-￿0-9_\-./]+)\(([1-8])\)'
+plumb start 9 rc -c 'man '$2' '$1' | nobs | plumb -i -d edit -a ''action=showdata filename=/9man/'$1'('$2')'''
+
+type is text
 data matches '([a-zA-Z¡-￿0-9_\-./]+)\(([1-8])\)'
-plumb start st rc -c 'man '$2' '$1' >[2=1] | nobs | plumb -i -d edit -a ''action=showdata filename=/man/'$1'('$2')'''
+plumb start dash -c 'MANWIDTH=71 man '$2' '$1' | nobs | plumb -i -d edit -a ''action=showdata filename=/man/'$1'('$2')'''
 
 # start rule for images without known suffixes
 dst is image
@@ -180,3 +172,16 @@ plumb start 9 page $data
 dst is postscript
 arg isfile $data
 plumb start 9 page $data
+
+# relative files as file: urls get made into absolute paths
+type is text
+data matches 'file:([.a-zA-Z¡-￿0-9_\-]([.a-zA-Z¡-￿0-9_/\-]*[a-zA-Z¡-￿0-9_/\-]))?'
+arg isfile	$1
+data set	file://$file
+plumb start plumb $data
+
+type is text
+data matches 'file://(.*)'
+arg isfile	$1
+plumb start plumb $1
+

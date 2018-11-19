@@ -1,4 +1,4 @@
-export PS1='${PWD##*/}> '
+export PS1='${PWD##*/}\$ '
 alias no_blank='xset -dpms && xset s off'
 alias ls='ls -b'
 alias ll='ls -blhrat'
@@ -8,11 +8,12 @@ alias svi='doas vis'
 alias mkopus='SAVEIFS=$IFS;IFS=$'\n';for i in *flac; do ffmpeg -i $i -acodec libopus -b:a 160k ${i%flac}opus;done;IFS=$SAVEIFS'
 alias trem='transmission-remote'
 alias g='git'
-alias e='doas emerge'
+alias e='doas emerge --color n'
 alias mkd='mkdir -pv'
 alias yt='youtube-dl --add-metadata -ic'
 alias yta='yt -x -f bestaudio/best'
 alias rcs='doas /sbin/rc-service'
+alias eix='eix -n'
 
 . $HOME/.ksh_completion
 . $HOME/.private-commands
