@@ -1,0 +1,29 @@
+#!/bin/dash
+
+atom() {
+  {
+  printf "10\n"
+  printf "i\n\n\t<entry>\n"
+  printf "\t\t<id>%s</id>\n" "$2"
+  printf "\t\t<title><![CDATA[%s]]></title>\n" "$1"
+  printf "\t\t<link>%s</link>\n" "$2"
+  printf "\t\t<content><![CDATA["
+  cat "$3" | sed 's,$,<br/>,g'
+  printf "]]></content>\n"
+  printf "\t\t<updated>%s</updated>\n" "$4"
+  printf "\t</entry>\n.\nw\n" 
+  } | ssh desolate ed -s /var/gopher/musings.atom.xml 
+}
+
+gopher() {
+  { 
+  printf "4\n"
+  printf "i\n[0|%s|%s|%s|70]\n.\nw\n" "$1" "$2" "$3" 
+  } | ssh desolate ed -s /var/gopher/musings/index.gph
+}
+
+date="$(sed '1 s/# //;q' $1)"
+title="$(sed '3q;d' $1)"
+scp "$1" "desolate:/var/gopher/musings/$1"
+gopher "$title" "/musings/$1" "desolate.k.vu"
+atom "$title" "gopher://desolate.k.vu/0/musings/$1" "$1" "$date"

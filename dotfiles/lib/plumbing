@@ -35,7 +35,7 @@ plumb start st sacc $0
 
 # urls go to web browser
 type is text
-data matches '(https?|ftp|file|news|nntp|telnet|wais|prospero)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*'
+data matches '(https?|ftp|file|news|nntp|telnet|wais|prospero)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-()]+)*/?[a-zA-Z0-9_?,%#~&/\-+=()]+([:.][a-zA-Z0-9_?,%#~&/\-+=()]+)*'
 plumb to web
 plumb start glinks $0
 
@@ -61,13 +61,13 @@ arg isfile	$0
 plumb to image
 plumb start sxiv $file
 
-# postscript/pdf/dvi/epub go to zathura but not over the a plumb port
+# postscript/pdf/dvi/epub go to mupdf but not over the a plumb port
 # the port is here for reference but is unused
 type is text
 data matches '.*'
 data matches '(.*)\.(EPUB|epub|ps|PS|eps|EPS|pdf|PDF|dvi|DVI)'
 arg isfile	$0
-plumb start zathura $file
+plumb start mupdf $file
 
 # open office - s[xt][cdigmw], doc, xls, ppt
 data matches '[a-zA-Z¡-￿0-9_\-./]+'
