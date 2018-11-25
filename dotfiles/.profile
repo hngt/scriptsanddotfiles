@@ -14,7 +14,11 @@ NNN_BMS='v:~/videos;m:~/music;u:~/university'
 REFER=$HOME/.bibliography
 PLUMBER=plumb
 PLAN9=/usr/lib/plan9
+if [ ! -S ~/.ssh/ssh_auth_sock ]; then
+  eval `ssh-agent`
+  ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+fi
+SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
 
-export PLAN9 PLUMBER REFER NNN_BMS GS_FONTPATH ENV HISTFILE HISTSIZE LANG LC_ALL EDITOR PAGER READER BROWSER PATH PS1
+export SSH_AUTH_SOCK PLAN9 PLUMBER REFER NNN_BMS GS_FONTPATH ENV HISTFILE HISTSIZE LANG LC_ALL EDITOR PAGER READER BROWSER PATH PS1
 
-eval `ssh-agent`

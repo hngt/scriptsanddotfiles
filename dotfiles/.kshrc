@@ -1,19 +1,20 @@
 export PS1='${PWD##*/}\$ '
-alias no_blank='xset -dpms && xset s off'
-alias ls='ls -b'
-alias ll='ls -blhrat'
-alias vi=vi
-alias vim=vis
-alias svi='doas vis'
-alias mkopus='SAVEIFS=$IFS;IFS=$'\n';for i in *flac; do ffmpeg -i $i -acodec libopus -b:a 160k ${i%flac}opus;done;IFS=$SAVEIFS'
-alias trem='transmission-remote'
-alias g='git'
 alias e='doas emerge --color n'
+alias eix='eix -n'
+alias g='git'
+alias ll='ls -Flhrat'
+alias ls='ls -F'
 alias mkd='mkdir -pv'
+alias mkopus='SAVEIFS=$IFS;IFS=$'\n';for i in *flac; do ffmpeg -i $i -acodec libopus -b:a 160k ${i%flac}opus;done;IFS=$SAVEIFS'
+alias no_blank='xset -dpms && xset s off'
+alias rcs='doas /sbin/rc-service'
+alias svi='doas sam -d'
+alias trem='transmission-remote'
+alias vi='sam -d'
+alias vim='sam -d'
+alias vis='sam -d'
 alias yt='youtube-dl --add-metadata -ic'
 alias yta='yt -x -f bestaudio/best'
-alias rcs='doas /sbin/rc-service'
-alias eix='eix -n'
 
 . $HOME/.ksh_completion
 . $HOME/.private-commands

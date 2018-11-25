@@ -3,7 +3,7 @@ BROWSER=plumb
 regexmatch(){
 	printf '%s' "$1" | grep -E -q "$2"
 }
-sfeed_plain $HOME/.sfeed/feeds/* | dmenu.sh -i -l 53 -p 'news:' | while read line; do
+sfeed_plain $HOME/.sfeed/feeds/* | grep '^N' | dmenu.sh -i -l 53 -p 'news:' | while read line; do
 [ ! "$line" ] && exit
 url="`echo $line | sed 's@^.* \([a-zA-Z]*://\)\(.*\)$@\1\2@'`"
 if regexmatch "$url" 'aaaaarg\.fail'; then BROWSER="surf_tabs"; fi 
