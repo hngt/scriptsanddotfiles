@@ -16,7 +16,5 @@ if echo "$@" | egrep -w "\-u"; then
     url=$(cat $filename | ssh paste "cat > /var/www/website/paste/screenshots/$name"; echo https://desolate.k.vu/paste/screenshots/$name)
     echo $url|xsel -bpsi
     exiftool -overwrite_original -url=$url $filename
-    xsetroot -name "File $filename uploaded to $url."
-    sleep 2s
-    $HOME/.Xsetroot.sh 
+    xmessage -timeout 3 "File $filename uploaded to $url."
 fi

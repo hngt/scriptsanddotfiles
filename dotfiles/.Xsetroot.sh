@@ -5,7 +5,7 @@ LOAD=`awk '{print $1" "$2" "$3}' /proc/loadavg`
 ACPI=$(acpi | awk -vFS=', ' '/Discharging/{stat="-"} /Charging/{stat="+"} {print stat$2}' )
 RAM_USAGE=`free | grep Mem | awk '{printf("%.2f%", $3/$2 * 100.0)}'`
 DATE=`date +'%a %y/%m/%d %H:%M'`
-MOC=`mocp -Q '%artist - %song' 2>/dev/null| awk '{print substr($0,1,50)}'`
+MOC=`awk '{print substr($0,1,50)}' $HOME/.nowplaying`
 
 # check if there are unread emails
 UMSG=$(find $HOME/.mutt/mailbox/uni/inbox/new -type f | wc -l);

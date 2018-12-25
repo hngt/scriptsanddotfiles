@@ -10,4 +10,7 @@ xmodmap -e 'clear Lock' &
 sleep 0.1 &&
 sxhkd -r /dev/null &
 startplumb &
+while true; do
+slstatus
+done &
 dwm

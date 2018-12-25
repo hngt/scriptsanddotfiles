@@ -22,7 +22,7 @@ fi
 args=$(echo "$url" | sed -e 's/^\w* //')
 case $(echo $url| cut -d " " -f1) in
     *.*|*:*|*/*)             $BROWSER "$url" ;;
-    ddg|S)  duckduckgo  -browser=$BROWSER $args ;;
+    ddg)  duckduckgo  -browser=$BROWSER $args ;;
     aw|awiki)   archwiki    -browser=$BROWSER $args;;
     wi|wiki)    wikipedia   -browser=$BROWSER $args ;;
     imdb)   imdb        -browser=$BROWSER $args ;;
@@ -34,6 +34,7 @@ case $(echo $url| cut -d " " -f1) in
     ru) rutracker      -browser=surf_tabs $args ;;
     aarg) aaaaarg	-browser=surf_tabs $args ;;
     gnsis) libgen	-browser=surf_tabs $args ;;
+    sp|S) startpage		-browser=surf_tabs $args ;;
     *)   searx -browser=$BROWSER $url;;
 esac &
 sleep 0.1

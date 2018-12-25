@@ -7,7 +7,7 @@ sfeed_plain $HOME/.sfeed/feeds/* | grep '^N' | dmenu.sh -i -l 53 -p 'news:' | wh
 [ ! "$line" ] && exit
 url="`echo $line | sed 's@^.* \([a-zA-Z]*://\)\(.*\)$@\1\2@'`"
 if regexmatch "$url" 'aaaaarg\.fail'; then BROWSER="surf_tabs"; fi 
-if regexmatch "$url" 'twitter\.com'; then
+if regexmatch "$url" 'twitter\.com/business'; then
 	full_article=`grep -R "$url" $HOME/.sfeed/feeds`
 	url="`echo "$full_article" | grep -Eo 'https?://bloom.bg/[a-zA-Z0-9]+' | sed 1q `" 
 	echo "$url"

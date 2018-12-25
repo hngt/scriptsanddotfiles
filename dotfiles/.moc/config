@@ -1,8 +1,8 @@
 MusicDir = /home/lich/music
 Softmixer_SaveState = yes
 Theme = alldefault
-OnSongChange = "/home/lich/.Xsetroot.sh"
-OnStop = "/home/lich/.Xsetroot.sh"
+OnSongChange = "/home/lich/bin/songchange"
+OnStop = "/home/lich/bin/songchange"
 Fastdir1 = /home/lich/audio/books/
 Fastdir2 = /home/lich/audio/lectures/
 Fastdir3 = /home/lich/audio/podcasts/
