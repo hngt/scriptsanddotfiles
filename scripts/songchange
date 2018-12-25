@@ -1,0 +1,2 @@
+#!/bin/sh
+mocp -Q '%artist - %song' | sed -E 's/^ - //;s/(.{40}).*/\1\n/' > /tmp/.nowplaying 
