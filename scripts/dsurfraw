@@ -5,12 +5,12 @@ PATH=/usr/share/surfraw:${PATH}
 BROWSER=glinks     
 BOOKMARKS=$(cat $HOME/.config/qutebrowser/quickmarks)
 
-echo "$BOOKMARKS" | $HOME/bin/dmenu.sh -l 10 -p link: | while read url; do
+echo "$BOOKMARKS" | $HOME/bin/dmenu.sh -l 10 -p 'link:' | while read url; do
 [ ! "$url" ] && exit
 
 if [ "$(echo $url|cut -d " " -f1)" = "sr" ]
 then
-BROWSER=surf_tabs
+BROWSER=surf_tor
 url=$(echo "$url" | cut -c 4-)
 fi
 
@@ -22,19 +22,17 @@ fi
 args=$(echo "$url" | sed -e 's/^\w* //')
 case $(echo $url| cut -d " " -f1) in
     *.*|*:*|*/*)             $BROWSER "$url" ;;
-    ddg)  duckduckgo  -browser=$BROWSER $args ;;
+    ddg|D)  duckduckgo  -browser=$BROWSER $args ;;
     aw|awiki)   archwiki    -browser=$BROWSER $args;;
     wi|wiki)    wikipedia   -browser=$BROWSER $args ;;
     imdb)   imdb        -browser=$BROWSER $args ;;
-    go|google)  google      -browser=$BROWSER $args ;;
-    map)    google -m   -browser=surf_tabs $args ;;
-    yt|youtube) sputube     -browser=$BROWSER $args ;;
-    ebay)   ebay        -browser=$BROWSER $args ;;
+    map)    google -m   -browser=surf_tor $args ;;
+    yt|youtube) Yt $args ;;
     git|github) github      -browser=$BROWSER $args ;;
     ru) rutracker      -browser=surf_tabs $args ;;
     aarg) aaaaarg	-browser=surf_tabs $args ;;
-    gnsis) libgen	-browser=surf_tabs $args ;;
-    sp|S) startpage		-browser=surf_tabs $args ;;
+    gen) libgen	-browser=$BROWSER $args ;;
+    sp|S) startpage		-browser=surf_tor $args ;;
     *)   searx -browser=$BROWSER $url;;
 esac &
 sleep 0.1

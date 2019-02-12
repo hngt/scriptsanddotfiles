@@ -10,32 +10,32 @@ plumb to showmail
 # should deal with all videos etc
 type is text
 data matches '.*\.(mkv|mp4|avi|webm|ogg|ogv|gifv|gif|mp3|mp4|opus|flac|ape)'
-plumb start mpv --no-terminal $0
+plumb start torsocks mpv --no-terminal $0
 
 # youtube and similar services
 type is text
 data matches 'https?://(www\.)?(youtube\.|youtu\.be|vimeo\.com|bandcamp\.com)[a-zA-Z0-9_@\-]*([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*'
 plumb to web
-plumb start mpv --no-terminal $0
+plumb start torsocks mpv --no-terminal $0
 
 type is text
-data matches '(gopher|https?)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*\.(txt|log|sh|TXT|LOG|SH)'
-plumb start dash -c 'curl -sL '$0' | tr -d $"\r" | plumb -i -d edit -a ''action=showdata filename=/url/'$0'''
+data matches '(gopher|https?)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*\.(txt|log|sh|TXT|LOG|SH)$'
+plumb start dash -c 'curl -x socks5h://localhost:9050 -H 'User-Agent:' -sL '$0' | tr -d $"\r" | plumb -i -d edit -a ''action=showdata filename=/url/'$0'''
  
 type is text
 data matches '(gopher|https?)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*\.(jpe?g|JPE?G|gif|GIF|tiff?|TIFF?|ppm|bit|png|PNG)'
-plumb start dash -c 'tmp=$(mktemp); curl -H 'User-Agent:' -sL '$0' > $tmp ;sxiv $tmp; rm $tmp' 
+plumb start dash -c 'tmp=$(mktemp); curl -x socks5h://localhost:9050 -H 'User-Agent:' -sL '$0' > $tmp ;sxiv $tmp; rm $tmp' 
 
 # magnet links
 type is text
 data matches 'magnet:\?xt=.*'
 plumb to web
-plumb start transmission-remote -a $0
+plumb start dash -c 'transmission-remote -a $(echo "'$0'" | sed -E "s/dn=.*/dn=ab/g")'
 
 type is text
 data matches '(gopher)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*'
 plumb to web
-plumb start st sacc $0
+plumb start st torsocks sacc $0
 
 # urls go to web browser
 type is text

@@ -12,7 +12,7 @@ atom() {
   printf "]]></content>\n"
   printf "\t\t<updated>%s</updated>\n" "$4"
   printf "\t</entry>\n.\nw\n" 
-  } | ssh desolate ed -s /var/gopher/musings.atom.xml 
+  } | ssh desolate ed -s "$5"
 }
 
 gopher() {
@@ -26,4 +26,5 @@ date="$(sed '1 s/# //;q' $1)"
 title="$(sed '3q;d' $1)"
 scp "$1" "desolate:/var/gopher/musings/$1"
 gopher "$title" "/musings/$1" "desolate.k.vu"
-atom "$title" "gopher://desolate.k.vu/0/musings/$1" "$1" "$date"
+atom "$title" "gopher://desolate.k.vu/0/musings/$1" "$1" "$date" "/var/gopher/musings.atom.xml"
+atom "$title" "gopher://s3r2gnpw6hqorjiu.onion/0/musings/$1" "$1" "$date" "/var/gopher/musings.tor.atom.xml"

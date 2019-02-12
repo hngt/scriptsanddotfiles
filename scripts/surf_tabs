@@ -23,7 +23,7 @@ else
 	then
 		runtabbed
 	else
-		surf -N -e "$xid" "$uri" >/dev/null 2>&1 &
+		surf  -N -e "$xid" "$uri" >/dev/null 2>&1 &
 	fi
 fi
 

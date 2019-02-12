@@ -11,6 +11,6 @@ else
     plumber
 fi
 acme_bin_dir=$( cd $(dirname $0) && pwd )
-acme -a -F '/mnt/font/IBM Plex Sans/10a/font' -f '/mnt/font/IBM Plex Mono/10a/font' "$1" &
+acme -a -F '/mnt/font/Liberation Serif/10a/font' -f "$font" &
 sleep 1
 9pfuse `namespace`/acme /tmp/mnt/acme

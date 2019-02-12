@@ -3,6 +3,5 @@
 export SHELL="/bin/ksh"
 export TERM=dumb
 export PAGER=nobs
-export font='/mnt/font/IBM Plex Mono/10a/font'
 
 sam "$1"

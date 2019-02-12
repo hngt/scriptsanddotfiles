@@ -5,7 +5,7 @@ xidfile="/run/user/"$(id -u)"/glinks-tabbed.xid"
 
 if [ ! $(pgrep -x miniwebproxy) ]; then
 cd ~/git/miniwebproxy/
-./miniwebproxy &
+torsocks ./miniwebproxy &
 echo 'turning on web proxy'
 fi
 

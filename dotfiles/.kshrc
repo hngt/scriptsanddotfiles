@@ -1,4 +1,4 @@
-export PS1='${PWD##*/}\$ '
+export PS1='${?#0}\W\$ '
 alias em='doas emerge --color n'
 alias e='$EDITOR'
 alias eix='eix -n'
@@ -30,9 +30,7 @@ set -o emacs
 bind -m '^L'='^U'clear'^J''^Y'
 
 mkwebm()ffmpeg -i "$1" -c:v libvpx -b:v "$3" -c:a libvorbis "$2";
-record()ffmpeg -video_size 1366x768 -framerate 60 -f x11grab -i :0.0+0,0 -f alsa -ac 2 -ar 44100 -i hw:Loopback,1,0 "$1";
 shdl() { curl -O $(curl -s http://sci-hub.tw/"$@" | sed -nE 's/.*location.href.*(http.*.pdf)\?.*/\1/p') ;}
-khdl() { curl -s "$@" | sed -nE 's;.*href="(/game.*.mp3)">.*;https://downloads.khinsider.com\1;p' | xe -s 'curl -O $(curl -s $0 | grep -o "http.*mp3" | uniq) ' && for i in *mp3; do mv "$i" $(echo \"$i\" | sed -E 's/(%20){1,}/_/g'); done; }
 
 case "$TERM" in
            xterm*) TERM=xterm-256color;
