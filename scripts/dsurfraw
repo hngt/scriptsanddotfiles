@@ -12,7 +12,12 @@ if [ "$(echo $url|cut -d " " -f1)" = "sr" ]
 then
 BROWSER=surf_tor
 url=$(echo "$url" | cut -c 4-)
+elif [ "$(echo $url|cut -d " " -f1)" = "Sr" ]
+then
+BROWSER=surf_tabs
+url=$(echo "$url" | cut -c 4-)
 fi
+
 
 if [ -n "$(echo "$BOOKMARKS" | grep "$url")" ]
 then

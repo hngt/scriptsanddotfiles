@@ -2,6 +2,7 @@
 
 mkdir -p "/run/user/"$(id -u)""
 xidfile="/run/user/"$(id -u)"/glinks-tabbed.xid"
+useragent="$(shuf -n1 $HOME/.common-user-agents)"
 
 if [ ! $(pgrep -x miniwebproxy) ]; then
 cd ~/git/miniwebproxy/
@@ -17,7 +18,7 @@ fi
 runtabbed() {
 	echo spawning
 	tabbed -cdn "Links" -r 3 links -g -w '' \
-	-https-proxy localhost:8090 -http-proxy localhost:8090 "$uri" > $xidfile 2>/dev/null &
+	-https-proxy localhost:8090 -http-proxy localhost:8090 -http.fake-user-agent "$useragent" "$uri" > $xidfile 2>/dev/null &
 }
 
 if [ ! -r "$xidfile" ];
@@ -30,6 +31,6 @@ else
 	then
 		runtabbed
 	else
-		links -g -w "$xid" -https-proxy localhost:8090 -http-proxy localhost:8090 "$uri" &
+		links -g -w "$xid" -https-proxy localhost:8090 -http-proxy localhost:8090 -http.fake-user-agent "$useragent" "$uri" &
 	fi
 fi

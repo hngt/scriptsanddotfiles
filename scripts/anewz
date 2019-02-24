@@ -1,3 +1,0 @@
-#!/bin/dash
-
-sfeed_plain $HOME/.sfeed/feeds/* | grep -E '^N'

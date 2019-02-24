@@ -1,2 +1,0 @@
-#!/bin/dash
-st -e sh /usr/libexec/mc/mcx-wrapper.sh

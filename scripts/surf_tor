@@ -3,13 +3,14 @@ export http_proxy="socks5://localhost:9050"
 mkdir -p "/run/user/"$(id -u)""
 xidfile="/run/user/"$(id -u)"/glinks-tabbed.xid"
 cookiefile=$(mktemp /tmp/cookie.XXXXXXXX)
+useragent="$(shuf -n1 $HOME/.common-user-agents)"
 if [ "$#" -gt 0 ];
 then
 	uri="$1"
 fi
 
 runtabbed() {
-	tabbed -cdn Links -r 3 surf -N -e '' -d -c $cookiefile "$uri" >"$xidfile" \
+	tabbed -cdn Links -r 3 surf -N -e '' -d -c $cookiefile -u "$useragent" "$uri" >"$xidfile" \
 		2>/dev/null
 }
 
@@ -23,7 +24,7 @@ else
 	then
 		runtabbed
 	else
-		surf -d -N -c $cookiefile -e "$xid" "$uri" >/dev/null 2>&1
+		surf -d -N -c $cookiefile -e "$xid" -u "$useragent" "$uri" >/dev/null 2>&1
 	fi
 fi
 

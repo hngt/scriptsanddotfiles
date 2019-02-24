@@ -1,21 +1,23 @@
 export PS1='${?#0}\W\$ '
-alias em='doas emerge --color n'
-alias e='$EDITOR'
-alias eix='eix -n'
-alias g='git'
-alias ll='ls -Flrt'
-alias ls='ls -F'
-alias mkd='mkdir -pv'
-alias mkopus='SAVEIFS=$IFS;IFS=$'\n';for i in *flac; do ffmpeg -i $i -acodec libopus -b:a 160k ${i%flac}opus;done;IFS=$SAVEIFS'
-alias no_blank='xset -dpms && xset s off'
-alias rcs='doas /sbin/rc-service'
-alias svi='doas sam -d'
-alias trem='transmission-remote'
-alias vi='sam -d'
-alias vim='sam -d'
-alias vis='cat'
-alias yt='youtube-dl --add-metadata -ic'
-alias yta='yt -x -f bestaudio/best'
+alias em='doas emerge --color n' \
+	e='$EDITOR' \
+	eix='eix -n' \
+	g='git' \
+	ll='ls -Flrt' \
+	ls='ls -F' \
+	mkd='mkdir -pv' \
+	mkopus='SAVEIFS=$IFS;IFS=$'\n';for i in *flac; do ffmpeg -i $i -acodec libopus -b:a 160k ${i%flac}opus;done;IFS=$SAVEIFS' \
+	mpv="mpv --input-ipc-server=/tmp/mpvsoc$(date +%s)" \
+	no_blank='xset -dpms && xset s off' \
+	rcs='doas /sbin/rc-service' \
+	svi='doas sam -d' \
+	trem='transmission-remote' \
+	vi='sam -d' \
+	vim='sam -d' \
+	vis='cat' \
+	yt='youtube-dl --add-metadata -ic' \
+	yta='yt -x -f bestaudio/best' \
+	x='sxiv -ft *'
 
 . $HOME/.ksh_completion
 . $HOME/.private-commands
@@ -37,3 +39,4 @@ case "$TERM" in
        esac
 
 [[ $(tty) = "/dev/tty1" ]] && exec startx
+clear

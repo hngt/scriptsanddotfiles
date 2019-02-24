@@ -1,0 +1,6 @@
+#!/bin/sh
+if [ -r "$1" ]; then
+	ls -1 | awk -v file="$1" 'BEGIN { lines = ""; m = 0; } $0 ~ file { m = 1; } { if (!m) { if (lines) { lines = lines"\n"; } lines = lines""$0; } else { print $0; } } END { print lines; }' | sxiv -fi
+else
+sxiv -ft *
+fi
