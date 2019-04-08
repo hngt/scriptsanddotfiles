@@ -1,4 +1,4 @@
-export PS1='${?#0}\W\$ '
+export PS1='${?#0}\W\T\$ '
 alias em='doas emerge --color n' \
 	e='$EDITOR' \
 	eix='eix -n' \

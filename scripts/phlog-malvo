@@ -1,30 +1,55 @@
-#!/bin/dash
+#!/bin/sh
+location="/var/gopher/~lich/musings/"
 
-atom() {
+atomnew() {
   {
   printf "10\n"
   printf "i\n\n\t<entry>\n"
   printf "\t\t<id>%s</id>\n" "$2"
   printf "\t\t<title><![CDATA[%s]]></title>\n" "$1"
-  printf "\t\t<link>%s</link>\n" "$2"
-  printf "\t\t<content><![CDATA["
-  cat "$3" | sed 's,$,<br/>,g'
+  printf "\t\t<link href=\"%s\" />\n" "$2"
+  printf "\t\t<content type="text"><![CDATA["
+  cat "$3"
   printf "]]></content>\n"
   printf "\t\t<updated>%s</updated>\n" "$4"
   printf "\t</entry>\n.\nw\n" 
-  } | ssh desolate ed -s "$5"
+  } | ssh dataswamp ed -s "$5"
 }
 
-gopher() {
+gophernew() {
   { 
-  printf "4\n"
+  printf "/MUSINGS\n+2\n"
   printf "i\n[0|%s|%s|%s|70]\n.\nw\n" "$1" "$2" "$3" 
-  } | ssh desolate ed -s /var/gopher/musings/index.gph
+  } | ssh dataswamp ed -s /var/gopher/~lich/index.gph
 }
 
-date="$(sed '1 s/# //;q' $1)"
-title="$(sed '3q;d' $1)"
-scp "$1" "desolate:/var/gopher/musings/$1"
-gopher "$title" "/musings/$1" "desolate.k.vu"
-atom "$title" "gopher://desolate.k.vu/0/musings/$1" "$1" "$date" "/var/gopher/musings.atom.xml"
-atom "$title" "gopher://s3r2gnpw6hqorjiu.onion/0/musings/$1" "$1" "$date" "/var/gopher/musings.tor.atom.xml"
+post() {
+	date="$(sed '1 s/# //;q' $1)"
+	title="$(sed '3q;d' $1)"
+	ssh -q dataswamp [[ -f $location/$1 ]] && echo "this post exists!" && exit 1
+	scp "$1" "dataswamp:$location/$1"
+	gophernew "$title" "/~lich/musings/$1" "dataswamp.org"
+	atomnew "$title" "gopher://dataswamp.org/0/~lich/musings/$1" "$1" "$date" "/var/gopher/~lich/musings.atom.xml"
+	}
+
+revise() {
+	date="$(date -Iseconds)"
+	{
+	printf "/%s\n" "$1"
+	printf "+3\n"
+	printf ".,+%sd\n" "$(ssh dataswamp cat $location/$1 | wc -l)"
+	printf "i\n"
+	printf "\t\t<content type="text"><![CDATA["
+	cat "$1"
+	printf "]]></content>\n.\n\n"
+	printf "d\n"
+	printf "i\n"
+	printf "\t\t<updated>%s</updated>\n.\nw\n" "$date"
+	} | ssh dataswamp ed -s "$location/../musings.atom.xml"
+	scp "$1" "dataswap:$location/$1"
+}
+
+case "$1" in 
+	n*) post "$2" ;;
+	r*) revise "$2" ;;
+esac

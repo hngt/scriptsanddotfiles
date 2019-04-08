@@ -1,20 +1,19 @@
-#!/bin/dash
-directory=$HOME/pictures/screenshots/$(date +%Y)/$(date +%m)/$(date +%d)/
-filename=$directory/$(date +%H:%M:%S.%s).png
-if  echo "$@" | egrep -w "\-s" ; then
-        command="xscreenshot | ff-crop $(slop -f '%x %y %w %h')"
-elif echo "$@" | egrep -w "\-w"; then
-        window_id=$(xdotool getmouselocation --shell | grep WINDOW | sed 's/WINDOW=//g')
-        command="xscreenshot $window_id"
-else
-        command="xscreenshot"
-fi
+#!/bin/sh
+directory="$HOME/pictures/screenshots/$(date +%Y)/$(date +%m)/$(date +%d)"
+filename="$directory/$(date +%H:%M:%S.%s).png"
+command="xscreenshot"
+for arg; do
+case $arg in
+	-s) command="xscreenshot | ff-crop $(slop -f '%x %y %w %h')" ;;
+	-w) command="xscreenshot $(xdotool getmouselocation --shell | sed -n 's/WINDOW=//gp')" ;;
+	-u) upload=true ;;
+esac
+done
 mkdir -p $directory
 eval "$command | ff2png > $filename"
-if echo "$@" | egrep -w "\-u"; then
-    name=$(date +%s.png)
-    url=$(cat $filename | ssh paste "cat > /var/www/website/paste/screenshots/$name"; echo https://desolate.k.vu/paste/screenshots/$name)
-    echo $url|xsel -bpsi
+if [ "$upload" = true ]; then
+    url="$(curl --proxy 'socks5h://localhost:9050/' -sL -F files[]=@$filename https://file0.s3kr.it/upload | sed -n 's@.*https*://file0.s3kr.it/@https://file0.s3kr.it/@;s@'\'')">@@p')"
+    printf "$url" | xsel -bpsi
     exiftool -overwrite_original -url=$url $filename
-    xmessage -timeout 3 "File $filename uploaded to $url."
+    xmessage -timeout 5 "$filename -> $url."
 fi

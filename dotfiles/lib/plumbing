@@ -14,7 +14,7 @@ plumb start torsocks mpv --no-terminal $0
 
 # youtube and similar services
 type is text
-data matches 'https?://(www\.)?(youtube\.|youtu\.be|vimeo\.com|bandcamp\.com)[a-zA-Z0-9_@\-]*([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*'
+data matches 'https?://(www\.)?(youtube\.|youtu\.be|vimeo\.com|twitter\.com/i/videos|bandcamp\.com)[a-zA-Z0-9_@\-]*([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*'
 plumb to web
 plumb start torsocks mpv --no-terminal $0
 
@@ -22,6 +22,11 @@ type is text
 data matches '(gopher|https?)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*\.(txt|log|sh|TXT|LOG|SH)$'
 plumb start dash -c 'curl -x socks5h://localhost:9050 -H 'User-Agent:' -sL '$0' | tr -d $"\r" | plumb -i -d edit -a ''action=showdata filename=/url/'$0'''
  
+type is text
+data matches 'https?://(www\.)?(imgur\.com)[a-zA-Z0-9_@\-]*([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*'
+plumb to web
+plumb start dash -c 'links="$(albumrip '$0')"; for link in $links; do mkdir -p /tmp/imgur/; tmp=$(mktemp /tmp/imgur/XXXX); curl -s $link > $tmp && echo $tmp; done| sxiv -i && rm /tmp/imgur/*'
+
 type is text
 data matches '(gopher|https?)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*\.(jpe?g|JPE?G|gif|GIF|tiff?|TIFF?|ppm|bit|png|PNG)'
 plumb start dash -c 'tmp=$(mktemp); curl -x socks5h://localhost:9050 -H 'User-Agent:' -sL '$0' > $tmp ;sxiv $tmp; rm $tmp' 
@@ -72,13 +77,6 @@ data matches '.*'
 data matches '(.*)\.(EPUB|epub|ps|PS|eps|EPS|pdf|PDF|dvi|DVI)'
 arg isfile	$0
 plumb start zathura $file
-
-# open office - s[xt][cdigmw], doc, xls, ppt
-data matches '[a-zA-Z¡-￿0-9_\-./]+'
-data matches '([a-zA-Z¡-￿0-9_\-./]+)\.([Ss][XxTt][CcDdIiGgMmWw]|[Dd][Oo][Cc]|[Xx][Ll][Ss]|[Pp][Pp][Tt])'
-arg isfile	$0
-plumb to openoffice
-plumb start openoffice $file
 
 # existing files tagged by line number:columnumber or linenumber.columnumber, twice, go to editor
 type is text

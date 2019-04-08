@@ -1,4 +1,6 @@
 #!/bin/sh
-rec  -q -t wav - synth brownnoise band -n 1200 200 tremolo 20 .1 < /dev/urandom 2>/dev/null > /tmp/experiment.wav &
-mpv --input-ipc-server=/tmp/mpvsoc$(date +%s) --cache 10 --cache-backbuffer=0 --cache=no --cache-secs=3 --vid=no --no-terminal --force-window=no /tmp/experiment.wav &
+temp=$(mktemp -u)
+mkfifo $temp
+rec  -q -t wav - synth brownnoise band -n 1200 200 tremolo 20 .1 < /dev/urandom 2>/dev/null > $temp &
+mpv --input-ipc-server=/tmp/mpvsoc$(date +%s) --cache 10 --cache-backbuffer=0 --cache=no --cache-secs=3 --vid=no --no-terminal --force-window=no $temp &
 

@@ -2,43 +2,39 @@
 
 PATH=/usr/share/surfraw:${PATH}
 
-BROWSER=glinks     
-BOOKMARKS=$(cat $HOME/.config/qutebrowser/quickmarks)
+BROWSER=glinks
+MARKFILE="$HOME/.bmarks"
+setbrowser() { BROWSER=$1; url=$(echo "$url" | cut -c 4-); }
 
-echo "$BOOKMARKS" | $HOME/bin/dmenu.sh -l 10 -p 'link:' | while read url; do
+$HOME/bin/dmenu.sh -l 10 -p 'link:' <$MARKFILE | while read url; do
 [ ! "$url" ] && exit
 
-if [ "$(echo $url|cut -d " " -f1)" = "sr" ]
-then
-BROWSER=surf_tor
-url=$(echo "$url" | cut -c 4-)
-elif [ "$(echo $url|cut -d " " -f1)" = "Sr" ]
-then
-BROWSER=surf_tabs
-url=$(echo "$url" | cut -c 4-)
-fi
+case "$(echo $url|cut -d " " -f1)" in
+    sr) setbrowser surf_tor ;;
+    Sr) setbrowser surf_tabs ;;
+    Ic) setbrowser oiscat ;;
+esac
 
-
-if [ -n "$(echo "$BOOKMARKS" | grep "$url")" ]
+if [ -n "$(grep "$url" "$MARKFILE")" ]
 then
 url=$(echo $url | sed 's/.*http/http/g' ) 
 fi
 
 args=$(echo "$url" | sed -e 's/^\w* //')
 case $(echo $url| cut -d " " -f1) in
-    *.*|*:*|*/*)             $BROWSER "$url" ;;
-    ddg|D)  duckduckgo  -browser=$BROWSER $args ;;
-    aw|awiki)   archwiki    -browser=$BROWSER $args;;
-    wi|wiki)    wikipedia   -browser=$BROWSER $args ;;
-    imdb)   imdb        -browser=$BROWSER $args ;;
-    map)    google -m   -browser=surf_tor $args ;;
-    yt|youtube) Yt $args ;;
-    git|github) github      -browser=$BROWSER $args ;;
-    ru) rutracker      -browser=surf_tabs $args ;;
-    aarg) aaaaarg	-browser=surf_tabs $args ;;
-    gen) libgen	-browser=$BROWSER $args ;;
-    sp|S) startpage		-browser=surf_tor $args ;;
-    *)   searx -browser=$BROWSER $url;;
+    *.*|*:*|*/*)	$BROWSER "$url" ;;
+    ddg|D)		duckduckgo	-browser=$BROWSER $args ;;
+    aw|awiki)		archwiki	-browser=$BROWSER $args;;
+    wi|wiki)		wikipedia	-browser=$BROWSER $args ;;
+    imdb)		imdb		-browser=$BROWSER $args ;;
+    map)		google -m	-browser=surf_tor $args ;;
+    yt|youtube) 	Yt $args ;;
+    git|github)		github		-browser=$BROWSER $args ;;
+    ru)			rutracker	-browser=surf_tabs $args ;;
+    aarg)		aaaaarg		-browser=surf_tabs $args ;;
+    gen)		libgen		-browser=$BROWSER $args ;;
+    sp|S)		startpage	-browser=surf_tor $args ;;
+    *)			searx		-browser=$BROWSER $url;;
 esac &
 sleep 0.1
 done

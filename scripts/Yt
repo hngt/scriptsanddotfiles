@@ -1,2 +1,2 @@
 #!/bin/sh
-ssh paste torsocks /home/paste/idiotbox-c-noapi/cli "$@" | plumb -i -d edit -a "action=showdata filename=/yt/$@"
+ssh dataswamp /home/lich/idiotbox/cli "$@" | plumb -i -d edit -a "action=showdata filename=/yt/$@"

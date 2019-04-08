@@ -1,8 +1,5 @@
 compton -b &
-while true; do
-hsetroot  -cover "$(find $HOME/pictures/wallpapers/ -type f|shuf -n1)"
-sleep 3600
-done  &
+hsetroot  -tile $HOME/pictures/wallpapers/tiling/tile1.jpg &
 xbanish &
 xset s off &
 xset -dpms &
