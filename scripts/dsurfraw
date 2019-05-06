@@ -1,6 +1,6 @@
 #!/bin/dash
 
-PATH=/usr/share/surfraw:${PATH}
+PATH=/usr/share/surfraw:${HOME}/.config/surfraw/elvi:${PATH}
 
 BROWSER=glinks
 MARKFILE="$HOME/.bmarks"
@@ -13,6 +13,7 @@ case "$(echo $url|cut -d " " -f1)" in
     sr) setbrowser surf_tor ;;
     Sr) setbrowser surf_tabs ;;
     Ic) setbrowser oiscat ;;
+    lc) setbrowser lelcat ;;
 esac
 
 if [ -n "$(grep "$url" "$MARKFILE")" ]
@@ -23,18 +24,22 @@ fi
 args=$(echo "$url" | sed -e 's/^\w* //')
 case $(echo $url| cut -d " " -f1) in
     *.*|*:*|*/*)	$BROWSER "$url" ;;
+    gberg|G)		gutenberg	-browser=$BROWSER $args ;;
+    uesp|tes)		uesp		-browser=$BROWSER $args ;;
     ddg|D)		duckduckgo	-browser=$BROWSER $args ;;
-    aw|awiki)		archwiki	-browser=$BROWSER $args;;
+    aw|awiki)		archwiki	-browser=$BROWSER $args ;;
     wi|wiki)		wikipedia	-browser=$BROWSER $args ;;
     imdb)		imdb		-browser=$BROWSER $args ;;
     map)		google -m	-browser=surf_tor $args ;;
-    yt|youtube) 	Yt $args ;;
+#    yt|youtube) 	sputube		-browser=$BROWSER $args ;;
+    yt|youtube) 	Yt 		$args ;;
     git|github)		github		-browser=$BROWSER $args ;;
     ru)			rutracker	-browser=surf_tabs $args ;;
     aarg)		aaaaarg		-browser=surf_tabs $args ;;
     gen)		libgen		-browser=$BROWSER $args ;;
     sp|S)		startpage	-browser=surf_tor $args ;;
-    *)			searx		-browser=$BROWSER $url;;
+    cr)			crossref	-browser=surf_tor $args ;;
+    *)			searx		-browser=$BROWSER $url ;;
 esac &
 sleep 0.1
 done

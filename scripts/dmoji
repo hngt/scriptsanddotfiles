@@ -4,9 +4,8 @@
 # GNU cut doesn't grok UTF-8.
 EMOJI=$(sed '1,/^exit/d' $0 | dmenu -i -l 10 -fn Symbola:size=20 | grep -Po '^.')
 if [ "$EMOJI" ]; then
-	printf %s "$EMOJI" | xclip -i
+	printf %s "$EMOJI" | xsel -bpsi
 	sleep 0.1
-	xdotool click 2
 	exit $?
 fi
 exit 1

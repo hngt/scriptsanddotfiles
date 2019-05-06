@@ -1,0 +1,2 @@
+#!/bin/sh
+{ xsel -b; printf '\n' ;xsel -p; } | dmenu >> /home/lich/.bmarks

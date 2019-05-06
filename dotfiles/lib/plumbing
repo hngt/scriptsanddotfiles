@@ -19,6 +19,11 @@ plumb to web
 plumb start torsocks mpv --no-terminal $0
 
 type is text
+data matches 'https://doi.org/.*'
+plumb to web
+plumb start surf_tor sci-hub.tw/$0
+
+type is text
 data matches '(gopher|https?)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*\.(txt|log|sh|TXT|LOG|SH)$'
 plumb start dash -c 'curl -x socks5h://localhost:9050 -H 'User-Agent:' -sL '$0' | tr -d $"\r" | plumb -i -d edit -a ''action=showdata filename=/url/'$0'''
  

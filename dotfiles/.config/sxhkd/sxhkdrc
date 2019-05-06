@@ -22,3 +22,5 @@ F13
 	plumb `xsel -p`
 super + a
 	torsocks mpv `xsel -p`
+super + x
+	passmenu

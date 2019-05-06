@@ -21,12 +21,6 @@ alias em='doas emerge --color n' \
 
 . $HOME/.ksh_completion
 . $HOME/.private-commands
- 
-if [ "$(pgrep xinit)" ]
-    then
-    alias no_touch="xinput set-prop `xinput | awk '/TouchPad/{print $6}' | sed -e 's/id=//'` \"Device Enabled\" 0"
-    alias yes_touch="xinput set-prop `xinput | awk '/TouchPad/{print $6}' | sed -e 's/id=//'` \"Device Enabled\" 1"
-fi
 
 set -o emacs
 bind -m '^L'='^U'clear'^J''^Y'

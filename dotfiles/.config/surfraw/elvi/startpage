@@ -1,0 +1,114 @@
+#!/bin/sh
+# $Id$
+# elvis: startpage		-- Search the web using Startpage (www.startpage.com)
+. surfraw || exit 1
+
+w3_config_hook () {
+    def   SURFRAW_startpage_results "$SURFRAW_results"
+    def   SURFRAW_startpage_search "do/search"
+    defyn SURFRAW_startpage_lucky 0
+    def   SURFRAW_startpage_country us
+    def   SURFRAW_startpage_safe default
+}
+
+w3_usage_hook () {
+    cat <<EOF
+Usage: $w3_argv0 [options] [search words]...
+Description:
+  Surfraw search the web using Google (www.startpage.com)
+Local options:
+  -l, -lucky                    Feeling lucky? Jump to first result.
+  -results=NUM                  Number of search results returned
+                                Default: $SURFRAW_startpage_results
+                                Environment: SURFRAW_startpage_results
+  -search=                      Specialized search on topic
+	  images	|	Images
+	  videos	|	Videos
+	  news		|	News
+          bsd           |       BSD
+
+                                Environment: SURFRAW_startpage_search
+  -country=			Select regional startpage site
+				Default is us (startpage.com)
+	   <ISO 3166 alpha-2 code>
+				Environment: SURFRAW_startpage_country
+  -i, -images                   Image Search (same as -search=images)
+  -v, -videos                   Video Search (same as -search=videos)
+  -safe=                        Safe Search level
+        default         |       Default: $SURFRAW_startpage_safe
+	off             |       Environment: SURFRAW_startpage_safe
+	moderate        |
+	strict          |
+EOF
+    w3_global_usage
+}
+
+w3_parse_option_hook () {
+    opt="$1"
+    optarg="$2"
+    case "$opt" in
+    -r*=*)      setopt   SURFRAW_startpage_results "$optarg" ;;
+    -sa*=*)     setopt   SURFRAW_startpage_safe    "$optarg" ;;
+    -s*=*)      setopt   SURFRAW_startpage_search  "$optarg" ;;
+    -l|-lu*)    setoptyn SURFRAW_startpage_lucky   1         ;;
+    -c=*) 	setopt	 SURFRAW_startpage_country "$optarg" ;;
+    -i*)        setopt   SURFRAW_startpage_search  images    ;;
+    -v*)        setopt   SURFRAW_startpage_search  videos    ;;
+    -m*)        setopt   SURFRAW_startpage_search  maps      ;;
+    -n|-news)   setopt   SURFRAW_startpage_search  news      ;;
+    -G|-gr|-groups) setopt   SURFRAW_startpage_search  groups    ;;
+    *) return 1 ;;
+    esac
+    return 0
+}
+
+w3_config
+w3_parse_args "$@"
+# w3_args now contains a list of arguments
+
+# Use SURFRAW_lang if present and the country has not been changed
+if test -n "$SURFRAW_lang" -a "$SURFRAW_startpage_country" = "us"; then
+    SURFRAW_startpage_country="$SURFRAW_lang";
+fi
+
+case "$SURFRAW_startpage_country" in
+  af|ag|ai|ar|au|bd|bn|bo|br|bs|bw|by|bz|co|cu|do|ec|eg|et|fj|gi|gt|hk|jm|ly|mt|mx|my|na|nf|ng|ni|np|nz|om|pa|pe|ph|pk|pr|py|qa|sa|sb|sg|sv|tj|tr|tw|ua|ug|uy|vn) domain="com.${SURFRAW_startpage_country}" ;;
+  cr|id|il|in|jp|ke|kh|kr|ls|ma|th|uk|uz|vc|ve|vg|vi|ck|yu|za|zm|zw) domain="co.${SURFRAW_startpage_country}" ;;
+  us) domain="com";;
+  *)  domain="$SURFRAW_startpage_country" ;;
+esac
+
+safe=""
+case "$SURFRAW_startpage_safe" in
+  strict)   safe="&safe=strict"   ;;
+  moderate) safe="&safe=moderate" ;;
+  off)      safe="&safe=off"      ;;
+esac
+
+url="https://"
+
+if test -z "$w3_args" ; then
+    case "$SURFRAW_startpage_search" in
+	i*) url="${url}" ;;
+	v*) url="${url}"  ;;
+	*)  url="${url}"    ;;
+    esac
+    url="$startpage.${domain}"
+else
+    search="$SURFRAW_startpage_search"
+    case "$SURFRAW_startpage_search" in
+	v*) url="${url}www"; search="search"; extra="cat=video";;
+	i*) url="${url}www" ; search="search" extra="cat=pics";;
+	*)  url="${url}www"  extra="cat=web";;
+    esac
+
+    url="${url}.startpage.${domain}/do/search"
+    url="${url}?${extra}&${safe}query=$w3_args"
+    if [ "$SURFRAW_startpage_lucky" = 1 ]; then
+	button=`w3_url_escape "I'm Feeling Lucky"`
+	url="${url}&btnI=$button"
+    fi
+fi
+
+w3_browse_url "$url"
+
