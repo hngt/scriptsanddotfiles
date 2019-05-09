@@ -1,0 +1,197 @@
+#!/bin/sh
+
+: ${REPO:=~/notes}
+
+# search for a suitable editor
+[ -z "$EDITOR" ] && \
+for e in nvim vim emacs vi ed; do
+	if command -v $e >/dev/null 2>&1; then
+		EDITOR=$e
+		break
+	fi
+done
+
+if [ -z "$EDITOR" ]; then
+	printf 'Could not elect an editor. ED is the standard text editor!\n'
+	EDITOR=ed
+	exit 1
+fi
+
+usage() {
+	name=$(basename $0)
+	printf '%s\n' \
+	    "$name [ls] | init | last | [history|cat|rm] PATH" \
+	    "$name [ls]" \
+	    ': show hierarchy tree' \
+	    "$name init" \
+	    ': initialize the git repository' \
+	    "$name last" \
+	    ': show files ordered by edition time' \
+	    "$name history PATH" \
+	    ': uses tig to display file history' \
+	    "$name cat PATH" \
+	    ': output content of the file' \
+	    "$name rm PATH" \
+	    ': delete file' \
+	    "$name [edit] PATH" \
+	    ": start \$EDITOR ($EDITOR) on file and auto commit"
+	exit 0
+}
+
+# display a file tree of notes taken
+display() {
+	if type tree >/dev/null 2>&1
+	then
+		tree -C --prune --noreport "$REPO"
+		exit 0
+	else
+		cd "$REPO"
+		find . -name '.git' -prune -o -type f -print
+		exit 0
+	fi
+}
+
+# edit a file given as parameter
+edit() {
+	cd "$REPO"
+	if [ ! -d "$1" ]
+	then
+		mkdir -p "$(dirname "$1")"
+		"$EDITOR" "$1"
+		if [ -f "$1" ]
+		then
+			git add "$1"
+			git commit -m "editing by $USER" "$1"
+		fi
+		exit 0
+	else
+		printf 'Aborting: "%s" is a directory.\n' "$1"
+		exit 1
+	fi
+}
+
+# show file history using tig program
+histo() {
+	cd "$REPO"
+	if [ -f "$1" ]
+	then
+		if type tig >/dev/null 2>&1
+		then
+			tig "$1"
+			exit 0
+		else
+			printf 'Aborting: tig software is needed for history\n'
+			exit 6
+		fi
+	else
+		printf 'Aborting: "%s" file does not exist.\n' "$1"
+		exit 5
+	fi
+}
+
+# output the content of a file
+show_file() {
+	cd "$REPO"
+	cat "$1"
+	exit 0
+}
+
+# content of a file in html
+html() {
+	cd "$REPO"
+	smu <"$1"
+	exit 0
+}
+
+upload() {
+	cd "$REPO"
+	{
+	printf "<!DOCTYPE html><html lang=\"en\">\n<head><meta charset=\"utf-8\">\n"
+	printf "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
+	printf "<title>%s</title>\n" "$(sed 1q $1)"
+	printf "<style>\n	body{\n		margin:1em auto;\n		background-color:#ffffea;\n		max-width:50em;\n		padding:0 .62em;\n		font:1.2em/1.6 serif;\n	}\n	hr{\n	border: 0;\n		border-bottom: 3px solid #aaa;\n		height: 3px;\n}\nh1 {\n		line-height:1.2;\n	}\n	@media print{\n		body{\n			max-width:none\n		}\n	}\n</style>\n</head>\n<body>\n<article>\n"
+	smu <"$1"
+	printf "</article></body></html>"
+	} | ssh dataswamp "cat > ~/public_html/docs/$(basename $1).html"
+	echo "https://dataswamp.org/~lich/docs/$(basename $1).html"
+	exit 0
+}
+
+# delete a file and commit in git
+delete() {
+	cd "$REPO"
+	if [ -f "$1" ];
+	then
+		git rm "$1"
+		git commit -m "deleted by $USER" "$1"
+		exit 0
+	else
+		printf 'Aborting: "%s" is a directory.\n' "$1"
+		exit 1
+	fi
+}
+
+# display the list of edited files ordered by time
+last() {
+	cd "$REPO"
+	git log --pretty="%cr" --name-only | \
+		awk '{
+			date=$0 ;
+			getline; getline;
+			file=$0 ;
+			seen[file]++;
+			if(seen[file]==1) {
+				printf("%20s:   %s\n", date, file)
+			}
+		}'
+	exit 0
+}
+
+# raw list of files for completion
+_completion_list() {
+	if [ -d "$REPO" ]
+	then
+		cd "$REPO"
+		find ./${1} -name '.git' -prune -o -type f -print | sed 's,^\./,,'
+		exit 0
+	else
+		printf 'Aborting: "%s" does not exist.\n' "$REPO"
+		exit 4
+	fi
+}
+
+# create a git repository
+initialization() {
+	cd "$REPO"
+	if [ -d .git ]
+	then
+		echo "Git already initialized"
+		exit 3
+	else
+		git init
+		exit 0
+	fi
+}
+
+if ! mkdir -p "$REPO"
+then
+	printf 'Aborting: cannot create "%s".\n' "$REPO"
+	exit 2
+fi
+export FILES="$(_completion_list "$2")"
+case "$1" in
+	'')   display ;;
+	ls)   display ;;
+	i*)   initialization ;;
+	la*)  last ;;
+	e*)  [ -n "$2" ] && edit   "$2" ;;
+	hi*) [ -n "$2" ] && histo  "$2" ;;
+	r*)  [ -n "$2" ] && delete "$2" ;;
+	c*)  [ -n "$2" ] && show_file "$2" ;;
+	p*)  [ -n "$2" ] && html "$2" ;;
+	u*)  [ -n "$2" ] && upload "$2" ;;
+	_files) _completion_list "$2" ;;
+esac
+
+# if parameter doesn't match a command, it may be a file
+edit "$1"

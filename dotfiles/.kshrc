@@ -7,6 +7,7 @@ alias em='doas emerge --color n' \
 	ls='ls -F' \
 	mkd='mkdir -pv' \
 	mkopus='SAVEIFS=$IFS;IFS=$'\n';for i in *flac; do ffmpeg -i $i -acodec libopus -b:a 160k ${i%flac}opus;done;IFS=$SAVEIFS' \
+	mkpdf='libreoffice --headless --convert-to pdf' \
 	mpv="mpv --input-ipc-server=/tmp/mpvsoc$(date +%s)" \
 	no_blank='xset -dpms && xset s off' \
 	rcs='doas /sbin/rc-service' \
