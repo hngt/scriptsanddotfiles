@@ -1,2 +1,0 @@
-#!/bin/sh
-apulse ~/.local/icecat/icecat -P lmao $1

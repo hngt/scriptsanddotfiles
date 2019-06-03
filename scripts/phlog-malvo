@@ -18,7 +18,7 @@ printf "<p><small><em>%s</em></small></p>" "$(date -d$2 -R)"
 htmlnew() {
 	{
 	printf "/tbody\na\n"
-	printf "<tr><td><a href=\"%s\">%s</a></td></tr>\n.\nw\n" "$1" "$2"
+	printf "<tr><td><a href=\"%s\">%s</a></td></tr>\n.\nw\nq\n" "$2" "$1" 
 	} | ssh $server ed -s $html_location/index.html
 }
 
@@ -33,14 +33,14 @@ atomnew() {
   cat "$3"
   printf "]]></content>\n"
   printf "\t\t<updated>%s</updated>\n" "$4"
-  printf "\t</entry>\n.\nw\n" 
+  printf "\t</entry>\n.\nw\nq\n" 
   } | ssh $server ed -s "$5"
 }
 
 gophernew() {
   { 
   printf "/MUSINGS\n+2\n"
-  printf "i\n[0|%s|%s|%s|70]\n.\nw\n" "$1" "$2" "$3" 
+  printf "i\n[0|%s|%s|%s|70]\n.\nw\nq\n" "$1" "$2" "$3" 
   } | ssh $server ed -s "$gopher_location/../index.gph"
 }
 
@@ -53,7 +53,7 @@ post() {
 	gophernew "$title" "/~lich/musings/$1" "$page"
 	atomnew "$title" "gopher://$server.org/0/~lich/musings/$1" "$1" "$date" "$gopher_location/../musings.atom.xml"
 	htmlnew "$title" "${1%md}html"
-	atomnew "$title" "https://dataswamp.org/~lich/musings/${1%md}html" "$date" "$html_location/musings.atom.xml"
+	atomnew "$title" "https://dataswamp.org/~lich/musings/${1%md}html" "${1%md}html" "$date" "$html_location/musings.atom.xml"
 	}
 
 atom_rev() {
@@ -66,7 +66,7 @@ atom_rev() {
 	printf "]]></content>\n.\n\n"
 	printf "d\n"
 	printf "i\n"
-	printf "\t\t<updated>%s</updated>\n.\nw\n" "$date"
+	printf "\t\t<updated>%s</updated>\n.\nw\nq\n" "$date"
 }
 
 revise() {

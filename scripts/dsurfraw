@@ -13,7 +13,6 @@ case "$(echo $url|cut -d " " -f1)" in
     sr) setbrowser surf_tor ;;
     Sr) setbrowser surf_tabs ;;
     Ic) setbrowser oiscat ;;
-    lc) setbrowser lelcat ;;
 esac
 
 if [ -n "$(grep "$url" "$MARKFILE")" ]
@@ -39,7 +38,7 @@ case $(echo $url| cut -d " " -f1) in
     gen)		libgen		-browser=$BROWSER $args ;;
     sp|S)		startpage	-browser=surf_tor $args ;;
     cr)			crossref	-browser=surf_tor $args ;;
-    *)			searx		-browser=$BROWSER $url ;;
+    *)			duckduckgo	-browser=$BROWSER $url ;;
 esac &
 sleep 0.1
 done
