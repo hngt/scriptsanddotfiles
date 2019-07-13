@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+# a tool to get translations of words from persus (http://www.perseus.tufts.edu)
+# TODO: 
+# -	deal with multiple tables and assign right values to right table
+import bs4
+import re
+import requests
+import sys
+import unicodedata
+
+lang_list = {
+	"-la" : "la",
+	"-greek" : "greek",
+	"-non" : "non",
+	"-ar" : "ar",
+	}
+	
+lang = "greek"
+
+def text_getter(lst):
+	return [re.sub(r'\n\s*\n', r'\n\n', word.get_text().strip(), flags=re.M) for word in lst]
+
+try:
+	query = sys.argv[1]
+except IndexError:
+	print("Usage: perseus [-la,-greek,-non,-ar] [query]")
+	exit()
+
+if query[0] == "-":
+	try:
+		lang = lang_list[query]
+		query = sys.argv[2]
+	except Exception:
+		print("pick a valid language and a query")
+
+url = "http://www.perseus.tufts.edu/hopper/morph?la={}&l={}".format(lang,query)
+data = requests.get(url)
+site_soup = bs4.BeautifulSoup(data.text, "html.parser")
+words = text_getter(site_soup.select("td.{}".format(lang)))
+if not words:
+	print("we failed")
+	exit()
+translations = text_getter(site_soup.select("span.lemma_definition"))
+attributes = text_getter(site_soup.select("div.analysis td")[1::3])
+complex_words = text_getter(site_soup.select("div.analysis td")[0::3])
+
+if len(attributes) != len(translations):
+	for word, attribute in zip (complex_words, attributes):
+		print (word, attribute)
+	print ("===")
+
+for word, translation, attribute in zip(words,translations,attributes):
+	print(word, "\t" ,translation, "\t" ,attribute)

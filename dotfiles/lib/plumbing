@@ -10,13 +10,13 @@ plumb to showmail
 # should deal with all videos etc
 type is text
 data matches '.*\.(mkv|mp4|avi|webm|ogg|ogv|gifv|gif|mp3|mp4|opus|flac|ape)'
-plumb start torsocks mpv --no-terminal $0
+plumb start mpv --no-terminal $0
 
 # youtube and similar services
 type is text
 data matches 'https?://(www\.)?(youtube\.|youtu\.be|vimeo\.com|twitter\.com/i/videos|bandcamp\.com|invidio\.us)[a-zA-Z0-9_@\-]*([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*'
 plumb to web
-plumb start torsocks mpv --no-terminal $0
+plumb start mpv --no-terminal $0
 
 type is text
 data matches 'https://doi.org/.*'

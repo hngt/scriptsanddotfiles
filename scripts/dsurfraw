@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 
 PATH=/usr/share/surfraw:${HOME}/.config/surfraw/elvi:${PATH}
 
@@ -6,11 +6,12 @@ BROWSER=glinks
 MARKFILE="$HOME/.bmarks"
 setbrowser() { BROWSER=$1; url=$(echo "$url" | cut -c 4-); }
 
-$HOME/bin/dmenu.sh -l 10 -p 'link:' <$MARKFILE | while read url; do
+sort|$HOME/bin/dmenu.sh -l 10 -p 'link:' <$MARKFILE | while read url; do
 [ ! "$url" ] && exit
 
 case "$(echo $url|cut -d " " -f1)" in
-    sr) setbrowser surf_tor ;;
+    sr) setbrowser surf_priv ;;
+    st) setbrowser surf_tor ;;
     Sr) setbrowser surf_tabs ;;
     Ic) setbrowser oiscat ;;
 esac
@@ -36,8 +37,9 @@ case $(echo $url| cut -d " " -f1) in
     ru)			rutracker	-browser=surf_tabs $args ;;
     aarg)		aaaaarg		-browser=surf_tabs $args ;;
     gen)		libgen		-browser=$BROWSER $args ;;
-    sp|S)		startpage	-browser=surf_tor $args ;;
-    cr)			crossref	-browser=surf_tor $args ;;
+    sp|S)		startpage	-browser=surf_priv $args ;;
+    cr)			crossref	-browser=surf_priv $args ;;
+    gr)			perseus		-browser=$BROWSER $args ;;
     *)			duckduckgo	-browser=$BROWSER $url ;;
 esac &
 sleep 0.1

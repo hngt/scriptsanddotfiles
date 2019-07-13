@@ -17,7 +17,7 @@ alias em='doas emerge --color n' \
 	vim='sam -d' \
 	vis='cat' \
 	yt='youtube-dl --add-metadata -ic' \
-	yta='yt -x -f bestaudio/best' \
+	yta='yt -x -f bestaudio/best --ignore-config --add-metada' \
 	x='sxiv -ft *'
 
 . $HOME/.ksh_completion

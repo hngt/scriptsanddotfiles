@@ -1,3 +1,4 @@
 #!/bin/sh
-# sfeed_update 2>/dev/null
+sfeed_update 2>/dev/null &&
+tscrape_update 2>/dev/null &&
 { sfeed_acme $HOME/.sfeed/feeds/* | 9 awk '/^N/{print;getline;print}'; tscrape_plain $HOME/.tscrape/feeds/* | grep '^N'; } | plumb -i -d edit -a 'action=showdata filename=/news/fresh/'$(date +'%H%M%S')
