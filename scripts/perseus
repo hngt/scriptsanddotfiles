@@ -1,21 +1,19 @@
 #!/usr/bin/env python3
 # a tool to get translations of words from persus (http://www.perseus.tufts.edu)
-# TODO: 
-# -	deal with multiple tables and assign right values to right table
 import bs4
 import re
-import requests
+import urllib.request
 import sys
-import unicodedata
 
 lang_list = {
-	"-la" : "la",
-	"-greek" : "greek",
-	"-non" : "non",
 	"-ar" : "ar",
-	}
+	"-greek" : "greek",
+	"-la" : "la",
+	"-non" : "non",
+}
 	
 lang = "greek"
+usage = "Usage: perseus [-ar,-greek,-la,-non] [query]"
 
 def text_getter(lst):
 	return [re.sub(r'\n\s*\n', r'\n\n', word.get_text().strip(), flags=re.M) for word in lst]
@@ -23,7 +21,7 @@ def text_getter(lst):
 try:
 	query = sys.argv[1]
 except IndexError:
-	print("Usage: perseus [-la,-greek,-non,-ar] [query]")
+	print(usage)
 	exit()
 
 if query[0] == "-":
@@ -31,23 +29,25 @@ if query[0] == "-":
 		lang = lang_list[query]
 		query = sys.argv[2]
 	except Exception:
-		print("pick a valid language and a query")
+		print(usage)
+		exit()
 
 url = "http://www.perseus.tufts.edu/hopper/morph?la={}&l={}".format(lang,query)
-data = requests.get(url)
-site_soup = bs4.BeautifulSoup(data.text, "html.parser")
-words = text_getter(site_soup.select("td.{}".format(lang)))
-if not words:
-	print("we failed")
-	exit()
-translations = text_getter(site_soup.select("span.lemma_definition"))
-attributes = text_getter(site_soup.select("div.analysis td")[1::3])
-complex_words = text_getter(site_soup.select("div.analysis td")[0::3])
+data = urllib.request.urlopen(url)
+site_soup = bs4.BeautifulSoup(data.read(), "html.parser")
+analyses = site_soup.select("div.analysis")
 
-if len(attributes) != len(translations):
-	for word, attribute in zip (complex_words, attributes):
-		print (word, attribute)
-	print ("===")
+if not analyses:
+		print("Word not found, or other minor error.")
+		exit()
 
-for word, translation, attribute in zip(words,translations,attributes):
-	print(word, "\t" ,translation, "\t" ,attribute)
+for analysis in analyses:
+	word = text_getter(analysis.select("h4.{}".format(lang)))[0]
+	translation = text_getter(analysis.select("span.lemma_definition"))[0]
+	attributes = text_getter(analysis.select("td"))[1::3]
+	complex_words = text_getter(analysis.select("td.{}".format(lang)))
+	print(word,"\t",translation)
+	for attribute, cword in zip(attributes,complex_words):
+		print(cword,"\t", attribute)
+	if analyses[-1] != analysis:
+		print("- - -")
