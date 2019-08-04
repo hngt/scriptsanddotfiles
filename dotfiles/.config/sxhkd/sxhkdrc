@@ -12,6 +12,8 @@ XF86Display
 	lxrandr
 XF86Audio{Next,Prev,Play}
 	mocp {--next,--previous,--toggle-pause & toggleallmpv}
+super + {Right,Left,Down}
+	mocp {--next,--previous,--toggle-pause & toggleallmpv}
 XF86MonBrightness{Up,Down}
 	xbacklight {-inc,-dec} 5
 {_,shift + ctrl +,shift +,ctrl +,super +,super + shift +} Print

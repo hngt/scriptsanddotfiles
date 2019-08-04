@@ -10,6 +10,7 @@ alias em='doas emerge --color n' \
 	mkpdf='libreoffice --headless --convert-to pdf' \
 	mpv="mpv --input-ipc-server=/tmp/mpvsoc$(date +%s)" \
 	no_blank='xset -dpms && xset s off' \
+	nvi='sam -d' \
 	rcs='doas /sbin/rc-service' \
 	svi='doas sam -d' \
 	trem='transmission-remote' \
@@ -17,7 +18,7 @@ alias em='doas emerge --color n' \
 	vim='sam -d' \
 	vis='cat' \
 	yt='youtube-dl --add-metadata -ic' \
-	yta='yt -x -f bestaudio/best --ignore-config --add-metada' \
+	yta='yt -x -f bestaudio/best --ignore-config --add-metadata' \
 	x='sxiv -ft *'
 
 . $HOME/.ksh_completion

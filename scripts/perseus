@@ -2,7 +2,7 @@
 # a tool to get translations of words from persus (http://www.perseus.tufts.edu)
 import bs4
 import re
-import urllib.request
+import requests
 import sys
 
 lang_list = {
@@ -33,8 +33,8 @@ if query[0] == "-":
 		exit()
 
 url = "http://www.perseus.tufts.edu/hopper/morph?la={}&l={}".format(lang,query)
-data = urllib.request.urlopen(url)
-site_soup = bs4.BeautifulSoup(data.read(), "html.parser")
+data = requests.get(url)
+site_soup = bs4.BeautifulSoup(data.text, "html.parser")
 analyses = site_soup.select("div.analysis")
 
 if not analyses:

@@ -33,7 +33,7 @@ plumb to web
 plumb start dash -c 'links="$(albumrip '$0')"; for link in $links; do mkdir -p /tmp/imgur/; tmp=$(mktemp /tmp/imgur/XXXX); curl -s $link > $tmp && echo $tmp; done| sxiv -i && rm /tmp/imgur/*'
 
 type is text
-data matches '(gopher|https?)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*\.(jpe?g|JPE?G|gif|GIF|tiff?|TIFF?|ppm|bit|png|PNG)'
+data matches '(gopher|https?)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*\.(jpe?g|JPE?G|gif|GIF|tiff?|TIFF?|ppm|bit|png|PNG)(\?[a-zA-Z0-9_@\-&]*)?'
 plumb start dash -c 'tmp=$(mktemp); curl -x socks5h://localhost:9050 -H 'User-Agent:' -sL '$0' > $tmp ;sxiv $tmp; rm $tmp' 
 
 # magnet links

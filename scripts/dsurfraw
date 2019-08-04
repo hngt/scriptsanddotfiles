@@ -13,7 +13,6 @@ case "$(echo $url|cut -d " " -f1)" in
     sr) setbrowser surf_priv ;;
     st) setbrowser surf_tor ;;
     Sr) setbrowser surf_tabs ;;
-    Ic) setbrowser oiscat ;;
 esac
 
 if [ -n "$(grep "$url" "$MARKFILE")" ]

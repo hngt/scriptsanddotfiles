@@ -1,2 +1,2 @@
 #!/bin/sh
-~/.local/palemoon/palemoon -P default $1 & 
+~/.local/icecat/icecat -P daily $1 & 
