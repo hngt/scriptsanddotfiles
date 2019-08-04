@@ -57,7 +57,7 @@ func main() {
 	dotfile_dir := dir + "/dotfiles"
 	home_dir := os.Getenv("HOME")
 	script_dir := dir + "/scripts"
-	script_loc := home_dir + "/bin/"
+	script_loc := home_dir + "/bin"
 
 	script_files, script_paths := walker(script_dir)
 	dotfile_files, dotfile_dirs := dotfile_gen(dotfile_dir)

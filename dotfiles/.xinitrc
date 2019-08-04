@@ -1,3 +1,4 @@
+#!/bin/sh
 compton -b &
 hsetroot  -tile $HOME/pictures/wallpapers/tiling/tile1.jpg &
 xbanish &
@@ -11,4 +12,4 @@ startplumb &
 while true; do
 slstatus
 done &
-dwm
+exec dwm
