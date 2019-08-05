@@ -58,6 +58,11 @@ func main() {
 	home_dir := os.Getenv("HOME")
 	script_dir := dir + "/scripts"
 	script_loc := home_dir + "/bin"
+	
+	err := os.Mkdir(script_loc, 0700)
+		if err != nil {
+			fmt.Printf("Error: %s\n", err)
+		}
 
 	script_files, script_paths := walker(script_dir)
 	dotfile_files, dotfile_dirs := dotfile_gen(dotfile_dir)
