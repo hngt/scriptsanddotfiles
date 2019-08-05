@@ -68,8 +68,8 @@ func main() {
 	dotfile_files, dotfile_dirs := dotfile_gen(dotfile_dir)
 
 	for i := range script_paths {
-		fmt.Printf("%s -> %s\n", script_paths[i], script_loc+script_files[i])
-		err := os.Symlink(script_paths[i], script_loc+script_files[i])
+		fmt.Printf("%s -> %s\n", script_paths[i], script_loc+"/"+script_files[i])
+		err := os.Symlink(script_paths[i], script_loc+"/"+script_files[i])
 		if err != nil {
 			fmt.Printf("Error: %s\n", err)
 		}
