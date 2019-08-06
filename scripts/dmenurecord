@@ -33,7 +33,7 @@ video() {
 	}
 
 webcamhidef() {
-`	ffmpeg \
+	ffmpeg \
 	-f v4l2 \
 	-i /dev/video0 \
 	-video_size 1920x1080 \
@@ -41,8 +41,8 @@ webcamhidef() {
 	echo $! > /tmp/recordingpid
 	}
 
-webcam() { 
-	ffmpeg \ 
+webcam() {
+	ffmpeg \
 	-f v4l2 \
 	-i /dev/video0 \
 	-video_size 640x480 \
@@ -71,7 +71,7 @@ askrecording() {
 	esac
 	}
 
-asktoend() { 
+asktoend() {
 	response=$(printf "No\\nYes" | dmenu -i -p "Recording still active. End recording?") &&
 	[ "$response" = "Yes" ] &&  killrecording
 	}
@@ -82,5 +82,5 @@ case "$1" in
 	audio) audio;;
 	video) video;;
 	kill) killrecording;;
-	*) [ -f /tmp/recordingpid ] && asktoend && exit;;
+	*) [ -f /tmp/recordingpid ] && asktoend && exit || askrecording;;
 esac

@@ -1,6 +1,6 @@
 #!/bin/sh
 compton -b &
-hsetroot  -tile $HOME/pictures/wallpapers/tiling/tile1.jpg &
+hsetroot  -tile $HOME/pictures/wallpapers/tiling/tile2.png &
 xbanish &
 xset s off &
 xset -dpms &

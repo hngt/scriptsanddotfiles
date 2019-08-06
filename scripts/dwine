@@ -1,0 +1,13 @@
+#!/bin/sh
+prefix_list='/home/lich/.wineprefixes'
+chosen_prefix="$(grep $(cat $prefix_list | cut -f1 | dmenu -p 'pick wineprefix:' || exit) $prefix_list)" 
+binaries="$(cat $prefix_list | cut -f4- | tr '\t' '\n')"
+binary_short="$(printf "$binaries\n" | sed 's,.*/,,;s/\..*//' | dmenu -l 10 -p 'pick binary')"
+[ -z "$binary_short" ] && exit
+binary_sel="$(printf "$binaries" | grep "$binary_short")"
+export WINEARCH="$(printf "$chosen_prefix" | cut -f2)"
+export WINEPREFIX="$(printf "$chosen_prefix" | cut -f3)"
+fullpath="$WINEPREFIX$binary_sel"
+cd "${fullpath%/*}"
+wine start "${fullpath##*/}"
+
