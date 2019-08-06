@@ -1,4 +1,5 @@
 #!/bin/sh
+# launches dmenu with query to record
 
 killrecording() {
 	recpid="$(cat /tmp/recordingpid)"

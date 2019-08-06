@@ -1,4 +1,5 @@
 #!/usr/bin/awk -f
+# moves text so it is in the middle column of standard output
 {
   z = 72 - length
   y = int(z / 2)

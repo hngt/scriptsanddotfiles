@@ -1,4 +1,7 @@
 #!/bin/sh
+# runs browser with surfraw url through dmenu so one can choose
+# can have multiple prefixes for choice of browser or surfraw
+# function
 
 PATH=/usr/share/surfraw:${HOME}/.config/surfraw/elvi:${PATH}
 

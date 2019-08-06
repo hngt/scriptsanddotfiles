@@ -1,2 +1,3 @@
 #!/bin/sh
+# adds bookmark with url to a textfile
 { xsel -b; printf '\n' ;xsel -p; } | dmenu >> /home/lich/.bmarks
