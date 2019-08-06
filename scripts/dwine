@@ -5,18 +5,18 @@
 
 WINEDEBUG='-all'
 wine_binary='wine'
-prefix_list='/home/lich/.wineprefixes'
+prefix_list="$HOME/.wineprefixes"
 
-chosen_prefix="$(grep $(cat $prefix_list | cut -f1 | dmenu -p 'pick wineprefix:' || exit) $prefix_list)" 
-binaries="$(cat $prefix_list | cut -f4- | tr '\t' '\n')"
+chosen_prefix="$(egrep "^$(cat $prefix_list | cut -f1 | dmenu -p 'pick wineprefix:' || exit)" $prefix_list)"
+WINEPREFIX="$(printf "$chosen_prefix" | cut -f3)"
+binaries="$(printf "$chosen_prefix\n" | cut -f4- | tr '\t' '\n')"
 binary_short="$(printf "$binaries\n" | sed 's,.*/,,;s/\..*//' | dmenu -l 10 -p 'pick binary')"
 [ -z "$binary_short" ] && exit
 
 binary_sel="$(printf "$binaries" | grep "$binary_short")"
 WINEARCH="$(printf "$chosen_prefix" | cut -f2)"
-WINEPREFIX="$(printf "$chosen_prefix" | cut -f3)"
 export WINEARCH WINEPREFIX WINEDEBUG
-fullpath="$WINEPREFIX$binary_sel"
+fullpath="$WINEPREFIX/$binary_sel"
 cd "${fullpath%/*}"
 $wine_binary start "${fullpath##*/}"
 

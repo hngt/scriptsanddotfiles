@@ -1,0 +1,38 @@
+#!/bin/sh
+# a generator for dwine entries
+# TODO: add delete function
+WINEDEBUG="-all"
+prefix_list="$HOME/.wineprefixes"
+
+export WINEDEBUG
+new() {
+	[ -z $1 ] && echo "Please insert the location of new wineprefix - dwinegenerator -n <location>" && exit
+	echo "How do you want to name the wineprefix?"
+	read name
+	[ -z $name ] && name="$(dirname $1)"
+	echo "What arch do you want it to be? (win32)"
+	read arch
+	[ -z $arch ] && arch=win32
+	printf "\n%s\t%s\t%s\t" "$name" "$arch" "$1" >> $prefix_list
+	printf "Done.\nNow run these commands and run the binaries you want to have and then run dwinegenerator -e %s\nexport WINEPREFIX=%s\nexport WINEARCH=%s\nwinecfg\n" "$name" "$1" "$arch"
+}
+
+existing() {
+	[ -z $1 ] && echo "Please insert the name of new wineprefix - dwinegenerator -e <name>" && exit
+	chosen_prefix="$(cat $prefix_list | grep $1)"
+#	[ -z $chosen_prefix ] && echo "prefix not found" && exit
+	cd "$(printf "$chosen_prefix\n" | cut -f3)"
+	echo "Please add the files you wish."
+	echo "If you wish to stop just press Ctrl+c."
+	file_list="$(find $(printf "$chosen_prefix\n" | cut -f3) -path ./windows -prune -o -name '*.lnk' -printf "%P\n")"
+	chosen_file="$(printf "$file_list\n" | fzy)"
+	echo "$chosen_file"
+	[ -z $? ] && exit
+	sed -i "/$1/s@\$@$chosen_file\t@" $prefix_list"	
+}
+
+case "$1" in
+	-n) new "$2" ;;
+	-e) existing "$2" ;;
+	*) exit ;;
+esac
