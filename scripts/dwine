@@ -15,7 +15,7 @@ binary_short="$(printf "$binaries\n" | sed 's,.*/,,;s/\..*//' | dmenu -l 10 -p '
 binary_sel="$(printf "$binaries" | grep "$binary_short")"
 WINEARCH="$(printf "$chosen_prefix" | cut -f2)"
 WINEPREFIX="$(printf "$chosen_prefix" | cut -f3)"
-export WINEARCH WINEPREFIX WINDEBUG
+export WINEARCH WINEPREFIX WINEDEBUG
 fullpath="$WINEPREFIX$binary_sel"
 cd "${fullpath%/*}"
 $wine_binary start "${fullpath##*/}"
