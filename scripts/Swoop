@@ -1,0 +1,18 @@
+#!/bin/sh
+swoopfile="/tmp/swoopy$(basename $samfile)"
+touch $swoopfile
+newwin=$(cat $swoopfile 2>/dev/null)
+if 9p read acme/$newwin/addr > /dev/null 2>&1; then
+newwin=$(cat $swoopfile)
+else
+newwin=$(9p read acme/new/ctl | awk '{print $1}')
+fi
+printf "$newwin\n" > $swoopfile
+printf "name $(dirname $samfile)/+Swoopy" | 9p write acme/$newwin/ctl
+printf nomark | 9p write acme/$newwin/ctl
+printf , | 9p write acme/$newwin/addr
+9p read acme/$winid/body | nl -ba |  sed -n "/$1/s@^ *@$(basename $samfile):@p" | 9p write acme/$newwin/data
+printf 1 | 9p write acme/$newwin/addr
+printf dot=addr | 9p write acme/$newwin/ctl
+printf show | 9p write acme/$newwin/ctl
+printf clean | 9p write acme/$newwin/ctl
