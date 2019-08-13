@@ -1,0 +1,60 @@
+# don't preserve case with search-and-replace.
+set-case-replace 0
+# don't use case-fold regex searches.
+set-case-fold-search 0
+
+global-set-key "\^[[1;5D" backward-word
+global-set-key "\^[[1;5C" forward-word
+
+global-set-key "\^t" call-last-kbd-macro
+
+#global-set-key ")" self-insert-command
+global-set-key "\^w" backward-kill-word
+global-set-key "\^r" replace-string
+global-set-key "\^g" goto-line
+global-set-key "\^q" save-buffers-kill-emacs
+global-set-key "\^z" undo
+global-set-key "\^s" save-buffer
+global-set-key "\^h" delete-backward-char
+global-set-key "\^f" re-search-forward
+global-set-key "\^n" re-search-again
+global-set-key "\e[Z" backward-char
+# shift-del: delete line.
+#global-set-key "\^[[3;2~" kill-line
+#global-set-key "\^[[3~" kill-line
+
+# ctrl-del: cut region.
+global-set-key "\^[[3;5~" kill-region
+global-set-key "\^DEL" kill-region
+
+global-set-key "\^c" copy-region-as-kill
+global-set-key "\^v" yank
+
+# c-up/c-down is move paragraph.
+global-set-key "\^[[1;5A" backward-paragraph
+global-set-key "\^[[1;5B" forward-paragraph
+
+# home / end.
+global-set-key "\^[[1~" beginning-of-line
+global-set-key "\^[[4~" end-of-line
+
+# shift-home/end.
+global-set-key "\^[[1;2H" beginning-of-line
+global-set-key "\^[[1;2F" end-of-line
+
+# shift-TAB
+global-set-key "\^[[Z" prefix-region
+
+global-set-key "\^P" fill-paragraph
+#global-set-key "\^[p" fill-paragraph
+
+set-fill-column 79
+column-number-mode 1
+make-backup-files 0
+set-prefix-string "	"
+
+#set-default-mode fill
+auto-execute *.c auto-indent-mode
+auto-execute *.h auto-indent-mode
+
+#global-set-key "\^[|" filter-region

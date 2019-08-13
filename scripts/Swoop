@@ -8,7 +8,7 @@ else
 newwin=$(9p read acme/new/ctl | awk '{print $1}')
 fi
 printf "$newwin\n" > $swoopfile
-printf "name $(dirname $samfile)/+Swoopy" | 9p write acme/$newwin/ctl
+printf "name $(dirname $samfile)/+Swoopy\n" | 9p write acme/$newwin/ctl
 printf nomark | 9p write acme/$newwin/ctl
 printf , | 9p write acme/$newwin/addr
 9p read acme/$winid/body | nl -ba |  sed -n "/$1/s@^ *@$(basename $samfile):@p" | 9p write acme/$newwin/data

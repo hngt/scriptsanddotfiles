@@ -13,6 +13,7 @@ alias em='doas emerge --color n' \
 	nvi='sam -d' \
 	rcs='doas /sbin/rc-service' \
 	svi='doas sam -d' \
+	symail='torsocks mbsync -a' \
 	trem='transmission-remote' \
 	vi='sam -d' \
 	vim='sam -d' \

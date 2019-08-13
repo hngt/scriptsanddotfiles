@@ -13,7 +13,8 @@ sort|$HOME/bin/dmenu.sh -l 10 -p 'link:' <$MARKFILE | while read url; do
 [ ! "$url" ] && exit
 
 case "$(echo $url|cut -d " " -f1)" in
-    sr) setbrowser surf_priv ;;
+    SR) setbrowser surf_priv ;;
+    Ic) setbrowser oiscat ;;
     st) setbrowser surf_tor ;;
     Sr) setbrowser surf_tabs ;;
 esac
@@ -39,8 +40,8 @@ case $(echo $url| cut -d " " -f1) in
     ru)			rutracker	-browser=surf_tabs $args ;;
     aarg)		aaaaarg		-browser=surf_tabs $args ;;
     gen)		libgen		-browser=$BROWSER $args ;;
-    sp|S)		startpage	-browser=surf_priv $args ;;
-    cr)			crossref	-browser=surf_priv $args ;;
+    sp|S)		startpage	-browser=surf_tor $args ;;
+    cr)			crossref	-browser=surf_tor $args ;;
     gr)			perseus		-browser=$BROWSER $args ;;
     *)			duckduckgo	-browser=$BROWSER $url ;;
 esac &

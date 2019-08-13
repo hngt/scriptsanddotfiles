@@ -1,2 +1,2 @@
 #!/bin/sh
-~/.local/icecat/icecat -P daily $1 & 
+apulse ~/.local/icecat/icecat -P daily $1 & 
