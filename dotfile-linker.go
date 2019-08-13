@@ -1,4 +1,4 @@
-/* links.go
+/* dotfile-linker.go
 a simple linker which links up dotfiles will create symlinks of files in
 scripts/ directory to $HOME/bin and will create directories and symlinks
 from dotfiles/ directory to $HOME */
