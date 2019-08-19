@@ -79,7 +79,7 @@ plumb start sxiv $file
 # the port is here for reference but is unused
 type is text
 data matches '.*'
-data matches '(.*)\.(EPUB|epub|ps|PS|eps|EPS|pdf|PDF|dvi|DVI)'
+data matches '(.*)\.(EPUB|epub|ps|PS|eps|EPS|pdf|PDF|dvi|DVI|djvu|DJVU)'
 arg isfile	$0
 plumb start zathura $file
 

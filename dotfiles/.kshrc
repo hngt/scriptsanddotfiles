@@ -35,5 +35,5 @@ case "$TERM" in
            xterm*) TERM=xterm-256color;
        esac
 
-[[ $(tty) = "/dev/tty1" ]] && exec startx
+#[[ $(tty) = "/dev/tty1" ]] && exec startx
 clear

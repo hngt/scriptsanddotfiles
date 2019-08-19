@@ -12,4 +12,6 @@ startplumb &
 while true; do
 slstatus
 done &
+a &
+st &
 exec dwm
