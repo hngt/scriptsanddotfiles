@@ -3,7 +3,7 @@ XF86Audio{Raise,Lower}Volume
 XF86AudioMute
 	amixer set Master toggle
 XF86Launch1
-	stfloat nnn
+	stfloat nnn -i
 XF86ScreenSaver
 	slock
 XF86Sleep

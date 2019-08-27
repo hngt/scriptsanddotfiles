@@ -14,6 +14,7 @@ alias em='doas emerge --color n' \
 	rcs='doas /sbin/rc-service' \
 	svi='doas sam -d' \
 	symail='torsocks mbsync -a' \
+	sy='sfeed_update && tscrape_update && torsocks mbsync -a' \
 	trem='transmission-remote' \
 	vi='sam -d' \
 	vim='sam -d' \
@@ -28,12 +29,10 @@ alias em='doas emerge --color n' \
 set -o emacs
 bind -m '^L'='^U'clear'^J''^Y'
 
-mkwebm()ffmpeg -i "$1" -c:v libvpx -b:v "$3" -c:a libvorbis "$2";
+mkwebm() { ffmpeg -i "$1" -c:v libvpx -b:v "$3" -c:a libvorbis "$2"; }
+file0() { curl -sL -F files[]=@"$1" https://file0.s3kr.it/upload | sed -n 's@.*https*://file0.s3kr.it/@https://file0.s3kr.it/@;s@'\'')">@@p'; }
 shdl() { curl -O $(curl -s http://sci-hub.tw/"$@" | sed -nE 's/.*location.href.*(http.*.pdf)\?.*/\1/p') ;}
 
 case "$TERM" in
            xterm*) TERM=xterm-256color;
        esac
-
-#[[ $(tty) = "/dev/tty1" ]] && exec startx
-clear

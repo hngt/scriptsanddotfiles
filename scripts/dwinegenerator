@@ -28,7 +28,7 @@ existing() {
 	chosen_file="$(printf "$file_list\n" | fzy)"
 	echo "$chosen_file"
 	[ -z $? ] && exit
-	sed -i "/$1/s@\$@$chosen_file\t@" $prefix_list"	
+	sed -i "/$1/s@\$@$chosen_file\t@" "$prefix_list"	
 }
 
 case "$1" in
