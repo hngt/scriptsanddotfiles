@@ -15,5 +15,5 @@ do
 		xdotool key super+2
 		exit
 	fi
-done
+done &
 

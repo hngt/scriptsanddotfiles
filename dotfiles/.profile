@@ -1,3 +1,4 @@
+trap '' INT
 BROWSER=glinks
 EDITOR=mg
 ENV=$HOME/.kshrc
@@ -24,4 +25,6 @@ VISUAL=E
 
 export BROWSER EDITOR ENV font GOBIN GOPATH GPG_TTY GS_FONTPATH HISTFILE HISTSIZE LANG LC_ALL NNN_BMS NNN_OPENER PAGER PATH PLAN9 PLUMBER PS1 READER REFER WINEDEBUG XDG_CONFIG_HOME VISUAL
 
-[[ $(tty) = "/dev/tty1" ]] && startx
+touch /tmp/.wttr /tmp/.nowplaying
+
+[[ $(tty) = "/dev/tty1" ]] && fortune $HOME/q && sleep 60 && exec startx

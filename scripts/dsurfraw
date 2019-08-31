@@ -32,6 +32,7 @@ case $(echo $url| cut -d " " -f1) in
     ddg|D)		duckduckgo	-browser=$BROWSER $args ;;
     aw|awiki)		archwiki	-browser=$BROWSER $args ;;
     wi|wiki)		wikipedia	-browser=$BROWSER $args ;;
+    wq|wikiq)		wikiquote	-browser=$BROWSER $args ;;
     imdb)		imdb		-browser=$BROWSER $args ;;
     map)		google -m	-browser=surf_tor $args ;;
 #    yt|youtube) 	sputube		-browser=$BROWSER $args ;;
@@ -43,6 +44,7 @@ case $(echo $url| cut -d " " -f1) in
     sp|S)		startpage	-browser=surf_tor $args ;;
     cr)			crossref	-browser=surf_tor $args ;;
     gr)			perseus		-browser=$BROWSER $args ;;
+    sw)			swisscows	-browser=surf_tor $args ;;
     *)			duckduckgo	-browser=$BROWSER $url ;;
 esac &
 sleep 0.1

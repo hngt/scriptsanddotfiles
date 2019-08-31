@@ -1,0 +1,58 @@
+#!/bin/sh
+# elvis: wikiquote	-- Search the free encycloquote wikiquote
+# $Id$
+# Author: Moritz Muehlenhoff <jmm@informatik.uni-bremen.de>
+. surfraw || exit 1
+
+w3_config_hook () {
+def   SURFRAW_wikiquote_language	"$SURFRAW_lang"
+defyn SURFRAW_wikiquote_deletionquote   no
+def   SURFRAW_wikiquote_fallback        wikiquote
+}
+
+w3_usage_hook () {
+    cat <<EOF
+Usage: $w3_argv0 [options] [search-string]
+Description:
+  Search the Wikiquote online encycloquote
+Local options:
+  -language=ISOCODE | -l=ISOCODE  Two letter language code (resembles ISO country codes)
+				  Default: en
+				  Environment: SURFRAW_wikiquote_language, SURFRAW_lang
+
+Examples:
+  $w3_argv0 -language=de Richard Stallman
+EOF
+    w3_global_usage
+}
+
+w3_parse_option_hook () {
+    opt="$1"
+    optarg="$2"
+    case "$opt" in
+	-language=*)    setopt  SURFRAW_wikiquote_language  $optarg	;;
+   	-l=*)           setopt  SURFRAW_wikiquote_language  $optarg	;;
+	*) return 1 ;;
+    esac
+    return 0
+}
+
+w3_config
+# disable requoting, doesn't work with this elvi.
+SURFRAW_quote_ifs=0
+w3_parse_args "$@"
+
+if [ -z "$SURFRAW_wikiquote_language" ]; then
+    SURFRAW_wikiquote_language="en"
+fi
+
+prefix="https://${SURFRAW_wikiquote_language}.wikiquote.org/wiki/index.php?search="
+suffix="&go=Go"
+
+if null "$w3_args"; then
+	w3_browse_url "https://${SURFRAW_wikiquote_language}.wikiquote.org/wiki/Main_Page"
+else
+    escaped_args=`w3_url_of_arg $w3_args`
+    w3_browse_url "${prefix}${escaped_args}"
+fi
+
