@@ -14,4 +14,5 @@ slstatus
 done &
 a &
 st &
-exec dwm
+toggletouchpad &
+exec ck-launch-session dbus-launch --sh-syntax --exit-with-session dwm

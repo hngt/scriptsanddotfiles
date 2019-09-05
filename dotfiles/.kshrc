@@ -3,25 +3,28 @@ alias em='doas emerge --color n' \
 	e='$EDITOR' \
 	eix='eix -n' \
 	g='git' \
+	i='irssi' \
 	ll='ls -Flrt' \
 	ls='ls -F' \
+	m='mutt' \
 	mkd='mkdir -pv' \
 	mkopus='SAVEIFS=$IFS;IFS=$'\n';for i in *flac; do ffmpeg -i $i -acodec libopus -b:a 160k ${i%flac}opus;done;IFS=$SAVEIFS' \
 	mkpdf='libreoffice --headless --convert-to pdf' \
-	mpv="mpv --input-ipc-server=/tmp/mpvsoc$(date +%s)" \
 	no_blank='xset -dpms && xset s off' \
 	nvi='sam -d' \
+	p='zathura' \
 	rcs='doas /sbin/rc-service' \
 	svi='doas sam -d' \
-	symail='torsocks mbsync -a' \
-	sy='sfeed_update && tscrape_update && torsocks mbsync -a' \
+	s='sfeed_update && tscrape_update && torsocks mbsync -a' \
 	trem='transmission-remote' \
+	v="mpv" \
 	vi='sam -d' \
 	vim='sam -d' \
 	vis='cat' \
 	yt='youtube-dl --add-metadata -ic' \
 	yta='yt -x -f bestaudio/best --ignore-config --add-metadata' \
-	x='sxiv -ft *'
+	x='sxiv -ft *' \
+	xvga='xrandr --output VGA-1 --primary'
 
 . $HOME/.ksh_completion
 . $HOME/.private-commands

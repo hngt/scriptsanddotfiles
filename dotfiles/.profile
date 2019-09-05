@@ -27,4 +27,5 @@ export BROWSER EDITOR ENV font GOBIN GOPATH GPG_TTY GS_FONTPATH HISTFILE HISTSIZ
 
 touch /tmp/.wttr /tmp/.nowplaying
 
-[[ $(tty) = "/dev/tty1" ]] && fortune $HOME/q && sleep 60 && exec startx
+[[ DISPLAY != ":0" ]] && [[ $(tty) = "/dev/tty1" ]] && fortune $HOME/q && sleep 120 && trap - INT && exec startx
+trap - INT
