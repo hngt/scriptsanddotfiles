@@ -1,0 +1,1 @@
+/home/lich/git/scriptsanddotfiles/dotfiles/.mgrc

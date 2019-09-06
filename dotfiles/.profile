@@ -1,4 +1,3 @@
-trap '' INT
 BROWSER=glinks
 EDITOR=mg
 ENV=$HOME/.kshrc
@@ -27,5 +26,10 @@ export BROWSER EDITOR ENV font GOBIN GOPATH GPG_TTY GS_FONTPATH HISTFILE HISTSIZ
 
 touch /tmp/.wttr /tmp/.nowplaying
 
-[[ DISPLAY != ":0" ]] && [[ $(tty) = "/dev/tty1" ]] && fortune $HOME/q && sleep 120 && trap - INT && exec startx
-trap - INT
+if ! { ps -e | grep X > /dev/null; } && [  "$(tty)" = "/dev/tty1" ] ; then
+	trap '' INT
+	fortune $HOME/q
+	sleep 120
+	trap - INT
+	exec startx
+fi

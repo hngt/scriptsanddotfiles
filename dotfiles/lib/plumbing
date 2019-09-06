@@ -9,7 +9,7 @@ plumb to showmail
 
 # should deal with all videos etc
 type is text
-data matches '.*\.(mkv|mp4|avi|webm|ogg|ogv|gifv|gif|mp3|mp4|opus|flac|ape)'
+data matches '.*\.(mkv|mp4|avi|webm|ogg|ogv|gifv|mp3|mp4|opus|flac|ape)'
 plumb start torsocks mpv --no-terminal $0
 
 # youtube and similar services
@@ -85,10 +85,8 @@ plumb start sxiv $file
 # postscript/pdf/dvi/epub go to zathura but not over the a plumb port
 # the port is here for reference but is unused
 type is text
-data matches '.*'
-data matches '(.*)\.(EPUB|epub|ps|PS|eps|EPS|pdf|PDF|dvi|DVI|djvu|DJVU)'
-arg isfile	$0
-plumb start zathura $file
+data matches '.*\.(EPUB|epub|ps|PS|eps|EPS|pdf|PDF|dvi|DVI|djvu|DJVU)'
+plumb start zathura $0
 
 # existing files tagged by line number:columnumber or linenumber.columnumber, twice, go to editor
 type is text
