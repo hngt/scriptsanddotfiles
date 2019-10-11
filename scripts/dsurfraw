@@ -6,6 +6,7 @@
 PATH=/usr/share/surfraw:${HOME}/.config/surfraw/elvi:${PATH}
 
 BROWSER=glinks
+xdotool search --onlyvisible --class Links   windowraise windowfocus
 MARKFILE="$HOME/.bmarks"
 setbrowser() { BROWSER=$1; url=$(echo "$url" | cut -c 4-); }
 

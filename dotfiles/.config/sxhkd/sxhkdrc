@@ -18,11 +18,31 @@ XF86MonBrightness{Up,Down}
 	xbacklight {-inc,-dec} 5
 {_,shift + ctrl +,shift +,ctrl +,super +,super + shift +} Print
 	screenshot { ,-s -u,-s,-u,-w,-w -u}
-super + s
-	dsurfraw
-F13
-	plumb `xsel -p`
 super + a
 	torsocks mpv `xsel -p`
 super + x
 	passmenu
+F9
+	xdotool search --onlyvisible --class  st   windowraise windowfocus
+shift + F9
+	st
+F8 
+	dsurfraw
+F10
+	xdotool search --onlyvisible acme windowraise windowfocus
+F11
+	sleep 0.1s && xdotool key --delay 50 ctrl+w
+F12; n
+	sleep 0.1s && xdotool key --delay 50 ctrl+Tab
+F12; p
+	sleep 0.1s && xdotool key --delay 50 ctrl+shift+Tab
+F12; w
+	sleep 0.1s && xdotool key --delay 50 ctrl+w
+F12; r
+	sleep 0.1s && xdotool key --delay 50 ctrl+r
+F12; c
+	sleep 0.1s && xdotool key --delay 50 ctrl+c
+F12; f
+	sleep 0.1s && xdotool key --delay 50 ctrl+f
+F13
+	plumb `xsel -p`

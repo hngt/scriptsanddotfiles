@@ -1,5 +1,5 @@
 BROWSER=glinks
-EDITOR=mg
+EDITOR=E
 ENV=$HOME/.kshrc
 font='/mnt/font/Go Mono/11a/font'
 GOPATH=$HOME/go
@@ -20,7 +20,7 @@ REFER=$HOME/.bibliography
 WINEDEBUG='-all'
 GPG_TTY=$(tty)
 XDG_CONFIG_HOME="$HOME/.config/"
-VISUAL=E
+VISUAL=vis
 
 export BROWSER EDITOR ENV font GOBIN GOPATH GPG_TTY GS_FONTPATH HISTFILE HISTSIZE LANG LC_ALL NNN_BMS NNN_OPENER PAGER PATH PLAN9 PLUMBER PS1 READER REFER WINEDEBUG XDG_CONFIG_HOME VISUAL
 
@@ -29,7 +29,7 @@ touch /tmp/.wttr /tmp/.nowplaying
 if ! { ps -e | grep X > /dev/null; } && [  "$(tty)" = "/dev/tty1" ] ; then
 	trap '' INT
 	fortune $HOME/q
-	sleep 120
+	sleep 5
 	trap - INT
-	exec startx
+	exec startxfce4
 fi
