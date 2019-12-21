@@ -6,8 +6,6 @@ xset -dpms &
 sleep 0.1 &&
 sxhkd -r /dev/null &
 startplumb &
-setroot &
-a &
-st &
+xmodmap ~/.Xmodmap &
 toggletouchpad &
-workrave &
+bspwm

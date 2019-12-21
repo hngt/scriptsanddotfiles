@@ -4,8 +4,9 @@ alias em='doas emerge --color n' \
 	eix='eix -n' \
 	g='git' \
 	i='irssi' \
-	ll='ls -Flrt' \
-	ls='ls -F' \
+	ll='ls -Flrt --color=auto' \
+	ls='ls -F --color=auto' \
+	tv='mpv --audio-device="alsa/hdmi:CARD=PCH,DEV=0"' \
 	m='mutt' \
 	mkd='mkdir -pv' \
 	mkopus='SAVEIFS=$IFS;IFS=$'\n';for i in *flac; do ffmpeg -i $i -acodec libopus -b:a 160k ${i%flac}opus;done;IFS=$SAVEIFS' \
@@ -36,10 +37,12 @@ alias em='doas emerge --color n' \
 set -o emacs
 bind -m '^L'='^U'clear'^J''^Y'
 
+alarm() { sleep $1 && printf "$2\a\n"; }
 mkwebm() { ffmpeg -i "$1" -c:v libvpx -b:v "$3" -c:a libvorbis "$2"; }
 file0() { curl -sL -F files[]=@"$1" https://file0.s3kr.it/upload | sed -n 's@.*https*://file0.s3kr.it/@https://file0.s3kr.it/@;s@'\'')">@@p'; }
 shdl() { curl -O $(curl -s http://sci-hub.tw/"$@" | sed -nE 's/.*location.href.*(http.*.pdf)\?.*/\1/p') ;}
 
 case "$TERM" in
-           xterm*) TERM=xterm-256color;
+           xterm*) TERM=xterm-256color ;;
+           rxvt*) printf '\033[5 q\r' ;;
        esac

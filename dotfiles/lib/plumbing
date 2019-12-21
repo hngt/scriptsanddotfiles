@@ -86,7 +86,9 @@ plumb start sxiv $file
 # the port is here for reference but is unused
 type is text
 data matches '.*\.(EPUB|epub|ps|PS|eps|EPS|pdf|PDF|dvi|DVI|djvu|DJVU)'
-plumb start zathura $0
+arg isfile $0
+plumb to pager
+plumb start zathura $file
 
 # existing files tagged by line number:columnumber or linenumber.columnumber, twice, go to editor
 type is text

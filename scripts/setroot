@@ -1,6 +1,5 @@
 #!/bin/dash
 
-#while true; do
 SOUND="$(amixer get Master | grep -Eo '[0-9]{1,3}%')"
 LOAD="$(awk '{print $1" "$2" "$3}' /proc/loadavg)"
 ACPI="$(acpi | awk -vFS=', ' '/Discharging/{stat="-"} /Charging/{stat="+"} {print stat$2}' )"
@@ -11,15 +10,15 @@ MOC="$(awk '{print substr($0,1,50)}' /tmp/.nowplaying)"
 EMAILS=""
 # check if there are unread emails
 UMSG="$(ls -1 $HOME/.mutt/mailbox/uni/inbox/new | wc -l)"
-[ "$UMSG" != "0" ] && EMAILS=$EMAILS"U: $UMSG | "
+[ "$UMSG" != "0" ] && EMAILS=$EMAILS"U:$UMSG | "
 PMSG="$(ls -1 $HOME/.mutt/mailbox/personal/inbox/new | wc -l)"
-[ "$PMSG" != "0" ] && EMAILS=$EMAILS"P: $PMSG | "
+[ "$PMSG" != "0" ] && EMAILS=$EMAILS"P:$PMSG | "
 RMSG="$(ls -1 $HOME/.mutt/mailbox/riseup/inbox/new | wc -l)"
-[ "$RMSG" != "0" ] && EMAILS=$EMAILS"R: $RMSG | "
+[ "$RMSG" != "0" ] && EMAILS=$EMAILS"R:$RMSG | "
 ZMSG="$(ls -1 $HOME/.mutt/mailbox/zx/inbox/new | wc -l)"
-[ "$ZMSG" != "0" ] && EMAILS=$EMAILS"Z: $ZMSG | "
+[ "$ZMSG" != "0" ] && EMAILS=$EMAILS"Z:$ZMSG | "
 CMSG="$(ls -1 $HOME/.mutt/mailbox/cock/inbox/new | wc -l)"
-[ "$CMSG" != "0" ] && EMAILS=$EMAILS"C: $CMSG | "
+[ "$CMSG" != "0" ] && EMAILS=$EMAILS"C:$CMSG | "
 
 # check if there are no old downloaded files so I do not keep them for too long
 #OLD_DOWN="$(find $HOME/downloads -type f -mmin +60 | wc -l)"
@@ -36,6 +35,4 @@ elif [ "$ACPI" = '-5%' ]; then
     doas pm-hibernate
 fi
 
-echo "${MOC} | ${OLD_FILES}${EMAILS}${LOAD} | R:${RAM_USAGE} | V:${SOUND} | B:${ACPI} | ${DATE}"
-#sleep 1
-#done
+echo " ${MOC} | ${OLD_FILES}${EMAILS}${LOAD} | R:${RAM_USAGE} | V:${SOUND} | B:${ACPI} | ${DATE}"

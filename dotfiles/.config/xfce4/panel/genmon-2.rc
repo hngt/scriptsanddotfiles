@@ -1,6 +1,6 @@
 Command=setroot
 UseLabel=0
 Text=
-UpdatePeriod=250
-Font=Go Medium, Medium 12
+UpdatePeriod=500
+Font=Go Medium, Medium 9
 

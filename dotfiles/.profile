@@ -31,5 +31,5 @@ if ! { ps -e | grep X > /dev/null; } && [  "$(tty)" = "/dev/tty1" ] ; then
 	fortune $HOME/q
 	sleep 5
 	trap - INT
-	exec startxfce4
+	exec startx
 fi

@@ -1,5 +1,6 @@
 -f 'bestvideo[height <=? 800][vcodec !*= av][protocol!=http_dash_segments]+bestaudio/best'
 --embed-subs
 --add-metadata
+-i
 --all-subs
 -o /home/lich/videos/yt/%(title)s_%(id)s.%(ext)s
