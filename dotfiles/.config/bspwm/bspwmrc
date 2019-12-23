@@ -2,7 +2,7 @@
 
 sxhkd &
 xsetroot -cursor_name left_ptr &
-hsetroot -cover tmp.k6w5654YOx &
+hsetroot -cover $HOME/pictures/wallpapers/tmp.k6w5654YOx &
 bspc monitor -d web term bookz videos acme vidya
 
 bspc config border_width         3
@@ -20,6 +20,7 @@ bspc rule -a Links desktop='^1'
 bspc rule -a IceCat desktop='^1'
 bspc rule -a acme desktop='^5'
 bspc rule -a st desktop='^2'
+bspc rule -a Zathura state=tiled
 bspc rule -a scratchpad sticky=on state=floating hidden=on
 bspc rule -a Xmessage state=floating
 bspc rule -a tabbed:Links desktop='^1'
