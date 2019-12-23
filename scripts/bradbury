@@ -1,0 +1,5 @@
+#!/bin/sh
+last_day=$( tac /home/lich/textfiles/bradbury.txt | grep -o -m1 'DAY [0-9]*' | cut -d ' ' -f 2)
+current_day=$(echo $last_day+1 | bc)
+printf "DAY $current_day $(date -Id)\nNON-FICTION ESSAY: \nPOEM: \nSHORT STORY: \n" >> /home/lich/textfiles/bradbury.txt
+plumb -d edit ~/textfiles/bradbury.txt:$(wc -l ~/textfiles/bradbury.txt)

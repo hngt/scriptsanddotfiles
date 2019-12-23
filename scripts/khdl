@@ -1,0 +1,19 @@
+#!/bin/sh
+dirname=$(basename "$@")
+mkdir -p "$dirname"
+cd "$dirname"
+tracklist=$(curl -s "$*" | sed -nE 's;.*href="(/game.*.mp3)"><i.*;https://downloads.khinsider.com\1;p' | uniq)
+echo $tracklist
+for i in $tracklist; do
+	document=$(curl -s $i)
+#	track=$(echo "$document" | grep -m 1 -o "http.*flac")
+#	if [ -z "$track" ]; then
+#		echo 'no flacs my friend'
+		track=$(echo "$document" | grep -m 1 -o "http.*mp3")
+#	fi
+	echo $track
+	curl -C - -O $track
+done &&
+for i in *; do mv "$i" $(echo $i | sed -E 's/(%20)+/_/g;s/%([0-9]|[A-F])+//g'); done
+cd ..
+

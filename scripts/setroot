@@ -35,4 +35,4 @@ elif [ "$ACPI" = '-5%' ]; then
     doas pm-hibernate
 fi
 
-echo " ${MOC} | ${OLD_FILES}${EMAILS}${LOAD} | R:${RAM_USAGE} | V:${SOUND} | B:${ACPI} | ${DATE}"
+echo "${MOC} | ${OLD_FILES}${EMAILS}${LOAD} | R:${RAM_USAGE} | V:${SOUND} | B:${ACPI} | ${DATE}"

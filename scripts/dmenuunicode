@@ -1,0 +1,15 @@
+#!/bin/sh
+# Give dmenu list of all unicode characters to copy.
+# Shows the selected character in dunst if running.
+
+# Must have xclip installed to even show menu.
+
+chosen=$(grep -v "#" $HOME/.emoji | head | dmenu -i -l 20 )
+
+[ "$chosen" != "" ] || exit
+
+c=$(echo "$chosen" | sed "s/ .*//")
+echo "$c" | tr -d '\n' | xclip -selection clipboard
+
+s=$(echo "$chosen" | sed "s/.*; //" | awk '{print $1}')
+echo "$s" | tr -d '\n' | xclip

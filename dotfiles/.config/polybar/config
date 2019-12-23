@@ -46,7 +46,7 @@ modules-center = xwindow
 modules-right = setroot
 
 tray-position = right
-tray-padding = 0
+tray-padding = 1
 
 wm-restack = bspwm
 
@@ -61,12 +61,11 @@ type = custom/script
 exec = setroot
 interval = 1
 ;format-prefix = ""
-click-right = bspc node -f prev.local
-
+click-left = bspc node -f prev.local
 
 [module/xwindow]
 type = internal/xwindow
-label = %title%
+label = %title:0:60:...%
 click-left = bcpc node -f next.local
 ;click-left = st -e mutt
 ;format-padding = 4
@@ -75,17 +74,17 @@ format-background = ${colors.cyan}
 [module/bspwm]
 type = internal/bspwm
 click-left=
-label-focused = %name%
+label-focused = %index%:%name%
 label-focused-foreground = ${colors.black}
 label-focused-background = ${colors.darkcyan}
 label-focused-underline= ${colors.black}
 label-focused-padding = 1
 
-label-occupied = %name%
+label-occupied = %index%:%name%
 label-occupied-underline = ${colors.black}
 label-occupied-padding = 1
 
-label-urgent = %name%!
+label-urgent = %index%:%name%!
 label-urgent-background = ${colors.black}
 label-urgent-foreground = ${colors.cyan}
 label-urgent-padding = 1
@@ -93,33 +92,6 @@ label-urgent-padding = 1
 label-empty = 
 label-empty-foreground = ${colors.black}
 label-empty-padding = 0
-
-[[module/powermenu]
-type = custom/menu
-
-format-spacing = 1
-
-label-open = 
-label-open-foreground = ${colors.darkcyan}
-label-close =  cancel
-label-close-foreground = ${colors.darkcyan}
-label-separator = |
-label-separator-foreground = ${colors.black}
-
-menu-0-0 = reboot
-menu-0-0-exec = menu-open-1
-menu-0-1 = power off
-menu-0-1-exec = menu-open-2
-
-menu-1-0 = cancel
-menu-1-0-exec = menu-open-0
-menu-1-1 = reboot
-menu-1-1-exec = sudo reboot
-
-menu-2-0 = power off
-menu-2-0-exec = sudo poweroff
-menu-2-1 = cancel
-menu-2-1-exec = menu-open-0
 
 [settings]
 screenchange-reload = true
