@@ -49,5 +49,5 @@ zle -N down-line-or-beginning-search
 mocpShow() { mocp <$TTY; zle redisplay; }
 zle -N mocpShow
 bindkey '^[\' mocpShow
-bindkey '^A' begginning-of-line
+bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
