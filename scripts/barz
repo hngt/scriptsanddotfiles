@@ -74,15 +74,16 @@ bargen(){
 	pad=" | "
 	while read -r line; do
 		case $line in
-			T*) title="$(echo ${line#?} | sed -E 's/^ - //;s/(.{50}).*/\1…/')"	;;
-			B*) battery="B:${line#?}"	;;
-			D*) cal="${line#?}"			;;
-			L*) load="${line#?}"		;;
-			m0) mails=""				;;
-			m*) mails="M:${line#?}$pad"	;;
-			R*) ram="R:${line#?}"		;;
-			V*) volume="V:${line#?}"	;;
-			X*) mus="${line#?}"			;;
+			T*) title="$(echo ${line#?} | sed -E 's/^ - //;s/(.{50}).*/\1…/')";;
+			B*) battery="B:${line#?}";;
+			D*) cal="${line#?}";;
+			L*) load="${line#?}";;
+			m0) mails="";;
+			m*) mails="M:${line#?}$pad";;
+			R*) ram="R:${line#?}";;
+			V*) volume="V:${line#?}";;
+			X*) mus="${line#?}"	;;
+			WM_NORMAL_HINTS*) offset="$(echo ${line} | cut -d ' ' -f2)";;
 			W*)
 				fg="$black"
 				bg="$cyan"
@@ -98,14 +99,14 @@ bargen(){
 						[MmLTGf]*) shift && continue;;
 						o*) bg="$cyan"; fg="$black";;
 						[OF]*) bg="$darkcyan"; fg="$black";;
-						[Uu*) fg="$cyan"; bg="$black" ;;
+						[Uu]*) fg="$cyan"; bg="$black" ;;
 					esac
 					wm="${wm}%{F${fg}}%{B${bg}}%{A:bspc desktop -f ${name}:} ${name} %{A}%{B-}%{F-}"
 					shift
 				done
 				;;
 			esac
-	echo "%{l}${wm}${pad}${title}%{r}${mus}${pad}${mails}${load}${pad}${ram}${pad}${volume}${pad}${battery}${pad}${cal}"
+	echo "%{l}${wm}${pad}${title}%{r}${mus}${pad}${mails}${load}${pad}${ram}${pad}${volume}${pad}${battery}${pad}${cal} %{O${offset}}"
 	done
 }
 

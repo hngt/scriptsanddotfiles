@@ -1,0 +1,5 @@
+#!/bin/sh
+[ $(pgrep -cx $(basename $0)) -gt 2 ] && killall -9 tray &
+trayer-srg --edge top --align right --widthtype request --height 14 --expand true --SetDockType true --tint 0xeaffff --transparent true --alpha 0 --SetPartialStrut false &
+sleep 1s &&
+[ -e /tmp/panel ] && xprop -name panel -f WM_SIZE_HINTS 32i ' $5\n' -spy WM_NORMAL_HINTS > /tmp/panel
