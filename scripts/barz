@@ -98,7 +98,7 @@ bargen(){
 						[MmLTGf]*) shift && continue;;
 						o*) bg="$cyan"; fg="$black";;
 						[OF]*) bg="$darkcyan"; fg="$black";;
-						[Uu*) fg="$cyan"; bg="$black"; index+=1 ;;
+						[Uu*) fg="$cyan"; bg="$black" ;;
 					esac
 					wm="${wm}%{F${fg}}%{B${bg}}%{A:bspc desktop -f ${name}:} ${name} %{A}%{B-}%{F-}"
 					shift
