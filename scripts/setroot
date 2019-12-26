@@ -1,4 +1,4 @@
-#!/bin/dash
+#!/bin/sh
 pad=" | "
 sound(){
 	amixer get Master | grep -Eo '[0-9]{1,3}%'

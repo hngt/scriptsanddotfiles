@@ -41,8 +41,7 @@ module-margin-right = 1
 font-0 = monofix:size=8;1
 
 ; Other modules: xkeyboard filesystem xbacklight backlight-acpi cpu memory temperature powermenu weather
-modules-left = bspwm 
-modules-center = xwindow
+modules-left = bspwm xwindow
 modules-right = setroot
 
 tray-position = right
@@ -65,7 +64,7 @@ click-left = bspc node -f prev.local
 
 [module/xwindow]
 type = internal/xwindow
-label = %title:0:60:...%
+label = %title:0:50:…%
 click-left = bcpc node -f next.local
 ;click-left = st -e mutt
 ;format-padding = 4

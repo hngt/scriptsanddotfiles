@@ -51,3 +51,5 @@ zle -N mocpShow
 bindkey '^[\' mocpShow
 bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
+bindkey " " expand-alias-space
+bindkey -M isearch " " magic-space

@@ -1,4 +1,5 @@
-#!/bin/dash
+#!/bin/sh
+export ENV="$HOME/.kshrc"
 export SHELL="/bin/ksh"
 export acmeshell="/bin/ksh"
 export TERM=dumb
