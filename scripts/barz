@@ -1,0 +1,122 @@
+#!/bin/sh
+if [ $(pgrep -cx $(basename $0)) -gt 1 ] ; then
+    printf "%s\n" "The status bar is already running." >&2
+    exit 1
+fi
+display='LVDS-1'
+font="xos4 Terminus:size=8"
+black='#000000'
+cyan='#eaffff'
+darkcyan='#9eeeee'
+panelfifo=/tmp/panel
+rm -f $panelfifo
+mkfifo $panelfifo
+
+sound(){
+	while true; do
+		volume="$(amixer get Master | grep -Eo '[0-9]{1,3}%')"
+		echo "V$volume"
+		sleep 1
+	done
+}
+
+load_avg(){
+	while true; do
+		awk '{print "L"$1" "$2" "$3}' /proc/loadavg
+		sleep 1
+	done
+	}
+
+bttry(){
+	while true; do
+		battery="$(acpi | awk -vFS=', ' '/Discharging/{stat="-"} /Charging/{stat="+"} {print stat$2}' )"
+		if [ "$battery" = '-15%' ]; then
+    		sct 2000 > /dev/null
+		elif [ "$battery" = '-10%' ]; then
+    		sct 1500 > /dev/null
+		elif [ "$battery" = '-7%' ]; then
+    		sct 1000 > /dev/null
+		elif [ "$battery" = '-5%' ]; then
+    		doas pm-hibernate
+		fi
+		echo "B$battery"
+		sleep 5
+	done
+
+}
+
+memory(){
+	while true; do
+		free | awk '/Mem/{printf("R%.2f%%\n", $3/$2 * 100.0)}'
+		sleep 2
+	done
+	}
+
+curdate(){
+	while true; do
+		date "+D%A %d.%m.%y %H:%M"
+		sleep 2
+	done
+}
+
+mails(){
+	while sleep 2; do
+		emails=""
+		for i; do
+			mailcount="$(ls -1 $HOME/.mutt/mailbox/$i/inbox/new | wc -l)"
+			[ "$mailcount" != "0" ] && emails=$emails"$i:$mailcount;"
+		done
+		[ "$emails" != "" ] && echo "m$emails" || echo m0
+	done
+}
+
+bargen(){
+	pad=" | "
+	while read -r line; do
+		case $line in
+			T*) title="$(echo ${line#?} | sed -E 's/^ - //;s/(.{50}).*/\1…/')"	;;
+			B*) battery="B:${line#?}"	;;
+			D*) cal="${line#?}"			;;
+			L*) load="${line#?}"		;;
+			m0) mails=""				;;
+			m*) mails="M:${line#?}$pad"	;;
+			R*) ram="R:${line#?}"		;;
+			V*) volume="V:${line#?}"	;;
+			X*) mus="${line#?}"			;;
+			W*)
+				fg="$black"
+				bg="$cyan"
+				suf=""
+				wm=""
+				IFS=':'
+				set -- ${line#?}
+				while [ $# -gt 0 ] ; do
+					item=$1
+					name=${item#?}
+					case $item in
+						FDesktop) shift && continue;;
+						[MmLTGf]*) shift && continue;;
+						o*) bg="$cyan"; fg="$black";;
+						[OF]*) bg="$darkcyan"; fg="$black";;
+						[Uu*) fg="$cyan"; bg="$black"; index+=1 ;;
+					esac
+					wm="${wm}%{F${fg}}%{B${bg}}%{A:bspc desktop -f ${name}:} ${name} %{A}%{B-}%{F-}"
+					shift
+				done
+				;;
+			esac
+	echo "%{l}${wm}${pad}${title}%{r}${mus}${pad}${mails}${load}${pad}${ram}${pad}${volume}${pad}${battery}${pad}${cal}"
+	done
+}
+
+bspc subscribe report > $panelfifo &
+xtitle -s -f 'T%s\n' > $panelfifo &
+sound > $panelfifo &
+load_avg > $panelfifo &
+bttry > $panelfifo &
+memory > $panelfifo &
+curdate > $panelfifo &
+mails uni personal zx norwid > $panelfifo &
+
+
+bargen < $panelfifo | lemonbar -n lemon -a 32 -F "$black" -B "$cyan" -f "$font" -p -g x14 "$display" | sh

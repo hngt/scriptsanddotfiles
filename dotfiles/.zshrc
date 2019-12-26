@@ -40,6 +40,7 @@ alias em='doas emerge --color n' \
 	eix='eix -n' \
 	g='git' \
 	i='irssi' \
+	l='ls -lahtr' \
 	ll='ls -Flrt --color=auto' \
 	ls='ls -F --color=auto' \
 	tv='noglob mpv --audio-device="alsa/hdmi:CARD=PCH,DEV=0"' \

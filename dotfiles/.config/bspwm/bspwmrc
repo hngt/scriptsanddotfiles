@@ -29,4 +29,5 @@ bspc config normal_border_color "#000000"
 bspc config active_border_color "#eaffff"
 bspc config focused_border_color "#9eeeee"
 a &
-polybar default &
+barz &
+sleep 0.5 && xdo above -t $(xdo id -n root) $(xdo id -n lemonbar) &
