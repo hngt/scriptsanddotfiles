@@ -32,4 +32,4 @@ a &
 barz &
 sleep 0.5 && xdo above -t $(xdo id -n root) $(xdo id -n lemonbar) &&
 sleep 0.3 && tray &&
-sleep 0.5 && xdo above -t $(xdo id -n root) $(xdo id -n panel) && xdo below -t $(xdo id -n panel) $(xdo id -n lemonbar)
+sleep 0.5 && xdo above -t $(xdo id -n root) $(xdo id -n panel) && sleep 0.5 && xdo below -t $(xdo id -n panel) $(xdo id -n lemonbar)
