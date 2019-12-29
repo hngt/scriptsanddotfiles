@@ -55,15 +55,13 @@ extract () {
 mkwebm() { ffmpeg -i "$1" -c:v libx264 -preset fast -b:v "$3" -c:a libvorbis "$2"; }
 file0() { curl -sL -F files[]=@"$1" https://file0.s3kr.it/upload | sed -n 's@.*https*://file0.s3kr.it/@https://file0.s3kr.it/@;s@'\'')">@@p'; }
 shdl() { curl -O $(curl -s http://sci-hub.tw/"$@" | sed -nE 's/.*location.href.*(http.*.pdf)\?.*/\1/p') ;}
-
+psgrep() { grep $1 =(ps aux); }
 alias em='doas emerge --color n' \
 	e='$EDITOR' \
 	eix='eix -n' \
 	g='git' \
 	i='irssi' \
-	l='ls -lahtr' \
 	ll='ls -Flrt --color=auto' \
-	ls='ls -F --color=auto' \
 	tv='noglob mpv --audio-device="alsa/hdmi:CARD=PCH,DEV=0"' \
 	m='mutt' \
 	mkd='mkdir -pv' \
@@ -94,6 +92,7 @@ alias -g L='| less' \
 	G='| grep'
 ialias -g grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
 ialias -g ls='ls -F --color=auto'
+ialias -g l='ls -F --color=auto'
 alias -s {mp4,mkv,webm}='background mpv --no-terminal' \
 	{pdf,epub}='background zathura'
 

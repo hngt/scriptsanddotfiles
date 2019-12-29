@@ -1,4 +1,15 @@
 #!/bin/sh
-#sfeed_update &&
-#tscrape_update &&
-{ sfeed_acme $HOME/.sfeed/feeds/* | 9 awk '/^N/{print;getline;print}'; tscrape_plain $HOME/.tscrape/feeds/* | grep '^N'; } | plumb -i -d edit -a 'action=showdata filename=/news/fresh/'$(date +'%H%M%S')
+day="$(date +%u)"
+{
+	printf 'TAKE CARE OF %s/lib/calendar\n' "$HOME"
+	printf 'WRITE TODAYS PARAGRAPH\nTODAY SHORT STORY FROM %s\nTODAY POEM FROM %s\nTODAY ESSAY FROM %s\n%s/textfiles/bradbury.txt:$\n' \
+	"$HOME/bookz/ficciones/$(head -1 $HOME/.stories)" \
+	"$HOME/bookz/poems/$(head -1 $HOME/.poems)" \
+	"$HOME/bookz/$(head -1 $HOME/.essays)" \
+	"$HOME"
+	[ "$day" -eq "1" ] && printf "PREPARE FILMS FOR THE WEEK\n"
+	echo $day | grep -E '[26]' && printf 'FILM FOR TODAY %s \n' "$(head -1 $HOME/.films)"
+	echo $day | grep -E '[15]' && printf 'YES ITS WORK OUT DAY\n'
+	sfeed_acme $HOME/.sfeed/feeds/* | 9 awk '/^N/{print;getline;print}'
+	tscrape_plain $HOME/.tscrape/feeds/* | grep '^N'
+	} | plumb -i -d edit -a 'action=showdata filename=/news/'$(date +'%H%M%S')
