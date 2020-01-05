@@ -64,7 +64,7 @@ mails(){
 		emails=""
 		for i; do
 			mailcount="$(ls -1 $HOME/.mutt/mailbox/$i/inbox/new | wc -l)"
-			[ "$mailcount" != "0" ] && emails=$emails"%{A:cat $HOME/.muttrc $HOME/.mutt/$i > /tmp/newmutt && tmux new-window mutt -F /tmp/newmutt && rm /tmp/newmutt:}$i-$mailcount%{A}"
+			[ "$mailcount" != "0" ] && emails=$emails"%{A:cat $HOME/.muttrc $HOME/.mutt/$i > /tmp/newmutt && tmux new-window exec mutt -F /tmp/newmutt && rm /tmp/newmutt:}$i-$mailcount%{A}"
 		done
 		[ "$emails" != "" ] && echo "m$emails" || echo m0
 	done

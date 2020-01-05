@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # a tool to get translations of words from persus (http://www.perseus.tufts.edu)
-import bs4
+from beautifulsoup4 import bs4
 import re
 import requests
 import sys

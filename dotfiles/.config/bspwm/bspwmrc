@@ -2,7 +2,7 @@
 
 sxhkd &
 xsetroot -cursor_name left_ptr &
-hsetroot -cover $HOME/pictures/wallpapers/tmp.k6w5654YOx &
+hsetroot -cover $HOME/.wallpaper &
 bspc monitor -d web term bookz videos acme vidya
 
 bspc config border_width         3
@@ -30,6 +30,8 @@ bspc config active_border_color "#eaffff"
 bspc config focused_border_color "#9eeeee"
 a &
 barz &
-sleep 0.5 && xdo above -t $(xdo id -n root) $(xdo id -n lemonbar) &&
-sleep 0.3 && tray &&
-sleep 0.5 && xdo above -t $(xdo id -n root) $(xdo id -n panel) && sleep 0.5 && xdo below -t $(xdo id -n panel) $(xdo id -n lemonbar)
+tray &
+sleep 2 && 
+xdo above -t $(xdo id -n root) $(xdo id -n lemonbar) &&
+xdo above -t $(xdo id -n root) $(xdo id -n panel) && 
+xdo below -t $(xdo id -n panel) $(xdo id -n lemonbar)

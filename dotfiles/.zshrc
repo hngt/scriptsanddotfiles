@@ -24,13 +24,14 @@ expand-alias-space() {
 }
 zle -N expand-alias-space
 
+
+
+alarm() { sleep $1 && printf "$2\a\n"; }
 background() {
 	for ((i=2;i<=$#;i++)); do
 		${@[1]} ${@[$i]} &> /dev/null &
 	done
 }
-
-alarm() { sleep $1 && printf "$2\a\n"; }
 extract () {
     if [ -f $1 ] ; then
       case $1 in
@@ -56,6 +57,7 @@ mkwebm() { ffmpeg -i "$1" -c:v libx264 -preset fast -b:v "$3" -c:a libvorbis "$2
 file0() { curl -sL -F files[]=@"$1" https://file0.s3kr.it/upload | sed -n 's@.*https*://file0.s3kr.it/@https://file0.s3kr.it/@;s@'\'')">@@p'; }
 shdl() { curl -O $(curl -s http://sci-hub.tw/"$@" | sed -nE 's/.*location.href.*(http.*.pdf)\?.*/\1/p') ;}
 psgrep() { grep $1 =(ps aux); }
+
 alias em='doas emerge --color n' \
 	e='$EDITOR' \
 	eix='eix -n' \
@@ -64,6 +66,7 @@ alias em='doas emerge --color n' \
 	ll='ls -Flrt --color=auto' \
 	tv='noglob mpv --audio-device="alsa/hdmi:CARD=PCH,DEV=0"' \
 	m='mutt' \
+	mchenye='awk -vdate="^$(date +%-m:%-d)" '\''$0 ~ date {gsub("(^[0-9]*:[0-9]* )", "kjv ", $0);gsub("; ", "&kjv ", $0) ; print $0}'\'' $HOME/.mchenye  | sh' \
 	mkd='mkdir -pv' \
 	mkopus='SAVEIFS=$IFS;IFS=$'\n';for i in *flac; do ffmpeg -i $i -acodec libopus -b:a 160k ${i%flac}opus;done;IFS=$SAVEIFS' \
 	mpv='noglob mpv' \
@@ -71,18 +74,16 @@ alias em='doas emerge --color n' \
 	no_blank='xset -dpms && xset s off' \
 	nvi='sam -d' \
 	o='mocp' \
-	off='doas poweroff' \
+	off='sudo poweroff' \
 	p='zathura' \
-	rcs='doas /sbin/rc-service' \
-	svi='doas vis' \
+	rcs='sudo /sbin/rc-service' \
+	svi='sudo vis' \
 	s='sfeed_update && tscrape_update && sfeed_html $HOME/.sfeed/feeds/* > /tmp/feeds.html &&  torsocks mbsync -a' \
 	t='tmux' \
-	tkh='zathura "$HOME/bookz/theos/The Jewish Study Bible_ JPS Tanakh - Adele Berlin.pdf"' \
 	trem='transmission-remote' \
 	v="mpv" \
 	vi='vis' \
 	vim='vis' \
-	vis='cat' \
 	yt='noglob youtube-dl --add-metadata -ic' \
 	yta='yt -x -f bestaudio/best --ignore-config --add-metadata' \
 	ync='yt --ignore-config' \
@@ -100,7 +101,6 @@ alias -s {mp4,mkv,webm}='background mpv --no-terminal' \
 
 . $HOME/.private-commands
 . $HOME/.zkeys
-
 # zsh settings
 autoload -Uz compinit promptinit
 compinit

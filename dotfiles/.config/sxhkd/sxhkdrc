@@ -3,7 +3,7 @@ XF86Audio{Raise,Lower}Volume
 XF86AudioMute
 	amixer set Master toggle
 XF86Launch1
-	stfloat lf
+	stfloat nnn
 XF86ScreenSaver
 	slock
 XF86Sleep
@@ -20,6 +20,8 @@ XF86MonBrightness{Up,Down}
 	screenshot { ,-s -u,-s,-u,-w,-w -u}
 super + p
 	dmenu_run
+super + shift + s
+	mbsync -a
 super + a
 	torsocks mpv `xsel -p`
 super + x
@@ -34,6 +36,8 @@ shift + F13
 	oiscat `xsel -p`
 ctrl + shift + w
 	echo nil
+super + F1
+	scratchtoggle
 
 #
 # wm independent hotkeys
