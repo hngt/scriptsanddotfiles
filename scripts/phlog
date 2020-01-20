@@ -9,7 +9,7 @@ sync_command="rsync -aPuK $local/* $server:$remote"
 html_processor="pandoc"
 
 htmlgen() {
-	printf "<!DOCTYPE html><html lang=\"en\">\n<head><meta charset=\"utf-8\">\n<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />"
+	printf "<!DOCTYPE html><html lang=\"en\">\n<head><meta charset=\"utf-8\">\n<link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"favicon.ico\" />"
 	printf "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
 	printf "<link rel=stylesheet href="../static/css/main.css">\n<title>%s</title>\n" "$(sed -n "3p" $1)"
 	printf "</head>\n<body>\n<article>\n"
@@ -21,7 +21,7 @@ htmlgen() {
 htmlnew() {
 	{
 	printf "/tbody\na\n"
-	printf "<tr><td><a href=\"%s\">%s</a></td></tr>\n.\nw\nq\n" "$2" "$1" 
+	printf "<tr><td><a href=\"%s\">%s</a></td></tr>\n.\nw\nq\n" "$2" "$1"
 	} | ed -s "$html_location/index.html"
 }
 
@@ -36,14 +36,14 @@ atomnew() {
 	cat "$3"
 	printf "]]></content>\n"
 	printf "\t\t<updated>%s</updated>\n" "$4"
-	printf "\t</entry>\n.\nw\nq\n" 
+	printf "\t</entry>\n.\nw\nq\n"
 	} | ed -s "$5"
 }
 
 gophernew() {
-	{ 
+	{
 	printf "/MUSINGS\n+2\n"
-	printf "i\n[0|%s|%s|%s|70]\n.\nw\nq\n" "$1" "$2" "$3" 
+	printf "i\n[0|%s|%s|%s|70]\n.\nw\nq\n" "$1" "$2" "$3"
 	} | ed -s "$gopher_location/../index.gph"
 }
 
@@ -63,7 +63,7 @@ atom_rev() {
 	printf "+3\n"
 	printf ".,+%sd\n" "$(cat $gopher_location/$1 | wc -l)"
 	printf "i\n"
-	printf "\t\t<content type="text"><![CDATA["
+	printf "\t\t<content type=\"text\"><![CDATA["
 	cat "$1"
 	printf "]]></content>\n.\n\n"
 	printf "d\n"
@@ -79,7 +79,7 @@ revise() {
 	$sync_command
 }
 
-case "$1" in 
+case "$1" in
 	n*) post "$2" ;;
 	r*) revise "$2" ;;
 esac

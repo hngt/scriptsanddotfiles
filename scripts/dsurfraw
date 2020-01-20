@@ -17,6 +17,7 @@ case "$(echo $url|cut -d " " -f1)" in
     SR) setbrowser surf_priv ;;
     Ic) setbrowser oiscat ;;
     st) setbrowser surf_tor ;;
+    ch) setbrowser chrome ;;
     Sr) setbrowser surf_tabs ;;
 esac
 

@@ -14,7 +14,7 @@ bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 bspc config single_monocle		true
 bspc config top_padding 14
-bspc rule -a Chromium desktop='^2'
+bspc rule -a Chromium desktop='^1'
 bspc rule -a mpv desktop='^4'
 bspc rule -a Links desktop='^1'
 bspc rule -a IceCat desktop='^1'

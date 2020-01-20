@@ -1,2 +1,2 @@
 #!/bin/sh
-[ -e /tmp/panel ] && mocp -Q '%artist - %song' | sed -E 's/^ - //;s/(.{41}).*/\1/;s/^/X%{A:mocp -G:}/;s/$/%{A}/' > /tmp/panel
+[ -e /tmp/panel ] && mocp -Q '%artist - %song' | sed -E 's/^ - //;s/(.{41}).*/\1/;s/^/X%{A:tmux new-window mocp:}/;s/$/%{A}/' > /tmp/panel

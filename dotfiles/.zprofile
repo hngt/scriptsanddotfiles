@@ -1,7 +1,7 @@
 BROWSER=glinks
 EDITOR=E
 ENV=$HOME/.zshrc
-font='/mnt/font/Go Mono/11a/font'
+font=/mnt/font/GoMono/11a/font
 GOPATH=$HOME/go
 GOBIN=$GOPATH/bin
 GS_FONTPATH=/usr/share/fonts

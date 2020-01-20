@@ -30,15 +30,12 @@ load_avg(){
 bttry(){
 	while true; do
 		battery="$(acpi | awk -vFS=', ' '/Discharging/{stat="-"} /Charging/{stat="+"} {print stat$2}' )"
-		if [ "$battery" = '-15%' ]; then
-    		sct 2000 > /dev/null
-		elif [ "$battery" = '-10%' ]; then
-    		sct 1500 > /dev/null
-		elif [ "$battery" = '-7%' ]; then
-    		sct 1000 > /dev/null
-		elif [ "$battery" = '-5%' ]; then
-    		doas pm-hibernate
-		fi
+		case "$battery" in
+			-15%) sct 2000 > /dev/null ;;
+			-10%) sct 1500 > /dev/null ;;
+			-7%)  sct 1000 > /dev/null ;;
+			-5%)  doas pm-hibernate    ;;
+		esac
 		echo "B$battery"
 		sleep 5
 	done
@@ -64,7 +61,7 @@ mails(){
 		emails=""
 		for i; do
 			mailcount="$(ls -1 $HOME/.mutt/mailbox/$i/inbox/new | wc -l)"
-			[ "$mailcount" != "0" ] && emails=$emails"%{A:cat $HOME/.muttrc $HOME/.mutt/$i > /tmp/newmutt && tmux new-window exec mutt -F /tmp/newmutt && rm /tmp/newmutt:}$i-$mailcount%{A}"
+			[ "$mailcount" != "0" ] && emails=$emails"%{A:cat $HOME/.muttrc $HOME/.mutt/$i > /tmp/newmutt && tmux new-window mutt -F /tmp/newmutt :}$i-$mailcount%{A}"
 		done
 		[ "$emails" != "" ] && echo "m$emails" || echo m0
 	done
