@@ -33,7 +33,7 @@ super + Return
 F13
 	plumb `xsel -p`
 shift + F13
-	oiscat `xsel -p`
+	brave-bin `xsel -p`
 ctrl + shift + w
 	echo nil
 super + F1

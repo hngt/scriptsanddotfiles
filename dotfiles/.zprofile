@@ -1,6 +1,9 @@
 BROWSER=glinks
 EDITOR=E
 ENV=$HOME/.zshrc
+FG_COL='#ececec'
+BG_COL='#111111'
+BGSEL_COL='#393939'
 font=/mnt/font/GoMono/11a/font
 GOPATH=$HOME/go
 GOBIN=$GOPATH/bin

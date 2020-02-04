@@ -5,9 +5,9 @@ if [ $(pgrep -cx $(basename $0)) -gt 1 ] ; then
 fi
 display='LVDS-1'
 font="xos4 Terminus:size=8"
-black='#000000'
-cyan='#eaffff'
-darkcyan='#9eeeee'
+fg_col='#ececec'
+bg_col='#111111'
+bgsel_col='#393939'
 panelfifo=/tmp/panel
 rm -f $panelfifo
 mkfifo $panelfifo
@@ -82,8 +82,8 @@ bargen(){
 			X*) mus="${line#?}"	;;
 			WM_NORMAL_HINTS*) offset="$(echo ${line} | cut -d ' ' -f2)";;
 			W*)
-				fg="$black"
-				bg="$cyan"
+				fg="$fg_col"
+				bg="$bg_col"
 				suf=""
 				wm=""
 				IFS=':'
@@ -94,9 +94,9 @@ bargen(){
 					case $item in
 						FDesktop) shift && continue;;
 						[MmLTGf]*) shift && continue;;
-						o*) bg="$cyan"; fg="$black";;
-						[OF]*) bg="$darkcyan"; fg="$black";;
-						[Uu]*) fg="$cyan"; bg="$black" ;;
+						o*) bg="$bg_col"; fg="$fg_col";;
+						[OF]*) bg="$bgsel_col"; fg="$fg_col";;
+						[Uu]*) fg="$bg_col"; bg="$fg_col" ;;
 					esac
 					wm="${wm}%{F${fg}}%{B${bg}}%{A:bspc desktop -f ${name}:} ${name} %{A}%{B-}%{F-}"
 					shift
@@ -117,4 +117,4 @@ curdate > $panelfifo &
 mails norwid cock personal riseup uni zx > $panelfifo &
 
 
-bargen < $panelfifo | lemonbar -n lemon -a 32 -F "$black" -B "$cyan" -f "$font" -p -g x14 "$display" | sh
+bargen < $panelfifo | lemonbar -n lemon -a 32 -F "$fg_col" -B "$bg_col" -f "$font" -p -g x14 "$display" | sh

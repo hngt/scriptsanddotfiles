@@ -3,7 +3,25 @@
 
 typeset -a ialiases
 ialiases=()
-
+__vte_urlencode() (
+    # This is important to make sure string manipulation is handled
+    # byte-by-byte.
+    LC_ALL=C
+    str="$1"
+    while [ -n "$str" ]; do
+        safe="${str%%[!a-zA-Z0-9/:_\.\-\!\'\(\)~]*}"
+        printf "%s" "$safe"
+        str="${str#"$safe"}"
+        if [ -n "$str" ]; then
+            printf "%%%02X" "'$str"
+            str="${str#?}"
+        fi
+    done
+)
+__vte_osc7 () {
+    printf "\033]7;%s%s\a" "${HOSTNAME:-}" "$(__vte_urlencode "${PWD}")"
+}
+[ -n "$ZSH_VERSION" ] && precmd_functions+=(__vte_osc7)
 ialias() {
 	alias $@
 	args="$@"

@@ -1,4 +1,4 @@
 #!/bin/sh
 DMENU=dmenu
-MENU="$DMENU -nb #eaffff -nf black -sb #9eeeee -sf #000000 -fn monofix:size=8:antialias=false"
+MENU="$DMENU -nb #111111 -nf #ececec -sb #393939 -sf #ececec -fn monofix:size=8:antialias=false"
 $MENU "$@"
