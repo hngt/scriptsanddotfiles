@@ -27,6 +27,12 @@ load_avg(){
 	done
 	}
 
+music_deadbeef(){
+	while true; do
+		deadbeef --nowplaying-tf '$abbr($abbr(%artist%,20) - $abbr(%title%,20),55)' 2>/dev/null | sed -E 's/^ - //;s/^/X%{A:deadbeef:}/;s/$/%{A}\n/'
+		sleep 1
+	done
+}
 bttry(){
 	while true; do
 		battery="$(acpi | awk -vFS=', ' '/Discharging/{stat="-"} /Charging/{stat="+"} {print stat$2}' )"
@@ -115,6 +121,6 @@ bttry > $panelfifo &
 memory > $panelfifo &
 curdate > $panelfifo &
 mails norwid cock personal riseup uni zx > $panelfifo &
-
+music_deadbeef > $panelfifo &
 
 bargen < $panelfifo | lemonbar -n lemon -a 32 -F "$fg_col" -B "$bg_col" -f "$font" -p -g x14 "$display" | sh

@@ -11,9 +11,9 @@ XF86Sleep
 XF86Display
 	lxrandr
 XF86Audio{Next,Prev,Play}
-	mocp {--next,--previous,--toggle-pause & toggleallmpv}
+	mocp {--next,--previous,--toggle-pause & toggleallmpv & deadbeef --play-pause}
 super + {Right,Left,Down}
-	mocp {--next,--previous,--toggle-pause & toggleallmpv}
+	mocp {--next & deadbeef --next,--previous & deadbeef --prev,--toggle-pause & toggleallmpv & deadbeef --play-pause}
 XF86MonBrightness{Up,Down}
 	xbacklight {-inc,-dec} 5
 {_,shift + ctrl +,shift +,ctrl +,super +,super + shift +} Print

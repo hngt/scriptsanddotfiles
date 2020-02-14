@@ -13,6 +13,7 @@ day="$(date +%u)"
 	[ "$day" -eq "1" ] && printf "PREPARE FILMS FOR THE WEEK\n"
 	echo $day | grep -E '[26]' > /dev/null && printf 'FILM FOR TODAY %s \n' "$(shuf -n1 $HOME/.films)"
 	echo $day | grep -E '[15]' > /dev/null && printf 'YES ITS WORK OUT DAY\n'
+	cat /tmp/ex
 	sfeed_acme $HOME/.sfeed/feeds/* | 9 awk '/^N/{print;getline;print}'
 	tscrape_plain $HOME/.tscrape/feeds/* | grep '^N'
 	} | plumb -i -d edit -a 'action=showdata filename=/news/'$(date +'%H%M%S')

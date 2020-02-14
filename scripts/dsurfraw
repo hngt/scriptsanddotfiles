@@ -14,12 +14,10 @@ sort|$HOME/bin/dmenu.sh -l 10 -p 'link:' <$MARKFILE | while read url; do
 [ ! "$url" ] && exit
 
 case "$(echo $url|cut -d " " -f1)" in
-	br) setbrowser brave-bin ;;
+    br) setbrowser brave-bin ;;
     SR) setbrowser surf_priv ;;
-    Ic) setbrowser oiscat ;;
-    st) setbrowser surf_tor ;;
-    ch) setbrowser chrome ;;
     Sr) setbrowser surf_tabs ;;
+    st) setbrowser surf_tor ;;
 esac
 
 if [ -n "$(grep "$url" "$MARKFILE")" ]

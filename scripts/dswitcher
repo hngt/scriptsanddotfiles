@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Date format, for use as the prompt.
+date=$(date +"%a %d. %b %R")
+
+# dmenu cannot display more than 30 lines, to avoid screen clutter. Only relevant if you have more than 30 windows open.
+height=$(wmctrl -l | wc -l)
+if [ $height -gt 30 ]
+	then heightfit=30
+	else heightfit=$height
+fi
+
+num=$(wmctrl -l | awk '{$1=$2=$3="";gsub("^  ","",$0);print NR" - "$0}' | dmenu.sh -b -i -p "$date" -l $heightfit | cut -d '-' -f -1)
+[ -z "$num" ] && exit
+wmctrl -l | sed -n "s/  .*//;$num p" | xargs wmctrl -i -a
