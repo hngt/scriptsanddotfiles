@@ -1,5 +1,5 @@
 #!/bin/sh
-export ENV="$HOME/.kshrc"
+export ENV="$XDG_CONFIG_HOME/sh/kshrc"
 export SHELL="/bin/ksh"
 export acmeshell="/bin/ksh"
 export TERM=dumb

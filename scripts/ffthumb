@@ -1,0 +1,5 @@
+#!/bin/sh
+duration="$(ffprobe -i "$@" -show_format 2>/dev/null|sed -En 's/duration=(.*)/\1/p')"
+t="$(printf "%s/2\n" $duration | bc -l)"
+ffmpeg -ss "$t" -i "$@"  -vf select="eq(pict_type\,I)",scale=640:360 -vframes 1 -f singlejpeg - | chafa --fill=block -c 256 --symbols=block -s 80x${HEIGHT} - &&
+mediainfo "$1"

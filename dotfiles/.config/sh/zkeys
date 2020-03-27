@@ -1,6 +1,6 @@
 #!/bin/zsh
 typeset -g -A key
-bindkey -e 
+bindkey -e
 key[Home]="${terminfo[khome]}"
 key[End]="${terminfo[kend]}"
 key[Insert]="${terminfo[kich1]}"
@@ -54,3 +54,6 @@ bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
 bindkey " " expand-alias-space
 bindkey -M isearch " " magic-space
+bindkey -s '^O' 'lfcd\n'
+bindkey -s '^F' 'cd "$(find . -type d | fzy -l $(tput lines))"\n'
+bindkey -s '^[f' 'plumb "$(find . -type f | fzy -l $(tput lines))"\n'

@@ -1,35 +1,60 @@
+source ${XDG_CONFIG_HOME:-~/.config}/user-dirs.dirs
+XDG_CONFIG_HOME="$HOME/.config/"
+source ${XDG_CONFIG_HOME:-~/.config}/user-dirs.dirs
+ASPELL_CONF="per-conf $XDG_CONFIG_HOME/aspell/aspell.conf; personal $XDG_CONFIG_HOME/aspell/en.pws; repl $XDG_CONFIG_HOME/aspell/en.prepl"
+BG_COL='#111111'
+BGSEL_COL='#393939'
+BIBLIOGRAPHY="$HOME/lib/bibliography"
 BROWSER=glinks
 EDITOR=E
-ENV=$HOME/.kshrc
-font='/mnt/font/Go Mono/11a/font'
-GOPATH=$HOME/go
+ENV="$HOME/.profile"
+FG_COL='#ececec'
+font=/mnt/font/GoMono/11a/font
+GEM_HOME="$XDG_DATA_HOME"/gem
+GEM_SPEC_CACHE="$XDG_CACHE_HOME"/gem
+GNUPGHOME="$XDG_DATA_HOME"/gnupg
+GOPATH=$HOME/.local/go
 GOBIN=$GOPATH/bin
+GPG_TTY=$(tty)
 GS_FONTPATH=/usr/share/fonts
-HISTFILE=$HOME/.ksh-history
-HISTSIZE=100
+GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc
+HISTFILE="$XDG_DATA_HOME/zsh/history"
+HISTSIZE=100000
+ICEAUTHORITY="$XDG_CACHE_HOME"/ICEauthority
+_JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
 LANG='en_US.utf8'
 LC_ALL=en_US.UTF-8
+LESSHISTFILE=-
 NNN_BMS='v:~/videos;m:~/music;u:~/university'
 NNN_OPENER=plumb
+OPENER=$PLUMBER
 PAGER=less
-PATH=$HOME/bin/games:$HOME/bin/jre:$HOME/.local/bin:$HOME/go/bin:$HOME/bin:$PATH
+PASSWORD_STORE_DIR="$XDG_DATA_HOME"/pass
+PATH="$HOME/bin:$HOME/bin/games:$HOME/bin/jre:$HOME/.local/bin:$GOBIN:$PATH"
 PLAN9=/usr/lib/plan9
 PLUMBER=plumb
 READER=zathura
 REFER=$HOME/.bibliography
-WINEDEBUG='-all'
-GPG_TTY=$(tty)
-XDG_CONFIG_HOME="$HOME/.config/"
+SAVEHIST=$HISTSIZE
+SQLITE_HISTORY=$XDG_DATA_HOME/sqlite_history
+TMUX_TMPDIR="$XDG_RUNTIME_DIR"
+TROFFMACS="$HOME/git/scriptsanddotfiles/tmac"
 VISUAL=vis
+WEECHAT_HOME="$XDG_CONFIG_HOME"/weechat
+WINEDEBUG='-all'
+XAUTHORITY="$XDG_RUNTIME_DIR"/Xauthority
+XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
+XSERVERRC="$XDG_CONFIG_HOME"/X11/xserverrc
+ZDOTDIR="$HOME/.config/sh"
 
-export BROWSER EDITOR ENV font GOBIN GOPATH GPG_TTY GS_FONTPATH HISTFILE HISTSIZE LANG LC_ALL NNN_BMS NNN_OPENER PAGER PATH PLAN9 PLUMBER PS1 READER REFER WINEDEBUG XDG_CONFIG_HOME VISUAL
+export ASPELL_CONF BG_COL BGSEL_COL BIBLIOGRAPHY BROWSER EDITOR ENV FG_COL font GEM_HOME GEM_SPEC_CACHE GNUPGHOME GOPATH GOBIN GPG_TTY GS_FONTPATH GTK2_RC_FILES HISTFILE HISTSIZE ICEAUTHORITY _JAVA_OPTIONS LANG LC_ALL LESSHISTFILE NNN_BMS NNN_OPENER OPENER PAGER PASSWORD_STORE_DIR PATH PLAN9 PLUMBER READER REFER SAVEHIST SQLITE_HISTORY TMUX_TMPDIR TROFFMACS VISUAL WEECHAT_HOME WINEDEBUG XAUTHORITY XINITRC XSERVERRC ZDOTDIR XDG_CONFIG_HOME
 
 touch /tmp/.wttr /tmp/.nowplaying
 
 if ! { ps -e | grep X > /dev/null; } && [  "$(tty)" = "/dev/tty1" ] ; then
 	trap '' INT
-	fortune $HOME/q
+	fortune $HOME/lib/q
 	sleep 5
 	trap - INT
-	exec startx
+	exec startx $XINITRC --
 fi

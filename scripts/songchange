@@ -1,2 +1,3 @@
 #!/bin/sh
-[ -e /tmp/panel ] && mocp -Q '%artist - %song' | sed -E 's/^ - //;s/(.{41}).*/\1/;s/^/X%{A:tmux new-window mocp:}/;s/$/%{A}/' > /tmp/panel
+[ -e /tmp/panel ] && mpc -h /var/run/mpd.sock current -f '%artist% - %title%' |  tr -cd '[:print:]' | awk 'BEGIN { printf("X") } length > 41 { gsub("[,()]","",$0); for (i=1; i<=NF; i++) { printf(substr($i, 1, 1)) } } length < 41 { printf($0) } length == 41 { printf($0) } END { printf("\n") } ' > /tmp/panel
+

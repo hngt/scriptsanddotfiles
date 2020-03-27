@@ -1,0 +1,116 @@
+#! /bin/sh
+#
+# tex2refer - converts bibtex entries to refer entries
+#
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# This software comes on a 'as is'-basis.
+# No guarantee for the correctness is given and no 'service' is provided 
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#
+# This program (an awk skript) converts bibliographic references from the
+# bibtex-format to the refer-format.
+# it reads from stdin and writes to stdout:
+#
+# usage: tex2refer < file.bib > file.refer
+#
+# Be aware, that some information is neccessarily lost, because 
+#
+#   * several bibtex field names are mapped to the same refer filed name
+#      e.g. publisher, organization and school are all mapped to %I
+#   * refer doesn't support types for references (like @inproceedings, @article)
+#     (therefore the inverse mapping refer2tex is mostly based on heuristics)
+#
+# In this program are only the more important (I.M.H.O.) field names covered.
+# If tex2refer encounters unknown field names, it will ignore them but store their
+# names in a list, which is displayed after the conversion process.
+#
+# With this list the program can easily be extended by adding entries to the 
+# associative array 'refer'
+#
+#
+# Thanks to Lee, who provided the main part of the program and added
+# some useful comments for readability
+#
+# Bernd Fritzke (fritzke@immd2.informatik.uni-erlangen.de)
+# August 1990
+#
+
+gawk ' #gnu awk, but works probably also with other versions
+BEGIN {
+    FS = " "
+   refer["book"] = "%K"
+    refer["author"] = "%A"
+    refer["AUTHOR"] = "%A"
+    refer["address"] = "%C"
+    refer["ADDRESS"] = "%C"
+    refer["year"] = "%D"
+    refer["YEAR"] = "%D"
+    refer["publisher"] = "%I"
+    refer["PUBLISHER"] = "%I"
+    refer["journal"] = "%J"
+    refer["JOURNAL"] = "%J"
+    refer["keywords"] = "%K"
+    refer["KEYWORDS"] = "%K"
+    refer["pages"] = "%P"
+    refer["PAGES"] = "%P"
+    refer["title"] = "%T"
+    refer["TITLE"] = "%T"
+    refer["volume"] = "%V"
+    refer["VOLUME"] = "%V"
+    refer["city"] = "%C"
+    refer["CITY"] = "%C"
+    refer["booktitle"] = "%B"
+    refer["BOOKTITLE"] = "%B"
+    refer["note"] = "%o"
+    refer["NOTE"] = "%o"
+    refer["organization"] = "%I"
+    refer["ORGANIZATION"] = "%I"
+    refer["school"] = "%I"
+    refer["SCHOOL"] = "%I"
+}
+
+/^@/	{next}   # reference type (not supported by refer) next line
+# ---> "next" makes awk goto the start of the awk script & read the next
+#	line of input, so here it is making it ignore lines starting
+#	with an @ sign.
+
+# ensure that an = signs is surrounded by space:
+/\=/ { # "=" must be preceeded by `\` , also in line below 
+    gsub(/\=/, " & ") # this may cause NF to be updated...
+    # Warning -- do not put single quotes in comments!  This does not
+    # work reliably in a shell script.
+}
+
+($1 in refer && $2 == "=") { # Begin of a bibtex field definition
+    gsub(/[{}]/, "")  # deleting curly brackets
+    gsub(/,$/, "")    # deleting commas at end of line
+    printf "%s ", refer[$1]
+    for (i = 3; i <= NF; i++) { # Loop over the keywords ($2 is "=")
+	printf " %s", $i        # and print them
+    }
+    printf "\n" # newline on the end of the refer entry
+}
+
+(!($1 in refer) && $2 == "=") { #collect unknown keywords
+    unknown[$1] = 1
+    next
+}
+
+/[^	 ]/ {
+    if ($2 != "=") { # This is not a first line of an entry
+	# In this case, we are dealing with a continuation line.
+	gsub(/[{}]/, "")  # deleting curly braces
+	gsub(/,$/, "")    # deleting commas at end of line
+	printf "   " 
+	for (i = 1; i <= NF; i++) { # Loop over all the keywords 
+	    printf " %s", $i        # and print them
+	}
+	printf "\n" # newline on the end of the refer entry
+    }
+}
+
+END {
+}
+' ${@+"$@"}
+
+

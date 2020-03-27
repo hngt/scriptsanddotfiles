@@ -1,16 +1,17 @@
 #!/bin/sh
-if [ $(pgrep -cx $(basename $0)) -gt 1 ] ; then
-    printf "%s\n" "The status bar is already running." >&2
-    exit 1
-fi
-display='LVDS-1'
-font="xos4 Terminus:size=8"
-fg_col='#ececec'
-bg_col='#111111'
-bgsel_col='#393939'
 panelfifo=/tmp/panel
 rm -f $panelfifo
 mkfifo $panelfifo
+
+corona(){
+	while true; do
+		coronafile="$HOME/.cache/corona"
+		[ "$(stat --format="%y" "$coronafile" 2>/dev/null | cut -d ' ' -f1)" != "$(date +%F)" ] && 
+			curl -s "https://coronavirus-tracker-api.herokuapp.com/v2/locations?country_code=PL" > "$coronafile"
+		jq -j '.latest|"cC:",.confirmed," D:",.deaths," R:",.recovered,"\n"' ~/.cache/corona
+		sleep 3600
+	done
+}
 
 sound(){
 	while true; do
@@ -27,12 +28,6 @@ load_avg(){
 	done
 	}
 
-music_deadbeef(){
-	while true; do
-		deadbeef --nowplaying-tf '$abbr($abbr(%artist%,20) - $abbr(%title%,20),55)' 2>/dev/null | sed -E 's/^ - //;s/^/X%{A:deadbeef:}/;s/$/%{A}\n/'
-		sleep 1
-	done
-}
 bttry(){
 	while true; do
 		battery="$(acpi | awk -vFS=', ' '/Discharging/{stat="-"} /Charging/{stat="+"} {print stat$2}' )"
@@ -66,8 +61,8 @@ mails(){
 	while sleep 2; do
 		emails=""
 		for i; do
-			mailcount="$(ls -1 $HOME/.mutt/mailbox/$i/inbox/new | wc -l)"
-			[ "$mailcount" != "0" ] && emails=$emails"%{A:cat $HOME/.muttrc $HOME/.mutt/$i > /tmp/newmutt && tmux new-window mutt -F /tmp/newmutt :}$i-$mailcount%{A}"
+			mailcount="$(ls -1 "$HOME/.mutt/mailbox/$i/inbox/new" | wc -l)"
+			[ "$mailcount" != "0" ] && emails=$emails"$i-$mailcount"
 		done
 		[ "$emails" != "" ] && echo "m$emails" || echo m0
 	done
@@ -77,7 +72,9 @@ bargen(){
 	pad=" | "
 	while read -r line; do
 		case $line in
-			T*) title="$(echo ${line#?} | sed -E 's/^ - //;s/(.{50}).*/\1…/')";;
+			c*) corona="${line#?}";;
+			C0) countdown="";;
+			C*) countdown="${line#?}$pad";;
 			B*) battery="B:${line#?}";;
 			D*) cal="${line#?}";;
 			L*) load="${line#?}";;
@@ -85,42 +82,17 @@ bargen(){
 			m*) mails="M:${line#?}$pad";;
 			R*) ram="R:${line#?}";;
 			V*) volume="V:${line#?}";;
-			X*) mus="${line#?}"	;;
-			WM_NORMAL_HINTS*) offset="$(echo ${line} | cut -d ' ' -f2)";;
-			W*)
-				fg="$fg_col"
-				bg="$bg_col"
-				suf=""
-				wm=""
-				IFS=':'
-				set -- ${line#?}
-				while [ $# -gt 0 ] ; do
-					item=$1
-					name=${item#?}
-					case $item in
-						FDesktop) shift && continue;;
-						[MmLTGf]*) shift && continue;;
-						o*) bg="$bg_col"; fg="$fg_col";;
-						[OF]*) bg="$bgsel_col"; fg="$fg_col";;
-						[Uu]*) fg="$bg_col"; bg="$fg_col" ;;
-					esac
-					wm="${wm}%{F${fg}}%{B${bg}}%{A:bspc desktop -f ${name}:} ${name} %{A}%{B-}%{F-}"
-					shift
-				done
-				;;
+			X*) mus="${line#?}";;
 			esac
-	echo "%{l}${wm}${pad}${title}%{r}${mus}${pad}${mails}${load}${pad}${ram}${pad}${volume}${pad}${battery}${pad}${cal} %{O${offset}}"
+	xsetroot -name "${mus}${pad}${mails}${countdown}${load}${pad}${corona}${pad}${ram}${pad}${volume}${pad}${battery}${pad}${cal}"
 	done
 }
-
-bspc subscribe report > $panelfifo &
-xtitle -s -f 'T%s\n' > $panelfifo &
+corona > $panelfifo &
 sound > $panelfifo &
 load_avg > $panelfifo &
 bttry > $panelfifo &
 memory > $panelfifo &
 curdate > $panelfifo &
 mails norwid cock personal riseup uni zx > $panelfifo &
-music_deadbeef > $panelfifo &
 
-bargen < $panelfifo | lemonbar -n lemon -a 32 -F "$fg_col" -B "$bg_col" -f "$font" -p -g x14 "$display" | sh
+bargen < $panelfifo

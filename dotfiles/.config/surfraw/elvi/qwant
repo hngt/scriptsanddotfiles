@@ -1,0 +1,81 @@
+#!/bin/sh
+# elvis: qwant	-- Securely search the web using qwant
+# similar to duckduckgo elvi, adds more options and defaults to SSL.
+. surfraw || exit 1
+
+w3_config_hook () {
+    def     SURFRAW_qwant_results             "$SURFRAW_results"
+    def     SURFRAW_qwant_base_url            "qwant.com"
+    def     SURFRAW_qwant_search              search
+    def     SURFRAW_qwant_params              "&kg=g&l=en&s=0&a=1"
+    defyn   SURFRAW_qwant_https_arg           0
+    defyn   SURFRAW_qwant_safe_arg            0
+    defyn   SURFRAW_qwant_redirect_arg        0
+    defyn   SURFRAW_qwant_use_javascript      0
+}
+
+w3_usage_hook () {
+    cat <<EOF
+Usage: $w3_argv0 [options] [search words]...
+Description:
+  Surfraw search the web using Qwant (qwant.com)
+Local options:
+    -j,-javascript              use javascript
+    -safe                       enable safe search
+    -r,-redirect                use redirection
+    -s,-insecure                disable SSL search
+EOF
+    w3_global_usage
+}
+
+w3_parse_option_hook () {
+    opt="$1"
+    optarg="$2"
+    case "$opt" in
+    -j|-javascript*)    setoptyn    SURFRAW_qwant_use_javascript      1 ;;
+    -safe*)				setoptyn    SURFRAW_qwant_safe_arg            1 ;;
+    -r|-redirect*)      setoptyn    SURFRAW_qwant_redirect_arg        1 ;;
+    -s|-sec*)           setoptyn    SURFRAW_qwant_https_arg           1 ;;
+    *) return 1 ;;
+    esac
+    return 0
+}
+
+w3_config
+w3_parse_args "$@"
+# w3_args now contains a list of arguments
+
+if [ "${SURFRAW_qwant_https_arg}" = 0 ] ; then
+    SURFRAW_qwant_base_url="https://${SURFRAW_qwant_base_url}"
+else
+    SURFRAW_qwant_base_url="http://${SURFRAW_qwant_base_url}"
+fi
+
+# need to send the user to the non-javascript version if using a non-graphical
+# browser
+if [ "$SURFRAW_qwant_use_javascript" = 0 ]; then
+    SURFRAW_qwant_base_url="https://lite.qwant.com"
+fi
+
+if [ "$SURFRAW_qwant_use_javascript" = 1 ]; then
+    SURFRAW_qwant_base_url="https://qwant.com"
+fi
+
+if [ "$SURFRAW_qwant_safe_arg" = 1 ]; then
+    SURFRAW_qwant_params="${SURFRAW_qwant_params}&kp=1"
+fi
+
+if [ "$SURFRAW_qwant_redirect_arg" = 1 ] ; then
+    SURFRAW_qwant_params="${SURFRAW_qwant_params}&kd=1"
+fi
+
+if [ "$SURFRAW_graphical" != "yes" ] ; then
+    SURFRAW_qwant_params="${SURFRAW_qwant_params}&kf=-1&kz=-1&kq=-1&kv=-1"
+fi
+
+escaped_args=`w3_url_of_arg $w3_args`
+if [ "$SURFRAW_qwant_got_a_ducky_feeling" = 1 ]; then
+    escaped_args="! ${escaped_args}"
+fi
+
+w3_browse_url "${SURFRAW_qwant_base_url}/?q=${escaped_args}${SURFRAW_qwant_params}"

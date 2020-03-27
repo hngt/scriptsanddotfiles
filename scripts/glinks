@@ -10,10 +10,7 @@ torsocks ./miniwebproxy &
 echo 'turning on web proxy'
 fi
 
-if [ "$#" -gt 0 ];
-then
-	uri="$1"
-fi
+[ "$#" -gt 0 ] && uri="$1"
 
 runtabbed() {
 	echo spawning

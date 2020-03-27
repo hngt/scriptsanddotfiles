@@ -1,0 +1,17 @@
+#!/bin/sh
+compton -b &
+xbanish &
+hsetroot &
+xrdb ~/.config/Xresources &
+xset s off &
+xset -dpms &
+sleep 0.1 &&
+startplumb &
+xmodmap ~/.config/Xmodmap &
+toggletouchpad &
+sxhkd -r /dev/null &
+a &
+st &
+dunst &
+barz &
+dwm

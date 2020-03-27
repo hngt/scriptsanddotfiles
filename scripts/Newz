@@ -2,18 +2,10 @@
 day="$(date +%u)"
 
 {
-	[ "$(date +%-m:%-d)" = "3:22" ] && printf "DO YOUR SPRING THEME BRUH\n"
-	printf 'TAKE CARE OF %s/lib/calendar\n' "$HOME"
-	printf 'WRITE TODAYS PARAGRAPH\nTODAY ESSAY FROM %s\nTODAY POEM FROM %s\nTODAY SHORT STORY FROM %s\n%s/textfiles/bradbury.txt:$\n' \
-	"$HOME/bookz/$(shuf -n1 $HOME/.essays)" \
-	"$HOME/bookz/poetry/$(shuf -n1 $HOME/.poems)" \
-	"$HOME/bookz/ficciones/$(shuf -n1 $HOME/.stories)" \
-	"$HOME"
 	printf 'GET THE BLOOD FLOWING: %s\n' "$HOME/videos/$(shuf -n1 $HOME/videos/bloodflowin.m3u)"
 	[ "$day" -eq "1" ] && printf "PREPARE FILMS FOR THE WEEK\n"
 	echo $day | grep -E '[26]' > /dev/null && printf 'FILM FOR TODAY %s \n' "$(shuf -n1 $HOME/.films)"
 	echo $day | grep -E '[15]' > /dev/null && printf 'YES ITS WORK OUT DAY\n'
 	cat /tmp/ex
 	sfeed_acme $HOME/.sfeed/feeds/* | 9 awk '/^N/{print;getline;print}'
-	tscrape_plain $HOME/.tscrape/feeds/* | grep '^N'
 	} | plumb -i -d edit -a 'action=showdata filename=/news/'$(date +'%H%M%S')

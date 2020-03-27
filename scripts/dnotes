@@ -1,3 +1,2 @@
 #!/bin/sh
-EDITOR=s
 notes $(notes _files | dmenu.sh -i -l 53)  

@@ -23,14 +23,29 @@ expand-alias-space() {
 }
 zle -N expand-alias-space
 
-
-
 alarm() { sleep $1 && printf "$2\a\n"; }
 background() {
 	for ((i=2;i<=$#;i++)); do
 		${@[1]} ${@[$i]} &> /dev/null &
 	done
 }
+
+lfcd () {
+    tmp="$(mktemp)"
+    lf -last-dir-path="$tmp" "$@"
+    if [ -f "$tmp" ]; then
+        dir="$(cat "$tmp")"
+        rm -f "$tmp"
+        if [ -d "$dir" ]; then
+            if [ "$dir" != "$(pwd)" ]; then
+                cd "$dir"
+            fi
+        fi
+    fi
+}
+
+
+
 mkwebm() { ffmpeg -i "$1" -c:v libx264 -preset fast -b:v "$3" -c:a libvorbis "$2"; }
 file0() { noglob curl -sL -F files[]=@"$1" https://file0.s3kr.it/upload | sed -n 's@.*https*://file0.s3kr.it/@https://file0.s3kr.it/@;s@'\'')">@@p'; }
 shdl() { curl -O $(curl -s http://sci-hub.tw/"$@" | sed -nE 's/.*location.href.*(http.*.pdf)\?.*/\1/p') ;}
@@ -40,24 +55,26 @@ alias em='doas emerge --color n' \
 	e='$EDITOR' \
 	eix='eix -n' \
 	g='git' \
-	i='irssi' \
+	i='weechat -d "$XDG_CONFIG_HOME"/weechat' \
+	lf='lfcd' \
 	ll='ls -Flrt --color=auto' \
 	tv='noglob mpv --audio-device="alsa/hdmi:CARD=PCH,DEV=0"' \
 	m='mutt' \
-	mchenye='awk -vdate="^$(date +%-m:%-d)" '\''$0 ~ date {gsub("(^[0-9]*:[0-9]* )", "kjv ", $0);gsub("; ", "&kjv ", $0) ; print $0}'\'' $HOME/.mchenye  | sh' \
+	mbsync='mbsync -c "$XDG_CONFIG_HOME/mbsyncrc"' \
+	mchenye='awk -vdate="^$(date +%-m:%-d)" '\''$0 ~ date {gsub("(^[0-9]*:[0-9]* )", "drb ", $0);gsub("; ", "&drb ", $0) ; print $0}'\'' $HOME/lib/mchenye  | sh' \
 	mkd='mkdir -pv' \
 	mkopus='SAVEIFS=$IFS;IFS=$'\n';for i in *flac; do ffmpeg -i $i -acodec libopus -b:a 160k ${i%flac}opus;done;IFS=$SAVEIFS' \
 	mpv='noglob mpv' \
 	mkpdf='libreoffice --headless --convert-to pdf' \
 	no_blank='xset -dpms && xset s off' \
 	nvi='sam -d' \
-	o='mocp' \
+	o='ncmpcpp' \
 	off='sudo poweroff' \
 	p='zathura' \
 	rcs='sudo /sbin/rc-service' \
 	svi='sudo vis' \
-	s='sfeed_update;  tscrape_update; sfeed_html $HOME/.sfeed/feeds/* > /tmp/feeds.html; mbsync -a; TERM=dumb er GBP 1 PLN > /tmp/ex' \
-	t='tmux' \
+	s='sfeed_update;  mbsync -a; TERM=dumb er GBP 1 PLN > /tmp/ex' \
+	t='tmux -f "$XDG_CONFIG_HOME"/tmux/tmux.conf' \
 	trem='transmission-remote' \
 	v="mpv" \
 	vi='vis' \
@@ -77,9 +94,11 @@ alias -s {mp4,mkv,webm}='background mpv --no-terminal' \
 	{pdf,epub}='background zathura'
 
 # imports
-
-. $HOME/.private-commands
-. $HOME/.zkeys
+typeset -aU path
+path=( $path )
+. $XDG_CONFIG_HOME/sh/zkeys
+. $XDG_CONFIG_HOME/sh/private-commands
+fpath=($XDG_CONFIG_HOME/sh/zsh_completions $fpath)
 # zsh settings
 autoload -Uz compinit promptinit
 compinit

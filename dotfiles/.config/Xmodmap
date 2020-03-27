@@ -1,0 +1,19 @@
+! -*- coding: utf-8 -*-
+! 2017-01-14
+
+! make capslock and shift keys do shift lock
+
+! here's the default setting on special keys
+! xmodmap -pke | grep -iP '(shift|caps)'
+! keycode  50 = Shift_L NoSymbol Shift_L
+! keycode  62 = Shift_R NoSymbol Shift_R
+! keycode  66 = Caps_Lock NoSymbol Caps_Lock
+! keycode  92 = ISO_Level3_Shift NoSymbol ISO_Level3_Shift
+
+! make capslock do shift lock
+keycode 66 = F13
+clear Lock
+! make the left Shift key do shift lock
+keycode 50 = Shift_Lock
+! make the right Shift key do shift lock
+keycode 62 = Shift_Lock

@@ -12,8 +12,8 @@ done
 mkdir -p $directory
 eval $command
 if [ "$upload" = true ]; then
-    url="$(curl --proxy 'socks5h://localhost:9050/' -sL -F files[]=@$filename https://file0.s3kr.it/upload | sed -n 's@.*https*://file0.s3kr.it/@https://file0.s3kr.it/@;s@'\'')">@@p')"
+    url="$(curl -sL -F files[]=@$filename https://file0.s3kr.it/upload | sed -n 's@.*https*://file0.s3kr.it/@https://file0.s3kr.it/@;s@'\'')">@@p')"
     printf "$url" | xsel -bpsi
     exiftool -overwrite_original -url=$url $filename
-    xmessage -timeout 5 "$filename -> $url."
+    notify-send "Screenshot succesful." "$filename -> $url." -i "$filename"
 fi

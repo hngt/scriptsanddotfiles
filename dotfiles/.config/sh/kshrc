@@ -31,8 +31,8 @@ alias em='doas emerge --color n' \
 	x='sxiv -ft *' \
 	xvga='xrandr --output VGA-1 --primary'
 
-. $HOME/.ksh_completion
-. $HOME/.private-commands
+# . $HOME/.ksh_completion
+# . $HOME/.private-commands
 
 set -o emacs
 bind -m '^L'='^U'clear'^J''^Y'

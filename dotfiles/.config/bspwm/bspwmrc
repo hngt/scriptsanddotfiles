@@ -1,14 +1,14 @@
 #!/bin/sh
 
-while true; do hsetroot -cover "$(find ~/pictures/wallpapers| shuf -n1)"; sleep 1800; done &
+hsetroot &
 xrdb ~/.Xresources &
 sxhkd &
 xsetroot -cursor_name left_ptr &
 hsetroot -cover $HOME/.wallpaper &
-bspc monitor -d web term bookz videos acme vidya
+bspc monitor HDMI-1 -d web term bookz videos acme vidya
 
-bspc config border_width         3
-bspc config window_gap          10
+bspc config border_width         2
+bspc config window_gap          0
 bspc config focus_follows_pointer   true
 bspc config click_to_focus any
 bspc config split_ratio          0.52

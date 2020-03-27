@@ -1,0 +1,7 @@
+#!/bin/sh
+
+walf="$HOME/.config/wal"
+[ -f "$1" ] && wal="$1" || { [ -d "$1" ] && wal="$1/$(ls "$1"|shuf -n1)"; } || exit
+
+echo $wal > $walf
+xwallpaper --zoom "$(cat $HOME/.config/wal)"

@@ -6,47 +6,45 @@
 PATH=/usr/share/surfraw:${HOME}/.config/surfraw/elvi:${PATH}
 
 BROWSER=glinks
-xdotool search --onlyvisible --class Links windowraise windowfocus
-MARKFILE="$HOME/.bmarks"
-setbrowser() { BROWSER=$1; url=$(echo "$url" | cut -c 4-); }
+# xdotool search --onlyvisible --class  windowraise windowfocus
+MARKFILE="$HOME/lib/bookmarks"
+setbrowser() { BROWSER="$1"; url=$(echo "$url" | cut -c 4-); }
 
-sort|$HOME/bin/dmenu.sh -l 10 -p 'link:' <$MARKFILE | while read url; do
+sort "$MARKFILE" | "$HOME"/bin/dmenu.sh -i -l 10 -p 'link:' | while read -r url; do
 [ ! "$url" ] && exit
 
-case "$(echo $url|cut -d " " -f1)" in
+case "$(echo "$url"|cut -d " " -f1)" in
     br) setbrowser brave-bin ;;
-    SR) setbrowser surf_priv ;;
-    Sr) setbrowser surf_tabs ;;
-    st) setbrowser surf_tor ;;
+    ic) setbrowser oiscat    ;;
+    st) setbrowser surf_tor  ;;
 esac
 
-if [ -n "$(grep "$url" "$MARKFILE")" ]
-then
-url=$(echo $url | sed 's/.*http/http/g' )
-fi
+grep -q "$url" "$MARKFILE" && url=$(echo "$url" | sed 's/.* http/http/g')
 
-args=$(echo "$url" | sed -e 's/^\w* //')
-case $(echo $url| cut -d " " -f1) in
-    *.*|*:*|*/*)	$BROWSER "$url" ;;
-    gberg|G)		gutenberg	-browser=$BROWSER $args ;;
-    uesp|tes)		uesp		-browser=$BROWSER $args ;;
-    ddg|D)		duckduckgo	-browser=$BROWSER $args ;;
-    aw|awiki)		archwiki	-browser=$BROWSER $args ;;
-    wi|wiki)		wikipedia	-browser=$BROWSER $args ;;
-    wq|wikiq)		wikiquote	-browser=$BROWSER $args ;;
-    imdb)		imdb		-browser=$BROWSER $args ;;
-    map)		google -m	-browser=surf_tor $args ;;
-#    yt|youtube) 	sputube		-browser=$BROWSER $args ;;
-    yt|youtube) 	Yt 		$args ;;
-    git|github)		github		-browser=$BROWSER $args ;;
-    ru)			rutracker	-browser=surf_tabs $args ;;
-    aarg)		aaaaarg		-browser=surf_tabs $args ;;
-    gen)		libgen		-browser=$BROWSER $args ;;
-    sp|S)		startpage	-browser=surf_tor $args ;;
-    cr)			crossref	-browser=surf_tor $args ;;
-    gr)			perseus		-browser=$BROWSER $args ;;
-    sw)			swisscows	-browser=surf_tor $args ;;
-    *)			duckduckgo	-browser=$BROWSER $url ;;
+args=$(echo $url | sed -e 's/^\w* //')
+echo "$url" "$args"
+case $(echo "$url"| cut -d " " -f1) in
+    *.*|*:*|*/*)	"$BROWSER" "$url" ;;
+    gberg|G)		gutenberg	-browser="$BROWSER" $args ;;
+    uesp|tes)		uesp		-browser="$BROWSER" $args ;;
+    ddg|D)			duckduckgo	-browser="$BROWSER" $args ;;
+    q)			qwant		-browser="$BROWSER" $args ;;
+    aw|awiki)		archwiki	-browser="$BROWSER" $args ;;
+    wi|wiki)		wikipedia	-browser="$BROWSER" $args ;;
+    wq|wikiq)		wikiquote	-browser="$BROWSER" $args ;;
+    imdb)			imdb		-browser="$BROWSER" $args ;;
+    map)			google -m	-browser=surf_tor $args ;;
+#   yt|youtube) 	sputube		-browser="$BROWSER" $args ;;
+    yt|youtube) 	Yt 			$args ;;
+    git|github)		github		-browser="$BROWSER" $args ;;
+    ru)				rutracker	-browser=surf_tabs $args ;;
+    aarg)			aaaaarg		-browser=surf_tabs $args ;;
+    gen)			libgen		-browser="$BROWSER" $args ;;
+    sp|S)			startpage	-browser=surf_tor $args ;;
+    cr)				crossref	-browser=surf_tor $args ;;
+    gr)				perseus		-browser="$BROWSER" $args ;;
+    sw)				swisscows	-browser=surf_tor $args ;;
+    *)				duckduckgo	-browser="$BROWSER" $url ;;
 esac &
 sleep 0.1
 done
