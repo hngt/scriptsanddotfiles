@@ -1,6 +1,10 @@
 st.font: monospace:style=Regular:size=15
 !*.background:#ffffea
 !*.foreground:#000000
+dwm.normbgcolor:#ffffea
+dwm.normfgcolor:#000000
+dwm.selbgcolor:#9eeeee
+dwm.selfgcolor:#000000
 st.shape:6
 *.cursorText:#555555
 st.alpha: 1

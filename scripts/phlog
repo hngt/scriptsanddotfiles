@@ -5,8 +5,8 @@ html_location="$local/public_html/musings/"
 remote="/home/lich/"
 server="dataswamp"
 page="dataswamp.org"
-sync_command="rsync -aPuK $local/* $server:$remote"
-html_processor="pandoc"
+sync_command="rsync -aPulK $local/* $server:$remote"
+html_processor="markdown"
 
 htmlgen() {
 	printf "<!DOCTYPE html><html lang=\"en\">\n<head><meta charset=\"utf-8\">\n<link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"favicon.ico\" />"

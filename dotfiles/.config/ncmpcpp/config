@@ -25,4 +25,3 @@ song_columns_list_format = "(4)[]{n} (15)[cyan]{a} (30)[blue]{t} (46)[white]{b} 
 user_interface = "alternative"
 browser_playlist_prefix = "$8playlist$9"
 display_bitrate = "yes"
-progressbar_look = "─╼─"

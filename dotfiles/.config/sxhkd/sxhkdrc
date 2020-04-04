@@ -39,7 +39,7 @@ shift + F13
 ctrl + shift + w
 	echo nil
 super + F1
-	scratchtoggle
+	notify-send -t 30000  "Fortune" "$(fortune lib/q)"
 
 #
 # wm independent hotkeys

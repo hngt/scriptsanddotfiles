@@ -8,4 +8,5 @@ do
 	esac
 done
 cmd="curl -sL $cmd https://file0.s3kr.it/upload"
+echo $cmd
 eval $cmd | sed -n '{s@.*Clipboard.@@;s@['\'' ]http@\nhttps@g;s@'\''.*$@@}; s/[\n\r\t ]*//; /https:\/\/file0.s3kr.it\/\(album\/\)\?[a-z0-9\.]\+/p'
