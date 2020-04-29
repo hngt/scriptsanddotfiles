@@ -1,4 +1,4 @@
-st.font: monospace:style=Regular:size=15
+st.font: lich Atarist
 !*.background:#ffffea
 !*.foreground:#000000
 dwm.normbgcolor:#ffffea

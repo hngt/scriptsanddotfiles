@@ -45,11 +45,12 @@ autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 
+bindkey "^[[1;5D" backward-word
+bindkey "^[[1;5C" forward-word
+
+
 [[ -n "${key[Up]}"   ]] && bindkey -- "${key[Up]}"   up-line-or-beginning-search
 [[ -n "${key[Down]}" ]] && bindkey -- "${key[Down]}" down-line-or-beginning-search
-mocpShow() { mocp <$TTY; zle redisplay; }
-zle -N mocpShow
-bindkey '^[\' mocpShow
 bindkey '^A' beginning-of-line
 bindkey '^E' end-of-line
 bindkey " " expand-alias-space

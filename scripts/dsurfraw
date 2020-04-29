@@ -14,8 +14,7 @@ sort "$MARKFILE" | "$HOME"/bin/dmenu.sh -i -l 10 -p 'link:' | while read -r url;
 [ ! "$url" ] && exit
 
 case "$(echo "$url"|cut -d " " -f1)" in
-    br) setbrowser brave-bin ;;
-    ic) setbrowser oiscat    ;;
+    ff) setbrowser firefox-bin ;;
     st) setbrowser surf_tor  ;;
 esac
 
@@ -33,17 +32,17 @@ case $(echo "$url"| cut -d " " -f1) in
     wi|wiki)		wikipedia	-browser="$BROWSER" $args ;;
     wq|wikiq)		wikiquote	-browser="$BROWSER" $args ;;
     imdb)			imdb		-browser="$BROWSER" $args ;;
-    map)			google -m	-browser=surf_tor $args ;;
+    map)			google -m	-browser="$BROWSER" $args ;;
 #   yt|youtube) 	sputube		-browser="$BROWSER" $args ;;
     yt|youtube) 	Yt 			$args ;;
     git|github)		github		-browser="$BROWSER" $args ;;
-    ru)				rutracker	-browser=surf_tabs $args ;;
-    aarg)			aaaaarg		-browser=surf_tabs $args ;;
+    ru)				rutracker	-browser="$BROWSER" $args ;;
+    aarg)			aaaaarg		-browser="$BROWSER" $args ;;
     gen)			libgen		-browser="$BROWSER" $args ;;
-    sp|S)			startpage	-browser=surf_tor $args ;;
-    cr)				crossref	-browser=surf_tor $args ;;
+    sp|S)			startpage	-browser="$BROWSER" $args ;;
+    cr)				crossref	-browser="$BROWSER" $args ;;
     gr)				perseus		-browser="$BROWSER" $args ;;
-    sw)				swisscows	-browser=surf_tor $args ;;
+    sw)				swisscows	-browser="$BROWSER" $args ;;
     *)				duckduckgo	-browser="$BROWSER" $url ;;
 esac &
 sleep 0.1

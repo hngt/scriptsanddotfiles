@@ -8,7 +8,7 @@ corona(){
 		coronafile="$HOME/.cache/corona"
 		[ "$(stat --format="%y" "$coronafile" 2>/dev/null | cut -d ' ' -f1)" != "$(date +%F)" ] && 
 			curl -s "https://coronavirus-tracker-api.herokuapp.com/v2/locations?country_code=PL" > "$coronafile"
-		jq -j '.latest|"cC:",.confirmed," D:",.deaths," R:",.recovered,"\n"' ~/.cache/corona
+		jq -j '.latest|"cC:",.confirmed," D:",.deaths,"\n"' ~/.cache/corona
 		sleep 3600
 	done
 }
@@ -93,6 +93,6 @@ load_avg > $panelfifo &
 bttry > $panelfifo &
 memory > $panelfifo &
 curdate > $panelfifo &
-mails norwid cock personal riseup uni zx > $panelfifo &
+mails uni personal dataswamp cock > $panelfifo &
 
 bargen < $panelfifo

@@ -3,13 +3,14 @@
 # run B but then wait for the file to change.
 # great to set as $EDITOR.
 # the notion of a file changing is a little weak.
-stat=$(sha1sum "$1")
+filename="$(echo "$1" | cut -d':' -f1)"
+stat=$(sha1sum "$filename")
 xdotool key super+5
 B "$@"
 echo editing "$@"
 while sleep 1
 do
-	nstat=$(sha1sum "$1")
+	nstat=$(sha1sum "$filename")
 	if [ "x$stat" != "x$nstat" ]
 	then
 		xdotool key super+2

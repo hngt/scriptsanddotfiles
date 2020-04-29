@@ -1,4 +1,4 @@
-mpd_host=/var/run/mpd.sock
+mpd_host=/var/run/user/1000/mpd.sock
 ncmpcpp_directory= "~/.config/ncmpcpp"
 lyrics_directory= "~/.config/ncmpcpp"
 execute_on_song_change = songchange
@@ -6,7 +6,6 @@ mpd_music_dir = "~/music"
 mpd_crossfade_time = 5
 media_library_primary_tag = album_artist
 media_library_albums_split_by_date = no
-startup_screen = media_library
 display_volume_level = yes
 ignore_leading_the = yes
 external_editor = E

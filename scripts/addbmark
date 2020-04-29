@@ -1,3 +1,12 @@
 #!/bin/sh
 # adds bookmark with url to a textfile
-{ xsel -b; printf '\n' ;xsel -p; } | dmenu | sed "s/http/$(date +%d%b%y) &/" >> /home/lich/.bmarks
+#requires wkhtmltopdf and curl
+url="$({ xsel -b; printf '\n' ;xsel -p; } | dmenu | sed "s/http/$(date +%d%b%y) &/")"
+realurl="$(echo $url | sed 's/.* http/http/')"
+echo "$url" >> "$HOME"/lib/bookmarks
+fname=$HOME/lib/bookmarks-archive/"$(echo $url | sed -E "s@https?://@@;s@[ ?:&!=/]+@_@g;s@^@$(date +%y%m%d)@;s/$/.pdf/")"
+wkhtmltopdf "$realurl" "$fname"
+
+archiveurl="$(curl -I -s "https://web.archive.org/save/$realurl" | awk 'BEGIN {FS=": "} /Content-Location/{print "https://web.archive.org"$2}')"
+archiveurl="$archiveurl $(curl -s -i -d url="$realurl" http://archive.today/submit/ | awk 'BEGIN {FS=": "} /Location/{print $2}')"
+exiftool -overwrite_original -Title="$archiveurl" $fname

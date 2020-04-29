@@ -2,7 +2,7 @@
 
 mkdir -p "/run/user/"$(id -u)""
 xidfile="/run/user/"$(id -u)"/glinks-tabbed.xid"
-useragent="$(shuf -n1 $HOME/.common-user-agents)"
+useragent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0"
 
 if [ ! $(pgrep -x miniwebproxy) ]; then
 cd ~/git/miniwebproxy/

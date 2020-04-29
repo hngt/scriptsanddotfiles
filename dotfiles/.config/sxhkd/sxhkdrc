@@ -6,15 +6,13 @@ XF86Launch1
 	stfloat nnn
 XF86ScreenSaver
 	slock
-XF86Sleep
-	doas pm-hibernate
 XF86Display
 	lxrandr
 XF86Audio{Next,Prev,Play}
-	mpc -h /var/run/mpd.sock {next,prev,toggle}
+	mpc -h /var/run/user/1000/mpd.sock {next,prev,toggle}
 #	mocp {--next,--previous,--toggle-pause}
 super + {Right,Left,Down}
-	mpc -h /var/run/mpd.sock {next,prev,toggle}
+	mpc -h /var/run/user/1000/mpd.sock {next,prev,toggle}
 #	mocp {--next,--previous,--toggle-pause}
 XF86MonBrightness{Up,Down}
 	xbacklight {-inc,-dec} 5
@@ -30,6 +28,8 @@ super + x
 	passmenu
 super + s
 	dsurfraw
+super + d
+	addbmark
 super + Return
 	st
 F13
