@@ -5,12 +5,12 @@
 
 PATH=/usr/share/surfraw:${HOME}/.config/surfraw/elvi:${PATH}
 
-BROWSER=glinks
+BROWSER=plumb
 # xdotool search --onlyvisible --class  windowraise windowfocus
 MARKFILE="$HOME/lib/bookmarks"
 setbrowser() { BROWSER="$1"; url=$(echo "$url" | cut -c 4-); }
 
-sort "$MARKFILE" | "$HOME"/bin/dmenu.sh -i -l 10 -p 'link:' | while read -r url; do
+sort "$MARKFILE" | dmenu.sh -i -l 10 -p 'link' | while read -r url; do
 [ ! "$url" ] && exit
 
 case "$(echo "$url"|cut -d " " -f1)" in
@@ -29,7 +29,7 @@ case $(echo "$url"| cut -d " " -f1) in
     ddg|D)			duckduckgo	-browser="$BROWSER" $args ;;
     q)			qwant		-browser="$BROWSER" $args ;;
     aw|awiki)		archwiki	-browser="$BROWSER" $args ;;
-    wi|wiki)		wikipedia	-browser="$BROWSER" $args ;;
+    wi|wiki)		infogalactic	-browser="$BROWSER" $args ;;
     wq|wikiq)		wikiquote	-browser="$BROWSER" $args ;;
     imdb)			imdb		-browser="$BROWSER" $args ;;
     map)			google -m	-browser="$BROWSER" $args ;;

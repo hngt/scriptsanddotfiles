@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 local="/home/lich/site/"
 gopher_location="$local/public_gopher/musings/"
 html_location="$local/public_html/musings/"

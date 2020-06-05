@@ -1,0 +1,40 @@
+#!/bin/sh
+zpath="$HOME/lib/zettelkasten/"
+mkdir -p "$zpath"
+visual=0
+names=0
+case $1 in
+	-q) visual=1; shift;;
+	-l) names=1; shift;;
+esac
+
+name="$*"
+
+[ -z "$name" ] &&
+links="$(for i in $(ls -1 $zpath); do printf '%s %s\n' $(basename $i) "$(sed -n '2p' $zpath/$i)";done | \
+	dmenu -l 30 | sed 's/ +.*//g')"
+[ "$names" = "1" ] && { for link in $links; do printf "[%s]\n" $link; done | xsel -pi; exit; }
+
+date="$(date +%d%b%y-%H%M)"
+[ -f $zpath/$links ] && { filepath="$zpath/$links"; filename="$links"; } || \
+{
+[ -z "$name" ] && name="$links"
+filename="$date"-"$(echo "$name" | tr -cd '[:print:]' | tr ' ' '_' )"
+filepath="$zpath/$filename"
+printf '[%s] - %s' "$(date +%d%b%y-%H%M)" "$name" > $filepath
+cat << EOF >> $filepath
+
+
+
+
+REFERENCES:
+
+LINKS:
+
+---
+EOF
+}
+[ $visual -eq 1 ] && { [ -t 1 ] && vis "$filepath" || vis -e nano "$filepath" ;  } || E $filepath:2
+cd "$zpath"
+git add "$filename"
+git commit -m "Added $filename"

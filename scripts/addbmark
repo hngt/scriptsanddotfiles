@@ -2,9 +2,10 @@
 # adds bookmark with url to a textfile
 #requires wkhtmltopdf and curl
 url="$({ xsel -b; printf '\n' ;xsel -p; } | dmenu | sed "s/http/$(date +%d%b%y) &/")"
+[ ! "$url" ] && exit
 realurl="$(echo $url | sed 's/.* http/http/')"
 echo "$url" >> "$HOME"/lib/bookmarks
-fname=$HOME/lib/bookmarks-archive/"$(echo $url | sed -E "s@https?://@@;s@[ ?:&!=/]+@_@g;s@^@$(date +%y%m%d)@;s/$/.pdf/")"
+fname=$HOME/lib/bookmarks-archive/"$(echo $url | sed -E "s@https?://@@;s@[ ?:&!=/]+@_@g;s@^@$(date +%y%m%d%H%M)@;s/$/.pdf/")"
 wkhtmltopdf "$realurl" "$fname"
 
 archiveurl="$(curl -I -s "https://web.archive.org/save/$realurl" | awk 'BEGIN {FS=": "} /Content-Location/{print "https://web.archive.org"$2}')"
