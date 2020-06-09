@@ -1,6 +1,9 @@
 st.font: lich Atarist
 !*.background:#ffffea
 !*.foreground:#000000
+dmenu.font: monofix
+dmenu.selbackground: #9eeeee
+dmenu.selforeground: #000000
 dwm.normbgcolor:#ffffea
 dwm.normfgcolor:#000000
 dwm.selbgcolor:#9eeeee

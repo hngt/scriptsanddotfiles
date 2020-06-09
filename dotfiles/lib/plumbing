@@ -14,7 +14,7 @@ plumb start mpv --no-terminal $0
 
 # youtube and similar services
 type is text
-data matches 'https?://(www\.)?(gfycat\.|youtube\.|youtu\.be|vimeo\.com|twitter\.com/i/videos|bandcamp\.com|invidio\.us)[a-zA-Z0-9_@\-]*([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*'
+data matches 'https?://(www\.)?(gfycat\.|youtube\.|youtu\.be|vimeo\.com|twitter\.com/i/videos|bandcamp\.com|invidio\.us|bitchute\.com|lbry\.tv|redgifs\.com)[a-zA-Z0-9_@\-:]*([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*'
 plumb to web
 plumb start mpv --no-terminal $0
 
@@ -206,8 +206,13 @@ arg isfile	$1
 data set	file://$file
 plumb start plumb $data
 
-#type is text
-#data matches 'file://(.*)'
-#arg isfile	$1
-#plumb start plumb $1
+type is text
+data matches 'file://(.*)'
+arg isfile	$1
+plumb start plumb $1
+
+type is text
+data matches '.*\..*'
+plumb start glinks $0
+
 

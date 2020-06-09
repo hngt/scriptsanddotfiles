@@ -105,6 +105,9 @@ in \f2\\*([J\f1\c
 .if !\\*([Q \\*([Q,
 .if !\\*([A \\*([A,
 .if !\\*([T \f2\\*([T,\f1
+.if !\\*([l trans. by \\*([l,
+.if !\\*([E ed. by \\*([E\c,
+.if !\\*([x trans. and ed. by \\*([x,
 .if !\\*([S \\*([S,
 .if !\\*([V \\*([V,
 .if !\\*([P \{\
@@ -127,7 +130,9 @@ in \f2\\*([J\f1\c
 .if !\\*([A \\*([A,
 .if !\\*([T \\*([o\\*([T\\*([c
 in \f2\\*([B\f1\c
+.if !\\*([l , trans. by \\*([l\c
 .if !\\*([E , ed. by \\*([E\c
+.if !\\*([x , trans. and ed. by \\*([x\c
 .if !\\*([S , \\*([S\c
 .if !\\*([V , vol. \\*([V\c
 .if !\\*([P \{\
@@ -166,8 +171,6 @@ in \f2\\*([B\f1\c
 .[<
 ..
 .de [<
-.\" .SH
-.\" Preliminary Bibliography
 .LP
 .de FP
 .IP \\\\$1.
@@ -186,8 +189,10 @@ in \f2\\*([B\f1\c
 .de [-
 .rm [H [Q [A [T [S [J [B [E
 .rm [V [N [P [I [C [D [O [R [G
+.rm [l [x
 .XP
 ..
 .de ]]
 .\" circumvent EOF bug in troff
 ..
+

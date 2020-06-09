@@ -9,9 +9,8 @@ sleep 0.1 &&
 startplumb &
 xmodmap ~/.config/Xmodmap &
 toggletouchpad &
-sxhkd -r /dev/null &
 a &
 st &
 dunst &
-barz &
-dwm
+redshift -l 52:16 &
+dbus-launch --exit-with-session spectrwm

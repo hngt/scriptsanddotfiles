@@ -39,7 +39,7 @@
 .\"
 .\" Sccsid @(#)s.in	1.4 (gritter) 11/13/06
 .\"
-.ds // /usr/heirloom/lib/doctools/tmac/
+.ds // /home/lich/git/scriptsanddotfiles/tmac/
 .	\" IZ - initialize (before text begins)
 .de IZ
 .nr HM 1i
@@ -1064,3 +1064,4 @@ U.S. and other countries.
 .IZ
 .em EM
 .rm IZ //
+
