@@ -1,7 +1,24 @@
-#!/bin/sh
-
+#!/bin/dash
+set -e
+PATH=/bin:/usr/bin
+displays=$(xrandr | awk  -F'[ +]' '/ connected/ {gsub("primary ", "", $0); print $1" "$3 }')
 walf="$HOME/.config/wallpaper"
-[ -f "$1" ] && wal="$1" || { [ -d "$1" ] && wal="$1/$(ls "$1"|shuf -n1)"; } || exit
-
-echo $wal > $walf
-xwallpaper --zoom "$wal"
+#true && {
+#echo updating weather...
+curl -s "http://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&row=399&col=186&lang=pl" > /tmp/wttr.png &&
+mogrify -alpha set -background none -channel A -evaluate multiply 0.3 +channel -negate /tmp/wttr.png &&
+# curl -s http://wttr.in/new%20york_ntQ.png > /tmp/wttr.png
+#} || [ ! -f /tmp/wttr.png ] && convert -size 1x1 xc:transparent /tmp/wttr.png 
+true > $walf
+echo "$displays" | while read i; do
+    screen_name="$(echo $i | cut -d' ' -f1)"
+    screen_res="$(echo $i | cut -d' ' -f2)"
+    [ -f "$1" ] && wal="$1" || { [ -d "$1" ] && wal="$1/$(ls "$1"|shuf -n1)"; } || exit
+    convert "$wal" -resize $screen_res^ -gravity center -extent $screen_res "/tmp/$screen_name-wall.png"
+    wal="$HOME/.cache/$screen_name-wall.png"
+    convert "/tmp/$screen_name-wall.png" /tmp/wttr.png -geometry +80+80 -composite "$wal"
+    c=" --output $screen_name --zoom $wal"
+    printf "%s" "$c" >> "$walf"
+done
+opts="$(cat $walf)"
+xwallpaper $opts

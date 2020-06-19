@@ -25,22 +25,22 @@ plumb start surf_tor sci-hub.tw/$0
 
 type is text
 data matches '(gopher|https?)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*\.(txt|log|sh|TXT|LOG|SH)$'
-plumb start dash -c 'curl -x socks5h://localhost:9050 -H 'User-Agent:' -sL '$0' | tr -d $"\r" | plumb -i -d edit -a ''action=showdata filename=/url/'$0'''
+plumb start sh -c 'curl -H 'User-Agent:' -sL '$0' | tr -d $"\r" | plumb -i -d edit -a ''action=showdata filename=/url/'$0'''
  
 type is text
 data matches 'https?://(www\.)?(imgur\.com)[a-zA-Z0-9_@\-]*([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*'
 plumb to web
-plumb start dash -c 'links="$(albumrip '$0')"; for link in $links; do mkdir -p /tmp/imgur/; tmp=$(mktemp /tmp/imgur/XXXX); curl -x socks5h://localhost:9050 -s $link > $tmp && echo $tmp; done| sxiv -i && rm /tmp/imgur/*'
+plumb start sh -c 'links="$(albumrip '$0')"; for link in $links; do mkdir -p /tmp/imgur/; tmp=$(mktemp /tmp/imgur/XXXX); curl -x socks5h://localhost:9050 -s $link > $tmp && echo $tmp; done| sxiv -i && rm /tmp/imgur/*'
 
 type is text
 data matches '(gopher|https?)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*\.(jpe?g|JPE?G|gif|GIF|tiff?|TIFF?|ppm|bit|png|PNG)(\?[a-zA-Z0-9_@\-&]*)?'
-plumb start dash -c 'tmp=$(mktemp); curl -x socks5h://localhost:9050 -H 'User-Agent:' -sL '$0' > $tmp ;sxiv $tmp; rm $tmp' 
+plumb start sh -c 'tmp=$(mktemp); curl -H 'User-Agent:' -sL '$0' > $tmp ;sxiv $tmp; rm $tmp' 
 
 # magnet links
 type is text
 data matches 'magnet:\?xt=.*'
 plumb to web
-plumb start dash -c 'transmission-remote -a $(echo "'$0'" | sed -E "s/dn=.*/dn=ab/g")'
+plumb start sh -c 'transmission-remote -a $(echo "'$0'" | sed -E "s/dn=.*/dn=ab/g")'
 
 type is text
 data matches '(gopher)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*'
@@ -51,7 +51,7 @@ plumb start st torsocks sacc $0
 type is text
 data matches '(https?|ftp|file|news|nntp|telnet|wais|prospero)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-()]+)*/?[a-zA-Z0-9_?,%#~&/\-+=()]+([:.][a-zA-Z0-9_?,%#~&/\-+=()]+)*'
 plumb to web
-plumb start glinks $0
+plumb start palemoon $0
 
 type is text
 data matches '.*\.html?'
@@ -186,7 +186,7 @@ plumb start 9 rc -c 'man '$2' '$1' | nobs | plumb -i -d edit -a ''action=showdat
 
 type is text
 data matches '([a-zA-Z¡-￿0-9_\-./]+)\(([1-8])\)'
-plumb start dash -c 'MANWIDTH=71 man '$2' '$1' | nobs | plumb -i -d edit -a ''action=showdata filename=/man/'$1'('$2')'''
+plumb start sh -c 'MANWIDTH=71 man '$2' '$1' | nobs | plumb -i -d edit -a ''action=showdata filename=/man/'$1'('$2')'''
 
 # start rule for images without known suffixes
 dst is image

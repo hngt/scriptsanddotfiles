@@ -1,4 +1,4 @@
-st.font: lich Atarist
+st.font: Atarist
 !*.background:#ffffea
 !*.foreground:#000000
 dmenu.font: monofix

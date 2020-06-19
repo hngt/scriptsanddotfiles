@@ -1,7 +1,6 @@
 #!/bin/sh
 compton -b &
 xbanish &
-xwallpaper --zoom "$(cat ~/.config/wallpaper)" &
 xrdb ~/.config/Xresources &
 xset s off &
 xset -dpms &
@@ -10,7 +9,8 @@ startplumb &
 xmodmap ~/.config/Xmodmap &
 toggletouchpad &
 a &
-st &
 dunst &
 redshift -l 52:16 &
+autorandr home &&
+xwallpaper $(cat $HOME/.config/wallpaper) &
 dbus-launch --exit-with-session spectrwm

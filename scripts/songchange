@@ -1,3 +1,3 @@
 #!/bin/sh
-[ -e /tmp/panel ] && mpc -h /var/run/user/1000/mpd.sock current |  tr -cd '[:print:]' | awk 'BEGIN { printf("X") } length > 41 { gsub("[,()]","",$0); for (i=1; i<=NF; i++) { printf(substr($i, 1, 1)) } } length < 41 { printf($0) } length == 41 { printf($0) } END { printf("\n") } ' > /tmp/panel
+[ -e /tmp/panel ] && mocp -Q '%artist - %song' |  tr -cd '[:print:]' | awk 'BEGIN { printf("X") } length > 41 { gsub("[,()]","",$0); for (i=1; i<=NF; i++) { printf(substr($i, 1, 1)) } } length < 41 { printf($0) } length == 41 { printf($0) } END { printf("\n") } ' > /tmp/panel
 

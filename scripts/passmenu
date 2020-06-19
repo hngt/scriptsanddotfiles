@@ -14,11 +14,10 @@ password_files=( "${password_files[@]#"$prefix"/}" )
 password_files=( "${password_files[@]%.gpg}" )
 
 password=$(printf '%s\n' "${password_files[@]}" | dmenu.sh -p 'password:' -l 20 "$@")
-
 [[ -n $password ]] || exit
 
 if [[ $typeit -eq 0 ]]; then
-	pass "$password" 2>/dev/null | xsel -ip -t 300 && sleep 10s && echo '' | xsel -ip
+	pass "$password" | xsel -ip -t 10000
 else
 	pass "$password" | { IFS= read -r pass; printf %s "$pass"; } |
 		xdotool type --clearmodifiers --file -

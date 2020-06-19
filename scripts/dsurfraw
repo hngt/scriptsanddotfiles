@@ -3,7 +3,7 @@
 # can have multiple prefixes for choice of browser or surfraw
 # function
 
-PATH=/usr/share/surfraw:${HOME}/.config/surfraw/elvi:${PATH}
+PATH=/usr/lib/surfraw:/usr/share/surfraw:${HOME}/.config/surfraw/elvi:${PATH}
 
 BROWSER=plumb
 # xdotool search --onlyvisible --class  windowraise windowfocus
@@ -14,14 +14,13 @@ sort "$MARKFILE" | dmenu.sh -i -l 10 -p 'link' | while read -r url; do
 [ ! "$url" ] && exit
 
 case "$(echo "$url"|cut -d " " -f1)" in
-    ff) setbrowser firefox-bin ;;
+    ff) setbrowser firefox ;;
     st) setbrowser surf_tor  ;;
 esac
 
 grep -q "$url" "$MARKFILE" && url=$(echo "$url" | sed 's/.* http/http/g')
 
 args=$(echo $url | sed -e 's/^\w* //')
-echo "$url" "$args"
 case $(echo "$url"| cut -d " " -f1) in
     *.*|*:*|*/*)	"$BROWSER" "$url" ;;
     gberg|G)		gutenberg	-browser="$BROWSER" $args ;;
