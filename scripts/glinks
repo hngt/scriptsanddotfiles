@@ -6,7 +6,7 @@ useragent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:74.0) Gecko/20100101 Fir
 
 if [ ! $(pgrep -x miniwebproxy) ]; then
 cd ~/git/miniwebproxy/
-torsocks ./miniwebproxy &
+./miniwebproxy &
 echo 'turning on web proxy'
 fi
 

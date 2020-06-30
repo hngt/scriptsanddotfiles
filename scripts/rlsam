@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-[ !  -n "$(which rlwrap)" ]  && echo "rled: no rlwrap found"  >&2  && exit -1
-rlwrap sam -d "$@"

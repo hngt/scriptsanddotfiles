@@ -1,2 +1,0 @@
-#!/bin/sh
-notes $(notes _files | dmenu.sh -i -l 53)  

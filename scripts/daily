@@ -1,4 +1,0 @@
-#!/bin/sh
-torsocks mbsync -a &
-sfeed_update &
-tscrape_update &

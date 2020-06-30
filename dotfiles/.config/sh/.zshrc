@@ -50,9 +50,7 @@ mkwebm() { ffmpeg -i "$1" -c:v libx264 -preset fast -b:v "$3" -c:a libvorbis "$2
 shdl() { curl -O $(curl -s https://sci-hub.tw/"$@" | sed -nE 's/.*location.href.*(http.*.pdf)\?.*/\1/p') ;}
 psgrep() { grep $1 =(ps aux); }
 
-alias em='doas emerge --color n' \
-	e='$EDITOR' \
-	eix='eix -n' \
+alias e='$EDITOR' \
 	g='git' \
 	i='weechat -d "$XDG_CONFIG_HOME"/weechat' \
 	lf='lfcd' \
@@ -67,11 +65,10 @@ alias em='doas emerge --color n' \
 	mkpdf='libreoffice --headless --convert-to pdf' \
 	no_blank='xset -dpms && xset s off' \
 	nvi='sam -d' \
-	o='ncmpcpp' \
+	o='mocp -M "$XDG_CONFIG_HOME"/moc' \
 	off='sudo poweroff' \
+    n="sfeed_curses $HOME/.sfeed/feeds/*" \
 	p='zathura' \
-	rcs='sudo /sbin/rc-service' \
-	svi='sudo vis' \
 	s='sfeed_update;  mbsync -a; TERM=dumb er GBP 1 PLN > /tmp/ex' \
 	t='tmux -f "$XDG_CONFIG_HOME"/tmux/tmux.conf' \
 	trem='transmission-remote' \
@@ -126,4 +123,4 @@ case "$TERM" in
            xterm*) TERM=xterm-256color ;;
            rxvt*) printf '\033[5 q\r' ;;
        esac
-
+fortune lib/q

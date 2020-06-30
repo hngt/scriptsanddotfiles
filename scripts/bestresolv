@@ -1,3 +1,0 @@
-#!/bin/sh
-echo 'nameserver 127.0.0.1' | doas tee /etc/resolv.conf &&
-doas chattr +i /etc/resolv.conf

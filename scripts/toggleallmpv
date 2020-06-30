@@ -1,4 +1,0 @@
-#!/bin/sh
-for i in $(ls /tmp/mpvsoc*); do
-	echo '{"command": ["cycle", "pause"]}' | socat - $i;
-done

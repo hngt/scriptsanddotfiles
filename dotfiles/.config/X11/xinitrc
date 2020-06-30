@@ -11,6 +11,7 @@ toggletouchpad &
 a &
 dunst &
 redshift -l 52:16 &
-autorandr home &&
-xwallpaper $(cat $HOME/.config/wallpaper) &
+autorandr horizontal &&
+xwallpaper $(cat $HOME/.config/wallpaper) &&
+pokoy -r &
 dbus-launch --exit-with-session spectrwm

@@ -42,14 +42,14 @@ data matches 'magnet:\?xt=.*'
 plumb to web
 plumb start sh -c 'transmission-remote -a $(echo "'$0'" | sed -E "s/dn=.*/dn=ab/g")'
 
-type is text
-data matches '(gopher)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*'
-plumb to web
-plumb start st torsocks sacc $0
-
 # urls go to web browser
 type is text
-data matches '(https?|ftp|file|news|nntp|telnet|wais|prospero)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-()]+)*/?[a-zA-Z0-9_?,%#~&/\-+=()]+([:.][a-zA-Z0-9_?,%#~&/\-+=()]+)*'
+data matches '(https?|ftp|file|news|nntp|telnet|wais|prospero)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-()]+)*/?[a-zA-Z0-9_?,%#;~&/\-+=()]+([:.][a-zA-Z0-9_?,%#;~&/\-+=()]+)*'
+plumb to web
+plumb start palemoon $0
+
+type is text
+data matches 'gopher://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-()]+)*/?[a-zA-Z0-9_?,%#;~&/\-+=()]+([:.][a-zA-Z0-9_?,%#;~&/\-+=()]+)*'
 plumb to web
 plumb start palemoon $0
 
@@ -57,7 +57,7 @@ type is text
 data matches '.*\.html?'
 arg isfile $0
 plumb to web
-plumb start glinks $file
+plumb start palemoon $file
 
 # doc and rtf files go to wdoc2txt
 type is text

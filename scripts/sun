@@ -5,5 +5,6 @@ PATH=/usr/bin/:$PATH
 	/sun/{cnt_s++; out=1; append=" 4000"; if ( cnt_s != 1) append=""} 
 	{ gsub(":"," ",$5); $0=$5; 
 	if ( out==1 ) printf("%s %s * * *	export XAUTHORITY=/home/lich/.Xauthority && DISPLAY=:0; /usr/bin/sct%s > /dev/null\n", $2, $1, append); out=0 }';
-	 } | crontab -
+    } | cat
+# | crontab -
 

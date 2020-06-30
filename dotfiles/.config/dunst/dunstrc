@@ -24,7 +24,7 @@
     sort = yes
 
     idle_threshold = 120
-    font = Ubuntu Mono 14
+    font = Terminus 14
     line_height = 0
     markup = full
 

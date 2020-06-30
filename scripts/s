@@ -1,7 +1,0 @@
-#!/bin/ksh
-
-export SHELL="/bin/ksh"
-export TERM=dumb
-export PAGER=nobs
-
-sam "$1"
