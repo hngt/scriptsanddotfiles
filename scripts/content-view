@@ -1,0 +1,49 @@
+#!/bin/sh
+# RSS/Atom content viewer.
+#
+# Dependencies:
+# - awk, sh, etc.
+# - lynx or webdump or HTML converting to plain-text.
+export LESSCHARSET=utf-8
+# content()
+content() {
+	awk -F '\t' '
+function unescape(s) {
+	gsub("\\\\t", "\t", s);
+	gsub("\\\\n", "\n", s);
+	gsub("\\\\\\\\", "\\", s);
+	return s;
+}
+{
+	print unescape($4);
+	exit;
+}'
+}
+
+tmp=$(mktemp 'sfeed_curses_XXXXXXXXXX')
+trap "rm $tmp" EXIT
+cat > "$tmp"
+#baseurl={ awk -F '\t' '{print $3}'
+(awk -F '\t' '
+{
+	print "Title:     " $2;
+	if (length($7))
+		print "Author:    " $7;
+	if (length($3))
+		print "Link:      " $3;
+	if (length($8))
+		print "Enclosure: " $8;
+	print "";
+	exit;
+}' < "$tmp"
+
+contenttype=$(awk -F '\t' '{ print $5; exit }' < "$tmp")
+if test x"$contenttype" = x"plain"; then
+	content < "$tmp"
+else
+	(echo "<span>"; content < "$tmp";echo "</span>") | \
+		lynx -stdin -dump -underline_links -image_links -assume_charset=utf-8 -assume_local_charset=utf-8 -display_charset=utf-8 -assume_unrec_charset=utf-8
+
+fi
+) | \
+less -R
