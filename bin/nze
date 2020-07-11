@@ -1,0 +1,6 @@
+#!/bin/sh
+temp=$(mktemp -u)
+mkfifo $temp
+rec  -q -t wav - synth brownnoise band -n 1200 200 tremolo 20 .1 < /dev/urandom > $temp &
+mpv --input-ipc-server=/tmp/mpvsoc$(date +%s) --cache=no --cache-secs=3 --vid=no  --force-window=no $temp
+

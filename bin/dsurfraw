@@ -15,6 +15,8 @@ sort "$MARKFILE" | dmenu.sh -i -l 10 -p 'link' | while read -r url; do
 
 case "$(echo "$url"|cut -d " " -f1)" in
     ff) setbrowser firefox ;;
+    pm) setbrowser palemoon ;;
+    br) setbrowser brave ;;
     st) setbrowser surf_tor  ;;
 esac
 
@@ -28,12 +30,12 @@ case $(echo "$url"| cut -d " " -f1) in
     ddg|D)			duckduckgo	-browser="$BROWSER" $args ;;
     q)			qwant		-browser="$BROWSER" $args ;;
     aw|awiki)		archwiki	-browser="$BROWSER" $args ;;
-    wi|wiki)		infogalactic	-browser="$BROWSER" $args ;;
+    wi|wiki)		wikipedia	-browser="$BROWSER" $args ;;
     wq|wikiq)		wikiquote	-browser="$BROWSER" $args ;;
     imdb)			imdb		-browser="$BROWSER" $args ;;
     map)			google -m	-browser="$BROWSER" $args ;;
-#   yt|youtube) 	sputube		-browser="$BROWSER" $args ;;
-    yt|youtube) 	Yt 			$args ;;
+   yt|youtube) 	sputube		-browser="$BROWSER" $args ;;
+#    yt|youtube) 	Yt 			$args ;;
     git|github)		github		-browser="$BROWSER" $args ;;
     ru)				rutracker	-browser="$BROWSER" $args ;;
     aarg)			aaaaarg		-browser="$BROWSER" $args ;;

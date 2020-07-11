@@ -57,7 +57,7 @@ alias e='$EDITOR' \
 	ll='ls -Flrt --color=auto' \
 	tv='noglob mpv --audio-device="alsa/hdmi:CARD=PCH,DEV=0"' \
 	m='mutt' \
-	mbsync='mbsync -c "$XDG_CONFIG_HOME/mbsyncrc"' \
+	mbsync=' [ $(date "+%H") = "19" ] && mbsync -c "$XDG_CONFIG_HOME/mbsyncrc"' \
 	mchenye='awk -vdate="^$(date +%-m:%-d)" '\''$0 ~ date {gsub("(^[0-9]*:[0-9]* )", "drb ", $0);gsub("; ", "&drb ", $0) ; print $0}'\'' $HOME/lib/mchenye  | sh' \
 	mkd='mkdir -pv' \
 	mkopus='SAVEIFS=$IFS;IFS=$'\n';for i in *flac; do ffmpeg -i $i -acodec libopus -b:a 160k ${i%flac}opus;done;IFS=$SAVEIFS' \
@@ -69,7 +69,7 @@ alias e='$EDITOR' \
 	off='sudo poweroff' \
     n="sfeed_curses $HOME/.sfeed/feeds/*" \
 	p='zathura' \
-	s='sfeed_update;  mbsync -a; TERM=dumb er GBP 1 PLN > /tmp/ex' \
+	s='[ $(date "+%H") = "11" ] && sfeed_update;  mbsync -a' \
 	t='tmux -f "$XDG_CONFIG_HOME"/tmux/tmux.conf' \
 	trem='transmission-remote' \
 	v="mpv" \
@@ -78,8 +78,7 @@ alias e='$EDITOR' \
 	yt='noglob youtube-dl --add-metadata -ic' \
 	yta='yt -x -f bestaudio/best --ignore-config --add-metadata' \
 	ync='yt --ignore-config' \
-	x='sxiv -ft *' \
-	xvga='xrandr --output VGA-1 --primary'
+	x='sxiv -ft *'
 alias -g L='| less' \
 	G='| grep' \
 	extract='aunpack'
@@ -117,6 +116,8 @@ zmodload zsh/complist
 _comp_options+=(globdots)
 export SAVEHIST=$HISTSIZE
 zstyle ':completion:*' rehash true
+setopt inc_append_history
+setopt share_history
 
 
 case "$TERM" in
