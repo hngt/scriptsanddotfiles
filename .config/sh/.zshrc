@@ -50,7 +50,7 @@ mkwebm() { ffmpeg -i "$1" -c:v libx264 -preset fast -b:v "$3" -c:a libvorbis "$2
 shdl() { curl -O $(curl -s https://sci-hub.tw/"$@" | sed -nE 's/.*location.href.*(http.*.pdf)\?.*/\1/p') ;}
 psgrep() { grep $1 =(ps aux); }
 
-alias e='$EDITOR' \
+alias c='git  --git-dir=$HOME/git/dotfiles --work-tree=$HOME' \
 	g='git' \
 	i='weechat -d "$XDG_CONFIG_HOME"/weechat' \
 	lf='lfcd' \

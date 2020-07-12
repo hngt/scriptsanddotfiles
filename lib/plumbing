@@ -14,7 +14,7 @@ plumb start mpv --no-terminal $0
 
 # youtube and similar services
 type is text
-data matches 'https?://(www\.)?(gfycat\.|youtube\.|youtu\.be|vimeo\.com|twitter\.com/i/videos|bandcamp\.com|invidio\.us|bitchute\.com|lbry\.tv|redgifs\.com)[a-zA-Z0-9_@\-:]*([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*'
+data matches 'https?://(www\.)?((gfycat\.|youtube\.|youtu\.be|vimeo\.com|twitter\.com/i/videos|bandcamp\.com|invidio\.us|bitchute\.com|lbry\.tv|redgifs\.com)[a-zA-Z0-9_@\-:]*([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*|([a-z1-9A-Z.]+)/videos/watch/[0-9a-z\-]+)'
 plumb to web
 plumb start mpv --no-terminal $0
 
