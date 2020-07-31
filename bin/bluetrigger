@@ -1,0 +1,4 @@
+#!/bin/sh
+BLUELOCK="$HOME/.local/run/bluelock"
+! [ -f "$BLUELOCK" ] && { touch "$BLUELOCK"; echo locked; } || { rm "$BLUELOCK"; echo unlocked; }
+

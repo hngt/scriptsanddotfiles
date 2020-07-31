@@ -1,13 +1,21 @@
 #!/bin/sh
 # adds bookmark with url to a textfile
 #requires wkhtmltopdf and curl
-url="$({ xsel -b; printf '\n' ;xsel -p; } | dmenu | sed "s/http/$(date +%d%b%y) &/")"
+[ "$1" = "-t" ] && tag=1 && shift
+[ "$1" ] && url="$1" ||  url="$({ xsel -b; printf '\n' ;xsel -p; })" | dmenu.sh 
 [ ! "$url" ] && exit
-realurl="$(echo $url | sed 's/.* http/http/')"
+[ $tag ] && url="$(echo "$url" | dmenu.sh)"
+url=$( echo "$url"| sed "s/http/$(date +%d%b%y) &/")
+realurl="$(echo "$url" | sed 's/.* http/http/')"
+pagetitle="$(curl -s "$realurl" | grep -o "<title>[^<]*" | tr '/' '_'| tail -c+8 )"
+url=$(echo "$url" | sed "s/^/$pagetitle /")
 echo "$url" >> "$HOME"/lib/bookmarks
-fname=$HOME/lib/bookmarks-archive/"$(echo $url | sed -E "s@https?://@@;s@[ ?:&!=/]+@_@g;s@^@$(date +%y%m%d%H%M)@;s/$/.pdf/")"
-wkhtmltopdf "$realurl" "$fname"
 
-archiveurl="$(curl -I -s "https://web.archive.org/save/$realurl" | awk 'BEGIN {FS=": "} /Content-Location/{print "https://web.archive.org"$2}')"
-archiveurl="$archiveurl $(curl -s -i -d url="$realurl" http://archive.today/submit/ | awk 'BEGIN {FS=": "} /Location/{print $2}')"
+fname=$HOME/lib/bookmarks-archive/"$(echo $url | sed -E "s@https?://@@;s@[ ?:&!=/]+@_@g;s@^@$(date +%y%m%d%H%M)@;s/$/.pdf/")"
+echo "$realurl" | egrep  '(youtube\.com|youtu\.be|invidio|bitchute)' && youtube-dl "$realurl"
+wkhtmltopdf --custom-header "User-Agent" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/605.1.15
+(KHTML, like Gecko) Version/13.1 Safari/605.1.15" --custom-header-propagation "$realurl" "$fname"
+
+archiveurl="$(curl -I -s "https://web.archive.org/save/$realurl" | awk 'BEGIN {FS=": "} /content-location/{print "https://web.archive.org"$2}')"
+archiveurl="$archiveurl $(curl -s -i -d url="$realurl" http://archive.today/submit/ | awk 'BEGIN {FS=": "} /[Ll]ocation/{print $2}')"
 exiftool -overwrite_original -Title="$archiveurl" $fname

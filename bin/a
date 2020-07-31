@@ -12,6 +12,6 @@ else
     plumber
 fi
 acme_bin_dir=$( cd $(dirname $0) && pwd )
-acme -a -F "$HOME/lib/fonts/unifont/unifont.font" -f "$HOME/lib/fonts/atarist/atarist-normal.font" "$@" &
+acme -a -F "/mnt/font/GoRegular/28a/font" -f "$HOME/lib/fonts/atarist/atarist-normal.font" "$@" &
 sleep 1
 9pfuse `namespace`/acme /tmp/mnt/acme

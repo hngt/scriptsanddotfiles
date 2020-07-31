@@ -1,10 +1,12 @@
 #!/bin/sh
 PATH=/usr/bin/:$PATH
-{ crontab -l | grep -v sct ; /usr/lib/plan9/bin/astro -k | awk 'BEGIN {cnt_s=0; out=0} 
-	/light/{out=1; append=" 3500"; $5=$4}
-	/sun/{cnt_s++; out=1; append=" 4000"; if ( cnt_s != 1) append=""} 
+{ crontab -l | grep -Ev '(sct|blueshift)'; /usr/lib/plan9/bin/astro -k | awk '
+    BEGIN { INTRO="export XAUTHORITY=$HOME/.local/run/Xauthority && export DISPLAY=:0 && ! [ -f \"$HOME/.local/run/bluelock\" ] && " }
+	/sun rises/{out=1; append=" 6500"; }
+	/sun sets/{out=1; append=" 3500"; } 
 	{ gsub(":"," ",$5); $0=$5; 
-	if ( out==1 ) printf("%s %s * * *	export XAUTHORITY=/home/lich/.Xauthority && DISPLAY=:0; /usr/bin/sct%s > /dev/null\n", $2, $1, append); out=0 }';
-    } | cat
-# | crontab -
+    if ( append == " 6500" ) timerise=$1$2;
+    if ( append == " 3500" ) timeset=$1$2;
+	if ( out ) printf("%s %s * * * %s /usr/bin/sct%s > /dev/null\n", $2, $1, INTRO, append); out=0; append=""};
+    END { printf("*/5 * * * * %s $HOME/bin/blueshift %s %s 6500 3500\n", INTRO, timerise, timeset)}'; } | crontab -
 
