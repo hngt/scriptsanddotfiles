@@ -9,8 +9,8 @@ startplumb &
 xmodmap ~/.config/Xmodmap &
 toggletouchpad &
 a &
+udiskie -a -n &
 dunst &
-redshift -l 52:16 &
 autorandr horizontal &&
 xwallpaper $(cat $HOME/.config/wallpaper) &&
 pokoy -r &

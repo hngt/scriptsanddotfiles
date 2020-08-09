@@ -34,8 +34,8 @@ case $(echo "$url"| cut -d " " -f1) in
     wq|wikiq)		wikiquote	-browser="$BROWSER" $args ;;
     imdb)			imdb		-browser="$BROWSER" $args ;;
     map)			google -m	-browser="$BROWSER" $args ;;
-   yt|youtube) 	sputube		-browser="$BROWSER" $args ;;
-#    yt|youtube) 	Yt 			$args ;;
+#   yt|youtube) 	sputube		-browser="$BROWSER" $args ;;
+    yt|youtube) 	Yt 			$args ;;
     git|github)		github		-browser="$BROWSER" $args ;;
     ru)				rutracker	-browser="$BROWSER" $args ;;
     aarg)			aaaaarg		-browser="$BROWSER" $args ;;

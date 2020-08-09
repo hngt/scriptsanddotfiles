@@ -23,7 +23,6 @@ expand-alias-space() {
 }
 zle -N expand-alias-space
 
-alarm() { sleep $1 && printf "$2\a\n"; }
 background() {
 	for ((i=2;i<=$#;i++)); do
 		${@[1]} ${@[$i]} &> /dev/null &
@@ -46,10 +45,11 @@ lfcd () {
 
 
 
+alarm() { sleep "$1" && shift; printf "$@\a\n"; notify-send "$1" "$2"; }
 mkwebm() { ffmpeg -i "$1" -c:v libx264 -preset fast -b:v "$3" -c:a libvorbis "$2"; }
 shdl() { curl -O $(curl -s https://sci-hub.tw/"$@" | sed -nE 's/.*location.href.*(http.*.pdf)\?.*/\1/p') ;}
 psgrep() { grep $1 =(ps aux); }
-
+cdu() { cd /run/media/$USER/$1 }
 alias c='git  --git-dir=$HOME/git/dotfiles --work-tree=$HOME' \
 	g='git' \
 	i='weechat -d "$XDG_CONFIG_HOME"/weechat' \
@@ -57,19 +57,20 @@ alias c='git  --git-dir=$HOME/git/dotfiles --work-tree=$HOME' \
 	ll='ls -Flrt --color=auto' \
 	tv='noglob mpv --audio-device="alsa/hdmi:CARD=PCH,DEV=0"' \
 	m='mutt' \
-	mbsync=' [ $(date "+%H") = "19" ] && mbsync -c "$XDG_CONFIG_HOME/mbsyncrc"' \
+    mbsync='mbsync -c "$XDG_CONFIG_HOME/mbsyncrc"' \
 	mchenye='awk -vdate="^$(date +%-m:%-d)" '\''$0 ~ date {gsub("(^[0-9]*:[0-9]* )", "drb ", $0);gsub("; ", "&drb ", $0) ; print $0}'\'' $HOME/lib/mchenye  | sh' \
 	mkd='mkdir -pv' \
 	mkopus='SAVEIFS=$IFS;IFS=$'\n';for i in *flac; do ffmpeg -i $i -acodec libopus -b:a 160k ${i%flac}opus;done;IFS=$SAVEIFS' \
 	mpv='noglob mpv' \
 	mkpdf='libreoffice --headless --convert-to pdf' \
 	no_blank='xset -dpms && xset s off' \
+    nonet='unshare -cn' \
 	nvi='sam -d' \
 	o='mocp -M "$XDG_CONFIG_HOME"/moc' \
 	off='sudo poweroff' \
     n="sfeed_curses $HOME/.sfeed/feeds/*" \
 	p='zathura' \
-	s='[ $(date "+%H") = "11" ] && sfeed_update;  mbsync -a' \
+	s='sfeed_update;  mbsync -a;' \
 	t='tmux -f "$XDG_CONFIG_HOME"/tmux/tmux.conf' \
 	trem='transmission-remote' \
 	v="mpv" \
@@ -121,7 +122,7 @@ setopt share_history
 
 
 case "$TERM" in
-           xterm*) TERM=xterm-256color ;;
+           xterm*) TERM=xterm-256color; printf '\033[6 q\r' ;;
            rxvt*) printf '\033[5 q\r' ;;
        esac
 fortune lib/q
