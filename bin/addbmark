@@ -2,7 +2,7 @@
 # adds bookmark with url to a textfile
 #requires wkhtmltopdf and curl
 [ "$1" = "-t" ] && tag=1 && shift
-[ "$1" ] && url="$1" ||  url="$({ xsel -b; printf '\n' ;xsel -p; })" | dmenu.sh 
+[ "$1" ] && url="$1" ||  url="$({ xsel -b; printf '\n' ;xsel -p; } | dmenu.sh )"
 [ ! "$url" ] && exit
 [ $tag ] && url="$(echo "$url" | dmenu.sh)"
 url=$( echo "$url"| sed "s/http/$(date +%d%b%y) &/")

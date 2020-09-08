@@ -9,14 +9,12 @@
 #     youtube-dl --add-metadata -icxf bestaudio/best URL
 #     eval $(audio-spilt FILE OUTDIR)
 # This is it! Tracks should be now in OUTDIR
-# This code is under CC0 http://creativecommons.org/publicdomain/zero/1.0/
-# by Andrzej <dreadknight@firemail.cc> Bogdanowicz 2019
-
+[ "$1" = "-ka" ] && opt="-v ka=1" && shift
 outdir="$2"
 if [ -z "$outdir" ]; then outdir=$(echo "$1.dir" | tr " " "_");fi
 mkdir -p "$outdir"
 
-exiftool -s -s -s -b -Description "$1" | awk -v dir="$outdir" -v filename="$1" \
+exiftool -s -s -s -b -Description "$1" | awk -v ka=1 -v dir="$outdir" -v filename="$1" \
 	'BEGIN{fileformat=filename; gsub(".*\\.", "", fileformat); timestamps[1]=0}
 	/[0-9]:[0-9][0-9]/{
 	 gsub("([A-Za-z\\(\\) ])+$","",$0)
@@ -40,6 +38,7 @@ exiftool -s -s -s -b -Description "$1" | awk -v dir="$outdir" -v filename="$1" \
 	 gsub(" ", "_", savetos[tnum]);
 	 savetos[tnum+1] = saveto;
 	 command="ffmpeg -i \"%s\" -acodec copy -ss %s -t %s -metadata:s:a:0 title=\"%s\" -metadata:s:a:0 artist=\"%s\" -metadata title=\"%s\" -metadata artist=\"%s\" -metadata track=\"%s\" \"%s\";\n";
+     if (ka) { print "dog" }
 	 printf(command,filename,timestamps[tnum],prevtime,titles[tnum],games[tnum],titles[tnum],games[tnum],tnum,savetos[tnum]);
 	 }
 	END{
