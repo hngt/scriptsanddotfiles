@@ -62,5 +62,6 @@ if ! { ps -e | grep X > /dev/null; } && [  "$(tty)" = "/dev/tty1" ] ; then
 	fortune $HOME/lib/q
 	sleep 5
 	trap - INT
+#    exec startxfce4
 	exec startx $XINITRC --
 fi

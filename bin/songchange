@@ -1,5 +1,6 @@
 #!/bin/sh
-[ -e /tmp/panel ] && mocp -M "$XDG_CONFIG_HOME"moc -Q '%artist - %song' |  iconv -f UTF-8 -t ASCII//TRANSLIT | awk '
+#mocp -M "$XDG_CONFIG_HOME"moc -Q '%artist - %song' |  iconv -f UTF-8 -t ASCII//TRANSLIT | awk '
+[ -e /tmp/panel ] &&  mpc current |  iconv -f UTF-8 -t ASCII//TRANSLIT | awk '
 BEGIN { printf("X") }
 { if ( length > 41 ) 
 { 

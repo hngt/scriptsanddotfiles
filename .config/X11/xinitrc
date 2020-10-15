@@ -1,17 +1,19 @@
 #!/bin/sh
 compton -b &
+pulseaudio --start &
+start-x11-pulseaudio &
 xbanish &
 xrdb ~/.config/Xresources &
 xset s off &
 xset -dpms &
 sleep 0.1 &&
 startplumb &
-xmodmap ~/.config/Xmodmap &
 toggletouchpad &
 a &
 udiskie -a -n &
 dunst &
+xss-lock sxlock &
 autorandr horizontal &&
 xwallpaper $(cat $HOME/.config/wallpaper) &&
 pokoy -r &
-dbus-launch --exit-with-session spectrwm
+exec dbus-launch --exit-with-session spectrwm

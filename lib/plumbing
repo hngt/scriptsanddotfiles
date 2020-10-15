@@ -9,7 +9,7 @@ plumb to showmail
 
 # should deal with all videos etc
 type is text
-data matches '(gopher|https?)://.*\.(mkv|mp4|avi|webm|ogg|ogv|gifv|mp3|mp4|opus|flac|ape)'
+data matches '(gopher|https?)://.*\.(mkv|mp4|avi|webm|ogg|ogv|gif|gifv|mp3|mp4|opus|flac|ape)'
 plumb start mpv --no-terminal $0
 
 # youtube and similar services
@@ -33,7 +33,7 @@ plumb to web
 plumb start sh -c 'links="$(albumrip '$0')"; for link in $links; do mkdir -p /tmp/imgur/; tmp=$(mktemp /tmp/imgur/XXXX); curl -x socks5h://localhost:9050 -s $link > $tmp && echo $tmp; done| sxiv -i && rm /tmp/imgur/*'
 
 type is text
-data matches '(gopher|https?)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*\.(jpe?g|JPE?G|gif|GIF|tiff?|TIFF?|ppm|bit|png|PNG)(\?[a-zA-Z0-9_@\-&]*)?'
+data matches '(gopher|https?)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*\.(jpe?g|JPE?G|tiff?|TIFF?|ppm|bit|png|PNG)(\?[a-zA-Z0-9_@\-&]*)?'
 plumb start sh -c 'tmp=$(mktemp); curl -H 'User-Agent:' -sL '$0' > $tmp ;sxiv $tmp; rm $tmp' 
 
 # magnet links
@@ -46,7 +46,7 @@ plumb start sh -c 'transmission-remote -a $(echo "'$0'" | sed -E "s/dn=.*/dn=ab/
 type is text
 data matches '(https?|ftp|file|news|nntp|telnet|wais|prospero)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-()]+)*/?[a-zA-Z0-9_?,%#;~&/\-+=()]+([:.][a-zA-Z0-9_?,%#;~&/\-+=()]+)*'
 plumb to web
-plumb start glinks $0
+plumb start firefox $0
 
 type is text
 data matches 'gopher://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-()]+)*/?[a-zA-Z0-9_?,%#;~&/\-+=()]+([:.][a-zA-Z0-9_?,%#;~&/\-+=()]+)*'
@@ -57,7 +57,7 @@ type is text
 data matches '.*\.html?'
 arg isfile $0
 plumb to web
-plumb start glinks $file
+plumb start firefox $file
 
 # doc and rtf files go to wdoc2txt
 type is text
@@ -76,7 +76,7 @@ plumb start loffice $file
 # image files go to sxiv
 type is text
 data matches '[a-zA-Z¡-￿0-9_\-./]+'
-data matches '([a-zA-Z¡-￿0-9_\-./]+)\.(jpe?g|JPE?G|gif|GIF|tiff?|TIFF?|ppm|bit|png|PNG)'
+data matches '([a-zA-Z¡-￿0-9_\-./]+)\.(jpe?g|JPE?G|tiff?|TIFF?|ppm|bit|png|PNG)'
 arg isfile	$0
 plumb to image
 plumb start sxiv $file
@@ -213,6 +213,6 @@ plumb start plumb $1
 
 type is text
 data matches '.*\..*'
-plumb start glinks $0
+plumb start /usr/bin/xdg-open $0
 
 

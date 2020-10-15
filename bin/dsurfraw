@@ -4,7 +4,7 @@
 # function
 
 PATH=/usr/lib/surfraw:/usr/share/surfraw:${HOME}/.config/surfraw/elvi:${PATH}
-
+export GTK_USE_PORTAL=1 
 BROWSER=plumb
 # xdotool search --onlyvisible --class  windowraise windowfocus
 MARKFILE="$HOME/lib/bookmarks"
