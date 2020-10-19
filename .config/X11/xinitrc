@@ -6,6 +6,7 @@ xbanish &
 xrdb ~/.config/Xresources &
 xset s off &
 xset -dpms &
+urxvtd &
 sleep 0.1 &&
 startplumb &
 toggletouchpad &

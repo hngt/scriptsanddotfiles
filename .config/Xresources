@@ -1,13 +1,7 @@
-st.font: Atarist
-xterm*bellIsUrgent: true
-xterm*metaSendsEscape: true
-xterm*charClass: 33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
-xterm*on3Clicks: regex (([a-z]+)?:/)?/[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*
-xterm*on4Clicks:  line
-XTerm*selectToClipboard:false
-xterm*faceName: Atarist
 !*.background:#ffffea
-!*.foreground:#000000
+!*.cursorColor:#555555
+*.cursorText:#555555
+! Disable ISO 14755 unicode input so I can use Ctrl-Shift bindings
 dmenu.font: monofix
 dmenu.selbackground: #9eeeee
 dmenu.selforeground: #000000
@@ -15,16 +9,40 @@ dwm.normbgcolor:#ffffea
 dwm.normfgcolor:#000000
 dwm.selbgcolor:#9eeeee
 dwm.selfgcolor:#000000
-st.cursorshape:6
-st.borderless:0
-*.cursorText:#555555
-st.alpha: 1
-!*.cursorColor:#555555
-URxvt*background:         #ffffea
-URxvt*foreground:         #000000
-URxvt.letterSpace: -1
-URxvt.scrollBar: noneEmacs.FontBackend: xft
 Emacs.font: Monospace-10
+!*.foreground:#000000
+st.alpha: 1
+st.borderless:0
+st.cursorshape:6
+st.font: Atarist
+URxvt*background:         #ffffea
+URxvt*font:            xft: Atarist
+URxvt*foreground:         #000000
+URxvt*imFont:          -misc-sazanami*
+URxvt.iso14755_52:     false
+URxvt.iso14755:        false
+URxvt.keysym.C-Delete:     matcher:list
+URxvt.keysym.M-Delete:     matcher:select
+URxvt.keysym.M-Escape: perl:keyboard-select:activate
+URxvt.letterSpace: 1
+URxvt*loginShell:      true
+URxvt.matcher.button:  1
+URxvt.perl-ext-common: default,matcher,filter-paste,keyboard-select
+URxvt*saveLines:       5000
+URxvt*scrollBar:       false
+URxvt.scrollBar: noneEmacs.FontBackend: xft
+URxvt*scrollBar_right: false
+URxvt.urgentOnBell: true
+URxvt.url-launcher:    /usr/bin/plumb
+Xft.dpi:               96
+! Xresources file
+xterm*bellIsUrgent: true
+xterm*charClass: 33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48
+xterm*faceName: lich Atarist
+xterm*metaSendsEscape: true
+xterm*on3Clicks: regex (([a-z]+)?:/)?/[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*
+xterm*on4Clicks:  line
+XTerm*selectToClipboard:false
 ! special
 *.foreground:   #000000
 *.background:   #ffffea

@@ -1,0 +1,6 @@
+sub on_tt_paste {
+    my ($term, $octets) = @_;
+    $octets =~ s/\x1b\[201~//g;
+    $term->tt_paste($octets);
+    return true;
+}
