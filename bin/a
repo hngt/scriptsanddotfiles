@@ -1,7 +1,9 @@
 #!/bin/sh
 export ENV="$XDG_CONFIG_HOME/sh/kshrc"
+export HISTORY="$XDG_CONFIG_HOME/sh/ksh_hist"
+export HISTFILE="$XDG_CONFIG_HOME/sh/ksh_hist"
 export SHELL="/bin/mksh"
-export acmeshell="/bin/mksh"
+#export acmeshell="/usr/bin/mksh"
 export TERM=dumb
 export PAGER='nobs'
 mkdir -p /tmp/mnt/acme

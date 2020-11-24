@@ -4,7 +4,7 @@
 # function
 
 PATH=/usr/lib/surfraw:/usr/share/surfraw:${HOME}/.config/surfraw/elvi:${PATH}
-export GTK_USE_PORTAL=1 
+#export GTK_USE_PORTAL=1 
 BROWSER=plumb
 # xdotool search --onlyvisible --class  windowraise windowfocus
 MARKFILE="$HOME/lib/bookmarks"
@@ -15,9 +15,7 @@ sort "$MARKFILE" | dmenu.sh -i -l 10 -p 'link' | while read -r url; do
 
 case "$(echo "$url"|cut -d " " -f1)" in
     ff) setbrowser firefox ;;
-    pm) setbrowser palemoon ;;
     br) setbrowser brave ;;
-    st) setbrowser surf_tor  ;;
 esac
 
 grep -q "$url" "$MARKFILE" && url=$(echo "$url" | sed 's/.* http/http/g')
@@ -35,7 +33,7 @@ case $(echo "$url"| cut -d " " -f1) in
     imdb)			imdb		-browser="$BROWSER" $args ;;
     map)			google -m	-browser="$BROWSER" $args ;;
     yt)             mpv  "ytdl://ytsearch50:$args" ;;
-    youtube)        sputube -browser="$BROWSER" $args ;;
+#    yt|youtube)        sputube -browser="$BROWSER" $args ;;
 #    yt|youtube) 	Yt 			$args ;;
     git|github)		github		-browser="$BROWSER" $args ;;
     ru)				rutracker	-browser="$BROWSER" $args ;;

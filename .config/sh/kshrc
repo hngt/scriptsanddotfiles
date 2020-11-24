@@ -1,11 +1,11 @@
-export PS1='${?#0}\W\T\$ '
+export PS1='${?#0}\$ '
 alias em='doas emerge --color n' \
 	e='$EDITOR' \
 	eix='eix -n' \
 	g='git' \
 	i='irssi' \
-	ll='ls -Flrt --color=auto' \
-	ls='ls -F --color=auto' \
+	ll='ls -Flrt' \
+	ls='ls -F' \
 	tv='mpv --audio-device="alsa/hdmi:CARD=PCH,DEV=0"' \
 	m='mutt' \
 	mkd='mkdir -pv' \

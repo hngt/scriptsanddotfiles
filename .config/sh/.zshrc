@@ -58,7 +58,7 @@ alias c='git  --git-dir=$HOME/git/dotfiles --work-tree=$HOME' \
 	tv='noglob mpv --audio-device="alsa/hdmi:CARD=PCH,DEV=0"' \
 	m='mutt' \
     mbsync='mbsync -c "$XDG_CONFIG_HOME/mbsyncrc"' \
-	mchenye='awk -vdate="^$(date +%-m:%-d)" '\''$0 ~ date {gsub("(^[0-9]*:[0-9]* )", "drb ", $0);gsub("; ", "&drb ", $0) ; print $0}'\'' $HOME/lib/mchenye  | sh' \
+	mchenye='awk -vdate="^$(date +%-m:%-d)" '\''$0 ~ date {gsub("(^[0-9]*:[0-9]* )", "kjv ", $0);gsub("; ", "&kjv ", $0) ; print $0}'\'' $HOME/lib/mchenye  | sh' \
 	mkd='mkdir -pv' \
 	mkopus='SAVEIFS=$IFS;IFS=$'\n';for i in *flac; do ffmpeg -i $i -acodec libopus -b:a 160k ${i%flac}opus;done;IFS=$SAVEIFS' \
 	mpv='noglob mpv' \

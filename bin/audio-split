@@ -9,7 +9,6 @@
 #     youtube-dl --add-metadata -icxf bestaudio/best URL
 #     eval $(audio-spilt FILE OUTDIR)
 # This is it! Tracks should be now in OUTDIR
-[ "$1" = "-ka" ] && opt="-v ka=1" && shift
 outdir="$2"
 if [ -z "$outdir" ]; then outdir=$(echo "$1.dir" | tr " " "_");fi
 mkdir -p "$outdir"
@@ -38,7 +37,6 @@ exiftool -s -s -s -b -Description "$1" | awk -v ka=1 -v dir="$outdir" -v filenam
 	 gsub(" ", "_", savetos[tnum]);
 	 savetos[tnum+1] = saveto;
 	 command="ffmpeg -i \"%s\" -acodec copy -ss %s -t %s -metadata:s:a:0 title=\"%s\" -metadata:s:a:0 artist=\"%s\" -metadata title=\"%s\" -metadata artist=\"%s\" -metadata track=\"%s\" \"%s\";\n";
-     if (ka) { print "dog" }
 	 printf(command,filename,timestamps[tnum],prevtime,titles[tnum],games[tnum],titles[tnum],games[tnum],tnum,savetos[tnum]);
 	 }
 	END{

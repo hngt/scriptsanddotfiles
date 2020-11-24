@@ -7,6 +7,7 @@ xrdb ~/.config/Xresources &
 xset s off &
 xset -dpms &
 urxvtd &
+mopidy &
 sleep 0.1 &&
 startplumb &
 toggletouchpad &
