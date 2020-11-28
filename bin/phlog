@@ -74,7 +74,7 @@ atom_rev() {
 	printf "]]></content>\n.\n\n"
 	printf "d\n"
 	printf "i\n"
-	printf "\t\t<updated>%s</updated></entry>\n.\nw\nq\n" "$date"
+	printf "\t\t<updated>%s</updated>\n.\nw\nq\n" "$date"
 }
 
 revise() {

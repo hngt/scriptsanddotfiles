@@ -126,3 +126,8 @@ case "$TERM" in
            rxvt*) printf '\033[5 q\r' ;;
        esac
 fortune lib/q
+
+if [[ -a $HOME/.config/sh/zsh-ssh ]]; then
+    . $HOME/.config/sh/zsh-ssh
+    export GPG_AGENT_INFO SSH_AUTH_SOCK SSH_AGENT_PID
+fi

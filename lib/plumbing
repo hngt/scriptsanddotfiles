@@ -206,13 +206,13 @@ arg isfile	$1
 data set	file://$file
 plumb start plumb $data
 
-type is text
-data matches 'file://(.*)'
-arg isfile	$1
-plumb start plumb $1
+#type is text
+#data matches 'file://(.*)'
+#arg isfile	$1
+#plumb start plumb $1
 
-type is text
-data matches '.*\..*'
-plumb start /usr/bin/xdg-open $0
+#type is text
+#data matches '.*\..*'
+#plumb start /usr/bin/xdg-open $0
 
 
