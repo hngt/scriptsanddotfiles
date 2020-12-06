@@ -32,7 +32,10 @@ case $(echo "$url"| cut -d " " -f1) in
     wq|wikiq)		wikiquote	-browser="$BROWSER" $args ;;
     imdb)			imdb		-browser="$BROWSER" $args ;;
     map)			google -m	-browser="$BROWSER" $args ;;
-    yt)             mpv  "ytdl://ytsearch50:$args" ;;
+    yt)             cmd="ytdl://ytsearch50:$args"
+                    { echo '{ }'| socat - /tmp/youtube; } && 
+                    { echo '{ "command": ["loadfile","'$cmd'"]}' | socat - /tmp/youtube > /dev/null; }  || 
+                    mpv --input-ipc-server=/tmp/youtube "$cmd" ;;
 #    yt|youtube)        sputube -browser="$BROWSER" $args ;;
 #    yt|youtube) 	Yt 			$args ;;
     git|github)		github		-browser="$BROWSER" $args ;;

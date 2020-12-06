@@ -46,3 +46,8 @@ case "$TERM" in
            xterm*) TERM=xterm-256color ;;
            rxvt*) printf '\033[5 q\r' ;;
        esac
+
+if [[ -a $HOME/.config/sh/zsh-ssh ]]; then
+    . $HOME/.config/sh/zsh-ssh
+    export GPG_AGENT_INFO SSH_AUTH_SOCK SSH_AGENT_PID
+fi

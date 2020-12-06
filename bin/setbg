@@ -15,7 +15,6 @@ true > $walf
 echo "$displays" | while read i; do
     screen_name="$(echo $i | cut -d' ' -f1)"
     screen_res="$(echo $i | cut -d' ' -f2)"
-    echo test
     [ -f "$1" ] && wal="$1" || { [ -d "$1" ] && wal="$1/$(ls "$1"|shuf -n1)"; } || exit
     convert "$wal" -resize $screen_res^ -gravity center -extent $screen_res "/tmp/$screen_name-wall.png"
     wal="$HOME/.cache/$screen_name-wall.png"
@@ -25,5 +24,4 @@ echo "$displays" | while read i; do
     printf "%s" "$c" >> "$walf"
 done
 opts="$(cat $walf)"
-echo $opts
 xwallpaper $opts

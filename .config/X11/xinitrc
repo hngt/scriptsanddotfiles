@@ -18,4 +18,5 @@ xss-lock sxlock &
 autorandr horizontal &&
 xwallpaper $(cat $HOME/.config/wallpaper) &&
 pokoy -r &
+pidof gpg-agent >/dev/null || gpg-agent --daemon --enable-ssh-support > ~/.config/sh/zsh-ssh &
 exec dbus-launch --exit-with-session spectrwm

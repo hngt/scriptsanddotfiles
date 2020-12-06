@@ -66,3 +66,4 @@ if ! { ps -e | grep X > /dev/null; } && [  "$(tty)" = "/dev/tty1" ] ; then
 #    exec startxfce4
 	exec startx $XINITRC --
 fi
+#if [ -e /home/lich/.nix-profile/etc/profile.d/nix.sh ]; then . /home/lich/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
